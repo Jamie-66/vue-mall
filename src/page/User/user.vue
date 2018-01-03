@@ -8,13 +8,14 @@
         <div class="account-sidebar">
           <div class="avatar gray-box ">
             <div>
-              <img :src="userInfo.info.avatar"> <h5>
-              {{userInfo.info.name}}</h5></div>
+              <img :src="userInfo.info.avatar"> 
+              <h5>{{userInfo.info.name}}</h5>
+            </div>
             <div class="box-inner">
               <ul class="account-nav">
-                <li v-for="(item,i) in nav" :key='i' :class="{current:item.name===title}"
-                    @click="tab(item)">
-                  <a href="javascript:;">{{item.name}}</a></li>
+                <li v-for="(item,i) in nav" :key='i' :class="{current:item.name===title}" @click="tab(item)">
+                  <a href="javascript:;">{{item.name}}</a>
+                </li>
               </ul>
             </div>
           </div>
@@ -43,7 +44,7 @@
           {name: '收货地址', path: 'addressList'},
           {name: '我的优惠', path: 'coupon'},
           {name: '售后服务', path: 'support'},
-          {name: '以旧换新', path: 'aihuishou'}
+          {name: '以旧换新', path: 'exchange'}
         ],
         editAvatar: true
       }

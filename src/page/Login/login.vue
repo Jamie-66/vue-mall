@@ -1,14 +1,14 @@
 <template>
   <div class="login v2">
     <div class="wrapper">
-      <div class="dialog dialog-shadow" style="display: block; margin-top: -362px;">
+      <div class="dialog col-xs-8 dialog-shadow" style="display: block; margin-top: -362px;">
         <div class="title" v-if="loginPage">
           <h4>登录</h4></div>
         <div v-if="loginPage" class="content">
           <ul class="common-form">
-            <li class="username border-1p">
+            <li class="mobile border-1p">
               <div class="input">
-                <input type="text" v-model="ruleForm.userName" placeholder="账号">
+                <input type="text" v-model="ruleForm.mobile" placeholder="手机号">
               </div>
             </li>
             <li>
@@ -30,7 +30,7 @@
           <!--登录-->
           <div>
             <y-button text="登录"
-                      :classStyle="ruleForm.userPwd&&ruleForm.userName&&ruleForm.sysCode?'main-btn':'disabled-btn'"
+                      :classStyle="ruleForm.userPwd&&ruleForm.mobile&&ruleForm.sysCode?'main-btn':'disabled-btn'"
                       @btnClick="login"
                       style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"></y-button>
           </div>
@@ -62,13 +62,14 @@
               <li>
                 <div class="input code">
                   <input type="text" v-model="registered.smsCode" placeholder="请输入短信验证码">
-                  <button @click="start" v-bind:disabled="disabled || time > 0">{{text}}</button>
+                  <sms-code @run="sendCode" ref="smscode"></sms-code>
                 </div>
               </li>
             </ul>
+            <!--注册-->
             <div>
               <y-button
-                :classStyle="registered.userPwd&&registered.userPwd2&&registered.userName&&registered.smsCode?'main-btn':'disabled-btn'"
+                :classStyle="registered.userPwd&&registered.userPwd2&&registered.userName&&registered.mobile&&registered.smsCode?'main-btn':'disabled-btn'"
                 text="注册"
                 style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"
                 @btnClick="regist">
@@ -89,7 +90,8 @@
 <script>
   import YFooter from '/common/footer'
   import YButton from '/components/YButton'
-  import { userLogin, register } from '/api/index.js'
+  import smsCode from '/components/smsCode'
+  import { userLogin, register, identifyCode } from '/api/index.js'
   import { addCart1 } from '/api/goods.js'
   import { getStore, removeStore } from '/utils/storage.js'
   export default {
@@ -98,11 +100,8 @@
         cart: [],
         sysCodeUrl: '',  // 图片验证码地址
         loginPage: true,
-        time: 0,  // 短信验证倒计时
-        second: 60,  //短信验证间隔时间
-        disabled: false,
         ruleForm: {
-          userName: '',
+          mobile: '',
           userPwd: '',
           imgCode: '',  // 图片验证码
           errMsg: ''
@@ -142,55 +141,58 @@
       },
       // 刷新验证码
       refreshImgCode () {
-        this.sysCodeUrl = '/views/core/image.jsp?d='+ Math.random();
+        this.sysCodeUrl = '/randomImgCodeServlet?t='+ Math.random()
       },
-      // 开始计时
-      start () {
-        this.time = this.second;
-        this.timer();
-        console.log('调用短信验证接口')
-      },
-      // 停止计时
-      stop () {
-        this.time = 0;
-        this.disabled = false;
-      },
-      // 计时器
-      timer () {
-        if (this.time > 0) {
-          this.time--;
-          setTimeout(this.timer, 1000);
-        }else{
-          this.disabled = false;
+      // 发送手机验证码
+      sendCode () {
+        if(!(/^1[34578]\d{9}$/.test(this.registered.mobile))){ 
+          this.registered.errMsg = '请输入正确的手机号' 
+          return false
+        } else {
+          this.registered.errMsg = '' 
         }
+
+        let params = {
+          mobile: this.registered.mobile, 
+          sysCode: this.registered.smsCode,
+          templateName: 'TPL_REGISTER'
+        }
+        this.$refs.smscode.start()
+        // identifyCode(params).then(res => {
+        //   console.log(res)
+        // })
+        setTimeout(()=>{
+          this.$refs.smscode.stop()
+        },3000)
+        
       },
       // 登录
       login () {
-        // if (!this.ruleForm.userName || !this.ruleForm.userPwd) {
-        //   this.ruleForm.errMsg = '账号或者密码不能为空!'
+        // if (!this.ruleForm.mobile || !this.ruleForm.userPwd) {
+        //   this.ruleForm.errMsg = '手机号或者密码不能为空!'
         //   return false
         // }
         // if (!this.ruleForm.sysCode) {
         //   this.ruleForm.errMsg = '验证码不能为空!'
         //   return false
         // }
-
+        
         let params = {
-          userName: this.ruleForm.userName, 
-          userPwd: this.ruleForm.userPwd,
+          mobile: this.ruleForm.mobile, 
+          password: this.ruleForm.userPwd,
           sysCode: this.ruleForm.sysCode
         }
         userLogin(params).then(res => {
-          if (res.status === '0') {
-            if (this.cart.length) {
-              addCart1({productMsg: this.cart}).then(res => {
-                if (res.status === '1') {
-                  removeStore('buyCart')
-                }
-              }).then(this.$router.go(-1))
-            } else {
-              this.$router.go(-1)
-            }
+          if (res.code === '0') {
+          //   if (this.cart.length) {
+          //     addCart1({productMsg: this.cart}).then(res => {
+          //       if (res.status === '1') {
+          //         removeStore('buyCart')
+          //       }
+          //     }).then(this.$router.go(-1))
+          //   } else {
+          //     this.$router.go(-1)
+          //   }
           } else {
             this.ruleForm.errMsg = res.msg
             return false
@@ -213,7 +215,7 @@
         //   return false
         // }
         if(!(/^1[34578]\d{9}$/.test(mobile))){ 
-          this.registered.errMsg = '手机号格式不正确' 
+          this.registered.errMsg = '请输入正确的手机号' 
           return false; 
         } 
         if (userPwd2 !== userPwd) {
@@ -251,7 +253,8 @@
     },
     components: {
       YFooter,
-      YButton
+      YButton,
+      smsCode
     }
   }
 </script>
@@ -259,7 +262,6 @@
   * {
     box-sizing: content-box;
   }
-
   .login {
     overflow-x: hidden;
     overflow-y: hidden;
@@ -303,7 +305,6 @@
       min-width: 630px;
     }
   }
-
   .v2 .dialog {
     width: 450px;
     border: 1px solid #dadada;
@@ -363,13 +364,11 @@
       }
     }
   }
-
   .dialog-shadow, .v2 .bbs .dialog-shadow, .v2 .dialog-shadow {
     -webkit-box-shadow: 0 9px 30px -6px rgba(0, 0, 0, .2), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 10px 20px -10px rgba(0, 0, 0, .04);
     -moz-box-shadow: 0 9px 30px -6px rgba(0, 0, 0, .2), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 10px 20px -10px rgba(0, 0, 0, .04);
     box-shadow: 0 9px 30px -6px rgba(0, 0, 0, .2), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 10px 20px -10px rgba(0, 0, 0, .04);
   }
-
   @media screen and (min-width: 737px), screen and (-webkit-max-device-pixel-ratio: 1.9) and (max-width: 736px) and (min-device-width: 737px) {
     .wrapper {
       background: url(/static/images/con-bg_04f25dbf8e.jpg) repeat-x;
@@ -404,7 +403,6 @@
       position: relative;
     }
   }
-
   .registered {
     h4 {
       padding: 0;
@@ -420,5 +418,4 @@
       line-height: 60px;
     }
   }
-
 </style>

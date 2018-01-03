@@ -24,7 +24,7 @@ module.exports = {
   dev: {
     env: require('./dev.env'),
     port: 9999,
-    autoOpenBrowser: true,
+    autoOpenBrowser: false,
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
@@ -36,8 +36,16 @@ module.exports = {
         // target: 'http://127.0.0.1:3333'
         target: 'http://mall.yucccc.com:3333'
       },
-      '/views': {
-        target: 'http://www.qingpinwo.com', 
+      '/randomImgCodeServlet': {
+        target: 'http://amoy.mysise.org',  // 图形验证码
+        changeOrigin: true
+      },
+      '/sms/*': {
+        target: 'http://amoy.mysise.org',  // 短信验证码
+        changeOrigin: true
+      },
+      '/consumer/*': {
+        target: 'http://amoy.mysise.org',  // 登录
         changeOrigin: true
       }
     },

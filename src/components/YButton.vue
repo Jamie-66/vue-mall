@@ -11,7 +11,7 @@
     props: {
       text: {
         type: [String, Number],
-        default: '一颗小按钮'
+        default: '按钮'
       },
       inputType: {
         type: [String],

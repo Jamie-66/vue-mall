@@ -12,8 +12,10 @@ const orderList = resolve => require(['/page/User/children/order'], resolve)
 const information = resolve => require(['/page/User/children/information'], resolve)
 const addressList = resolve => require(['/page/User/children/addressList'], resolve)
 const coupon = resolve => require(['/page/User/children/coupon'], resolve)
-const aihuishou = resolve => require(['/page/User/children/aihuishou'], resolve)
+const exchange = resolve => require(['/page/User/children/exchange'], resolve)
 const support = resolve => require(['/page/User/children/support'], resolve)
+const collection = resolve => require(['/page/User/children/collection'], resolve)
+const footprint = resolve => require(['/page/User/children/footprint'], resolve)
 const checkout = resolve => require(['/page/Checkout/checkout'], resolve)
 const payment = resolve => require(['/page/Order/payment'], resolve)
 const paysuccess = resolve => require(['/page/Order/paysuccess'], resolve)
@@ -53,7 +55,9 @@ export default new Router({
         {path: 'addressList', name: '收货地址', component: addressList},
         {path: 'coupon', name: '我的优惠', component: coupon},
         {path: 'support', name: '售后服务', component: support},
-        {path: 'aihuishou', name: '以旧换新', component: aihuishou}
+        {path: 'exchange', name: '以旧换新', component: exchange},
+        {path: 'collection', name: '我的收藏', component: collection},
+        {path: 'footprint', name: '我的足迹', component: footprint}
       ]
     },
     {path: '/checkout', name: 'checkout', component: checkout},

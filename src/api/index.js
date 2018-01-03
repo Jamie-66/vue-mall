@@ -1,13 +1,13 @@
 import http from './public'
-// 登陆
+// 登录
 export const userLogin = (params) => {
-  return http.fetchPost('/users/login', params)
+  return http.fetchPost('/consumer/loginSubmit', params)
 }
-// 图片验证码
+// 短信验证码
 export const identifyCode = () => {
-  return http.fetchGet('/views/core/image.jsp')
+  return http.fetchPost('/sms/send', params)
 }
-// 退出登陆
+// 退出登录
 export const loginOut = (params) => {
   return http.fetchPost('/users/loginOut', params)
 }
