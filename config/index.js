@@ -45,7 +45,7 @@ module.exports = {
         changeOrigin: true
       },
       '/consumer/*': {
-        target: 'http://amoy.mysise.org',  // 登录
+        target: 'http://amoy.mysise.org',
         changeOrigin: true
       }
     },

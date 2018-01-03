@@ -1,9 +1,8 @@
 <template>
   <div class="login v2">
     <div class="wrapper">
-      <div class="dialog col-xs-8 dialog-shadow" style="display: block; margin-top: -362px;">
-        <div class="title" v-if="loginPage">
-          <h4>登录</h4></div>
+      <div class="dialog dialog-shadow">
+        <h4 v-if="loginPage">登录</h4>
         <div v-if="loginPage" class="content">
           <ul class="common-form">
             <li class="mobile border-1p">
@@ -18,7 +17,7 @@
             </li>
             <li>
               <div class="input code">
-                <input type="text" v-model="ruleForm.sysCode" @keyup.enter="login" placeholder="请输入图片验证码">
+                <input type="text" v-model="ruleForm.sysCode" placeholder="请输入图片验证码">
                 <span><img @click="refreshImgCode" v-bind:src="sysCodeUrl"></span>
               </div>
             </li>
@@ -37,11 +36,11 @@
         </div>
         <div class="registered" v-else>
           <h4>注册</h4>
-          <div class="content" style="margin-top: 20px;">
+          <div class="content">
             <ul class="common-form">
               <li class="username border-1p">
                 <div class="input">
-                  <input type="text" v-model="registered.userName" placeholder="账号">
+                  <input type="text" v-model="registered.userName" placeholder="用户名">
                 </div>
               </li>
               <li>
@@ -56,7 +55,13 @@
               </li>
               <li>
                 <div class="input">
-                  <input type="password" v-model="registered.userPwd2" placeholder="重复密码">
+                  <input type="password" v-model="registered.userPwd2" placeholder="再次输入密码">
+                </div>
+              </li>
+              <li>
+                <div class="input code">
+                  <input type="text" v-model="registered.sysCode" placeholder="请输入图片验证码">
+                  <span><img @click="r_refreshImgCode" v-bind:src="r_sysCodeUrl"></span>
                 </div>
               </li>
               <li>
@@ -69,7 +74,7 @@
             <!--注册-->
             <div>
               <y-button
-                :classStyle="registered.userPwd&&registered.userPwd2&&registered.userName&&registered.mobile&&registered.smsCode?'main-btn':'disabled-btn'"
+                :classStyle="registered.userPwd&&registered.userPwd2&&registered.userName&&registered.mobile&&registered.sysCode&&registered.smsCode?'main-btn':'disabled-btn'"
                 text="注册"
                 style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"
                 @btnClick="regist">
@@ -99,6 +104,7 @@
       return {
         cart: [],
         sysCodeUrl: '',  // 图片验证码地址
+        r_sysCodeUrl: '', // 注册图片验证码地址
         loginPage: true,
         ruleForm: {
           mobile: '',
@@ -111,7 +117,8 @@
           mobile: '',
           userPwd: '',
           userPwd2: '',
-          smsCode: '',  //短信验证码
+          sysCode: '',  // 图片验证码
+          smsCode: '',  // 短信验证码
           errMsg: ''
         }
       }
@@ -121,7 +128,7 @@
         return this.$store.state.login
       },
       text () {
-        return this.time > 0 ? this.time + 's 后重获取' : '获取验证码';
+        return this.time > 0 ? this.time + 's后重获取' : '获取验证码';
       }
     },
     methods: {
@@ -139,9 +146,13 @@
         }
         this.cart = cartArr
       },
-      // 刷新验证码
+      // 登录 刷新验证码
       refreshImgCode () {
         this.sysCodeUrl = '/randomImgCodeServlet?t='+ Math.random()
+      },
+      // 注册 刷新验证码
+      r_refreshImgCode () {
+        this.r_sysCodeUrl = '/randomImgCodeServlet?t='+ Math.random()
       },
       // 发送手机验证码
       sendCode () {
@@ -205,6 +216,7 @@
         let mobile = this.registered.mobile
         let userPwd = this.registered.userPwd
         let userPwd2 = this.registered.userPwd2
+        let sysCode = this.registered.sysCode
         let smsCode = this.registered.smsCode
         // if (!userName || !userPwd || !userPwd2) {
         //   this.registered.errMsg = '账号密码不能为空'
@@ -214,10 +226,10 @@
         //   this.registered.errMsg = '手机号不能为空'
         //   return false
         // }
-        if(!(/^1[34578]\d{9}$/.test(mobile))){ 
-          this.registered.errMsg = '请输入正确的手机号' 
-          return false; 
-        } 
+        // if(!(/^1[34578]\d{9}$/.test(mobile))){ 
+        //   this.registered.errMsg = '请输入正确的手机号' 
+        //   return false; 
+        // } 
         if (userPwd2 !== userPwd) {
           this.registered.errMsg = '两次输入的密码不相同'
           return false
@@ -231,6 +243,7 @@
           name: userName,
           mobile: mobile,
           password: userPwd,
+          sysCode: sysCode,
           smsCode: smsCode
         }
         register(params).then(res => {
@@ -250,6 +263,7 @@
     mounted () {
       this.login_addCart()
       this.refreshImgCode()
+      this.r_refreshImgCode()
     },
     components: {
       YFooter,
@@ -266,7 +280,7 @@
     overflow-x: hidden;
     overflow-y: hidden;
     .input {
-      height: 50px;
+      height: 38px;
       display: flex;
       align-items: center;
       input {
@@ -281,12 +295,20 @@
     }
     .code{
       input {
-        padding-right: 120px;
+        padding-right: 98px;
       }
       span {
+        display: inline-block;
+        height: 36px;
+        line-height: 36px;
         position: absolute;
-        right: 10px;
+        right: 1px;
         cursor: pointer;
+        img {
+          height: 100%;
+          border-top-right-radius: 6px;
+          border-bottom-right-radius: 6px;
+        }
       }
       button {
         position: absolute;
@@ -300,60 +322,38 @@
     }
     .wrapper {
       background: url(/static/images/bg_9b9dcb65ff.png) repeat;
-      background-size: 100px;
-      min-height: 800px;
-      min-width: 630px;
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
     }
   }
   .v2 .dialog {
-    width: 450px;
+    // width: 450px;
+    width: 75%;
     border: 1px solid #dadada;
     border-radius: 10px;
-    top: 50%;
+    top: 10%;
     left: 50%;
-    margin-left: -225px;
+    transform: translate(-50%, 0);
     position: absolute;
-    .title {
-      background: linear-gradient(#fff, #f5f5f5);
-      height: auto;
-      overflow: visible;
-      box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
-      position: relative;
-      background-image: url(/static/images/smartisan_4ada7fecea.png);
-      background-size: 160px;
-      background-position: top center;
-      background-repeat: no-repeat;
-      height: 92px;
-      margin: 23px 0 50px;
-      padding: 75px 0 0;
+    h4 {
+      padding: 0;
+      text-align: center;
+      color: #666;
+      border-bottom: 1px solid #dcdcdc;
+      -webkit-box-shadow: none;
+      -moz-box-shadow: none;
       box-shadow: none;
-      h4 {
-        padding: 0;
-        text-align: center;
-        color: #666;
-        border-bottom: 1px solid #dcdcdc;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        font-weight: 700;
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        text-align: center;
-        margin: 0;
-        padding: 0;
-        border-bottom: 0;
-        -webkit-box-shadow: none;
-        -moz-box-shadow: none;
-        box-shadow: none;
-        line-height: 1em;
-        height: auto;
-        color: #333;
-        font-weight: 400;
-      }
+      font-weight: 700;
+      font-size: 20px;
+      height: 60px;
+      line-height: 60px;
     }
     .content {
-      padding: 0 40px 22px;
+      margin-top: 20px;
+      padding: 0 30px 22px;
       height: auto;
       .common-form {
         li {
@@ -370,52 +370,52 @@
     box-shadow: 0 9px 30px -6px rgba(0, 0, 0, .2), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 18px 20px -10px rgba(0, 0, 0, .04), 0 10px 20px -10px rgba(0, 0, 0, .04);
   }
   @media screen and (min-width: 737px), screen and (-webkit-max-device-pixel-ratio: 1.9) and (max-width: 736px) and (min-device-width: 737px) {
-    .wrapper {
-      background: url(/static/images/con-bg_04f25dbf8e.jpg) repeat-x;
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      left: 0;
-      right: 0;
-    }
-    .dialog {
-      background: url(/static/images/dialog-gray-bg.png) #fff bottom repeat-x;
-      border-radius: 12px;
-      display: none;
-      margin: -163px 0 0 -218px;
-      width: 436px;
-      position: fixed;
-      left: 50%;
-      top: 50%;
-    }
-    .dialog .title h4 {
-      border-bottom: #d1d1d1 solid 1px;
-      box-shadow: 0 2px 6px #d1d1d1;
-      color: #666;
-      font-size: 20px;
-      height: 61px;
-      line-height: 61px;
-      padding: 0 0 0 35px;
-    }
-    .common-form li {
-      clear: both;
-      margin-bottom: 15px;
-      position: relative;
-    }
+    // .wrapper {
+    //   background: url(/static/images/con-bg_04f25dbf8e.jpg) repeat-x;
+    //   position: absolute;
+    //   top: 0;
+    //   bottom: 0;
+    //   left: 0;
+    //   right: 0;
+    // }
+    // .dialog {
+    //   background: url(/static/images/dialog-gray-bg.png) #fff bottom repeat-x;
+    //   border-radius: 12px;
+    //   display: none;
+    //   margin: -163px 0 0 -218px;
+    //   width: 436px;
+    //   position: fixed;
+    //   left: 50%;
+    //   top: 50%;
+    // }
+    // .dialog .title h4 {
+    //   border-bottom: #d1d1d1 solid 1px;
+    //   box-shadow: 0 2px 6px #d1d1d1;
+    //   color: #666;
+    //   font-size: 20px;
+    //   height: 61px;
+    //   line-height: 61px;
+    //   padding: 0 0 0 35px;
+    // }
+    // .common-form li {
+    //   clear: both;
+    //   margin-bottom: 15px;
+    //   position: relative;
+    // }
   }
-  .registered {
-    h4 {
-      padding: 0;
-      text-align: center;
-      color: #666;
-      border-bottom: 1px solid #dcdcdc;
-      -webkit-box-shadow: none;
-      -moz-box-shadow: none;
-      box-shadow: none;
-      font-weight: 700;
-      font-size: 20px;
-      height: 60px;
-      line-height: 60px;
-    }
-  }
+  // .registered {
+  //   h4 {
+  //     padding: 0;
+  //     text-align: center;
+  //     color: #666;
+  //     border-bottom: 1px solid #dcdcdc;
+  //     -webkit-box-shadow: none;
+  //     -moz-box-shadow: none;
+  //     box-shadow: none;
+  //     font-weight: 700;
+  //     font-size: 20px;
+  //     height: 60px;
+  //     line-height: 60px;
+  //   }
+  // }
 </style>
