@@ -138,7 +138,7 @@
       }
     },
     methods: {
-      // 登录时将本地的添加到用户购物车
+      // 获取本地购物车
       login_addCart () {
         let cartArr = []
         let locaCart = JSON.parse(getStore('buyCart'))
@@ -177,7 +177,7 @@
           templateName: 'TPL_REGISTER'
         }
         identifyCode(params).then(res => {
-          if (res.code === '0') {
+          if (res.code === 0) {
             this.$refs.smscode.start()
             this.registered.errMsg = '' 
           } else {
@@ -203,19 +203,21 @@
           sysCode: this.ruleForm.sysCode
         }
         userLogin(params).then(res => {
-          if (res.code === '0') {
-          //   if (this.cart.length) {
-          //     addCart1({productMsg: this.cart}).then(res => {
-          //       if (res.status === '1') {
-          //         removeStore('buyCart')
-          //       }
-          //     }).then(this.$router.go(-1))
-          //   } else {
-          //     this.$router.go(-1)
-          //   }
+          if (res.code === 0) {
+            this.ruleForm.errMsg = ''
+            // this.$store.state.login = true
+            // 登录时将本地的添加到用户购物车
+            if (this.cart.length) {
+              addCart1({productMsg: this.cart}).then(res => {
+                if (res.status === '1') {
+                  removeStore('buyCart')
+                }
+              }).then(this.$router.go(-1))
+            } else {
+              this.$router.go(-1)
+            }
           } else {
             this.ruleForm.errMsg = res.msg
-            return false
           }
         })
       },
@@ -256,7 +258,7 @@
           smsCode: smsCode
         }
         register(params).then(res => {
-          if (res.code === '0') {
+          if (res.code === 0) {
             setTimeout(() => {
               this.ruleForm.errMsg = ''
               this.registered.errMsg = ''
@@ -311,6 +313,7 @@
         line-height: 36px;
         position: absolute;
         right: 1px;
+        top: 1px;
         cursor: pointer;
         img {
           height: 100%;
