@@ -1,11 +1,11 @@
 import http from './public'
 // 登录
 export const userLogin = (params) => {
-  return http.fetchPost('/consumer/loginSubmit', params)
+  return http.fetchGet('/consumer/loginSubmit', params)
 }
 // 短信验证码
-export const identifyCode = () => {
-  return http.fetchPost('/sms/send', params)
+export const identifyCode = (params) => {
+  return http.fetchGet('/sms/send', params)
 }
 // 退出登录
 export const loginOut = (params) => {
@@ -17,7 +17,7 @@ export const userInfo = (params) => {
 }
 // 注册账号
 export const register = (params) => {
-  return http.fetchPost('/users/register', params)
+  return http.fetchGet('/consumer/cUser/register', params)
 }
 // 上传图片
 export const upload = (params) => {

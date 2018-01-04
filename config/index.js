@@ -44,7 +44,7 @@ module.exports = {
         target: 'http://amoy.mysise.org',  // 短信验证码
         changeOrigin: true
       },
-      '/consumer/*': {
+      '/consumer': {
         target: 'http://amoy.mysise.org',
         changeOrigin: true
       }

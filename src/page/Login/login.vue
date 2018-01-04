@@ -17,14 +17,14 @@
             </li>
             <li>
               <div class="input code">
-                <input type="text" v-model="ruleForm.sysCode" placeholder="请输入图片验证码">
+                <input type="text" v-model="ruleForm.sysCode" placeholder="验证码">
                 <span><img @click="refreshImgCode" v-bind:src="sysCodeUrl"></span>
               </div>
             </li>
-            <li style="text-align: right" class="pr">
+            <!-- <li style="text-align: right" class="pr">
               <span class="pa" style="top: 0;left: 0;color: #d44d44">{{ruleForm.errMsg}}</span>
               <a href="javascript:;" style="padding: 0 5px" @click="loginPage=false">还没有账号? 点击注册</a>
-            </li>
+            </li> -->
           </ul>
           <!--登录-->
           <div>
@@ -33,6 +33,12 @@
                       @btnClick="login"
                       style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"></y-button>
           </div>
+          <ul class="common-form pr">
+            <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{ruleForm.errMsg}}</li>
+            <li style="text-align: right;line-height: 48px;margin-bottom: 0;">
+              <a href="javascript:;" style="padding: 0 5px" @click="loginPage=false">还没有账号? 点击注册</a>
+            </li>
+          </ul>
         </div>
         <div class="registered" v-else>
           <h4>注册</h4>
@@ -60,13 +66,13 @@
               </li>
               <li>
                 <div class="input code">
-                  <input type="text" v-model="registered.sysCode" placeholder="请输入图片验证码">
+                  <input type="text" v-model="registered.sysCode" placeholder="验证码">
                   <span><img @click="r_refreshImgCode" v-bind:src="r_sysCodeUrl"></span>
                 </div>
               </li>
               <li>
                 <div class="input code">
-                  <input type="text" v-model="registered.smsCode" placeholder="请输入短信验证码">
+                  <input type="text" v-model="registered.smsCode" placeholder="验证码">
                   <sms-code @run="sendCode" ref="smscode"></sms-code>
                 </div>
               </li>
@@ -159,23 +165,26 @@
         if(!(/^1[34578]\d{9}$/.test(this.registered.mobile))){ 
           this.registered.errMsg = '请输入正确的手机号' 
           return false
-        } else {
-          this.registered.errMsg = '' 
+        }
+        if (!this.registered.sysCode) {
+          this.registered.errMsg = '图片验证码不能为空' 
+          return false
         }
 
         let params = {
           mobile: this.registered.mobile, 
-          sysCode: this.registered.smsCode,
+          sysCode: this.registered.sysCode,
           templateName: 'TPL_REGISTER'
         }
-        this.$refs.smscode.start()
-        // identifyCode(params).then(res => {
-        //   console.log(res)
-        // })
-        setTimeout(()=>{
-          this.$refs.smscode.stop()
-        },3000)
-        
+        identifyCode(params).then(res => {
+          if (res.code === '0') {
+            this.$refs.smscode.start()
+            this.registered.errMsg = '' 
+          } else {
+            this.$refs.smscode.stop()
+            this.registered.errMsg = res.msg
+          }
+        })
       },
       // 登录
       login () {
@@ -247,15 +256,14 @@
           smsCode: smsCode
         }
         register(params).then(res => {
-          this.registered.errMsg = res.msg
-          if (res.status === '0') {
+          if (res.code === '0') {
             setTimeout(() => {
               this.ruleForm.errMsg = ''
               this.registered.errMsg = ''
               this.loginPage = true
             }, 500)
           } else {
-            return false
+            this.registered.errMsg = res.msg
           }
         })
       }
@@ -312,11 +320,13 @@
       }
       button {
         position: absolute;
-        right: 0;
+        right: 1px;
         cursor: pointer;
         border-top-right-radius: 6px;
         border-bottom-right-radius: 6px;
-        padding: 0 10px;
+        padding: 0;
+        width: 96px;
+        text-align: center;
         height: 100%;
       }
     }

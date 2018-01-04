@@ -5,12 +5,14 @@
         <div class="w-box">
           <div class="nav-logo">
             <h1>
-              <router-link to="/" title="锤子科技官网">Smartisan</router-link>
+              <router-link to="/" title="Vue-mall">Vue-mall</router-link>
             </h1>
           </div>
           <div class="right-box">
             <div class="nav-list">
-              <router-link to="goods">全部商品</router-link>
+              <!-- <input type="text" placeholder="搜索"> -->
+              <!-- <span><i class="fa fa-search"></i></span> -->
+              <!-- <router-link to="goods">全部商品</router-link> -->
               <!-- <router-link to="/">坚果 Pro</router-link>
               <router-link to="/">Smartisan M1 / M1L</router-link>
               <router-link to="/">Smartisan OS</router-link>
@@ -19,6 +21,11 @@
               <router-link to="/">官方论坛</router-link> -->
             </div>
             <div class="nav-aside" ref="aside" :class="{fixed:st}">
+              <!-- 搜索 -->
+              <div class="search pr">
+                <input type="text" placeholder="搜索">
+                <span><i class="fa fa-search"></i></span>
+              </div>
               <div class="user pr">
                 <router-link to="user">个人中心</router-link>
                 <!--用户信息显示-->
@@ -373,8 +380,8 @@
     .nav-aside {
       position: relative;
       &:before {
-        background: #333;
-        background: hsla(0, 0%, 100%, .2);
+        background-color: #333;
+        background-color: hsla(0, 0%, 100%, .2);
         content: " ";
         @include wh(1px, 13px);
         overflow: hidden;
@@ -383,11 +390,12 @@
         left: 0;
       }
       &.fixed {
-        width: 262px;
+        // width: 262px;
         position: fixed;
-        left: 50%;
+        // left: 50%;
+        right: 5px;
         top: 19px;
-        margin-left: 451px;
+        // margin-left: 451px;
         margin-top: 0;
         z-index: 32;
         top: -40px;
@@ -405,7 +413,7 @@
         .shop {
           &:hover {
             a:before {
-              background-position: -210px -22px;
+              background-position: -210px -19px;
             }
           }
         }
@@ -417,6 +425,22 @@
     }
     .nav-aside {
       display: flex;
+    }
+    // 搜索
+    .search {
+      input {
+        height: 28px;
+        padding: 0 25px 0 10px;
+        border: 1px solid #eee;
+        border-radius: 2px;
+      }
+      span {
+        position: absolute;
+        right: 5px;
+        top: 3px;
+        font-size: 18px;
+        cursor: pointer;
+      }
     }
     // 用户
     .user {
@@ -436,14 +460,14 @@
       }
       > a {
         position: relative;
-        @include wh(36px, 20px);
+        @include wh(36px, 28px);
         display: block;
         text-indent: -9999px;
         &:before {
           content: " ";
           position: absolute;
           left: 8px;
-          top: 0;
+          top: 3px;
           @include wh(20px);
           background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) -155px 0;
           background-size: 240px 107px;
@@ -522,7 +546,7 @@
       &:hover {
         a:before {
           content: " ";
-          background-position: 0 -22px;
+          background-position: 0 -19px;
         }
       }
       .nav-user-wrapper.active {
@@ -536,7 +560,7 @@
         position: absolute;
         left: 0;
         top: 0;
-        bottom: 0;
+        bottom: 3px;
         display: block;
         right: 0;
         z-index: 1;
@@ -544,9 +568,9 @@
           display: block;
           @include wh(30px, 100%);
           content: " ";
-          background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) 0 -22px;
+          background: url(/static/images/account-icon@2x.32d87deb02b3d1c3cc5bcff0c26314ac.png) 0 -19px;
           background-size: 240px 107px;
-          background-position: -150px -22px;
+          background-position: -150px -19px;
         }
       }
       .cart-num {
@@ -557,6 +581,7 @@
         min-width: 30px;
         text-indent: 0;
         line-height: 20px;
+        padding-top: 3px;
         > i {
           background: #eb746b;
           background-image: -webkit-linear-gradient(#eb746b, #e25147);
