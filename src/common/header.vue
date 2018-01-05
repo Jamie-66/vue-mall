@@ -35,7 +35,7 @@
                       <!--头像-->
                       <li class="nav-user-avatar">
                         <div>
-                          <span class="avatar" :style="{backgroundImage:'url('+userInfo.info.avatar+')'}">
+                          <span class="avatar" :style="{backgroundImage:'url('+(userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png')+')'}">
                           </span>
                         </div>
                         <p class="name">{{userInfo.info.name}}</p>
@@ -55,8 +55,6 @@
                       <li>
                         <router-link to="/user/coupon">我的优惠</router-link>
                       </li>
-
-
                       <li>
                         <a href="javascript:;" @click="_loginOut">退出</a>
                       </li>
@@ -490,6 +488,9 @@
           display: block;
           color: #616161;
         }
+      }
+      li:last-child {
+        border-radius: 0 0 8px 8px;
       }
       .nav-user-avatar {
         > div {

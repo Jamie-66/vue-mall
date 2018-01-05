@@ -176,7 +176,7 @@
           sysCode: this.registered.sysCode,
           templateName: 'TPL_REGISTER'
         }
-        identifyCode(params).then(res => {
+        identifyCode({params: params}).then(res => {
           if (res.code === 0) {
             this.$refs.smscode.start()
             this.registered.errMsg = '' 
@@ -202,7 +202,7 @@
           password: this.ruleForm.userPwd,
           sysCode: this.ruleForm.sysCode
         }
-        userLogin(params).then(res => {
+        userLogin({params: params}).then(res => {
           if (res.code === 0) {
             this.ruleForm.errMsg = ''
             // this.$store.state.login = true
@@ -257,7 +257,7 @@
           sysCode: sysCode,
           smsCode: smsCode
         }
-        register(params).then(res => {
+        register({params: params}).then(res => {
           if (res.code === 0) {
             setTimeout(() => {
               this.ruleForm.errMsg = ''

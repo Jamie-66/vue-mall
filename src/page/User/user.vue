@@ -8,7 +8,7 @@
         <div class="account-sidebar">
           <div class="avatar gray-box ">
             <div>
-              <img :src="userInfo.info.avatar"> 
+              <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'"> 
               <h5>{{userInfo.info.name}}</h5>
             </div>
             <div class="box-inner">

@@ -28,8 +28,8 @@ export default new Router({
       name: 'index',
       redirect: '/home',
       children: [
-        {path: 'home', component: Home},
-        {path: 'goods', component: GoodS},
+        {path: 'home', name: 'home', component: Home},
+        {path: 'goods', name: 'goods', component: GoodS},
         {path: 'goodsDetails', name: 'goodsDetails', component: goodsDetails}
       ]
     },

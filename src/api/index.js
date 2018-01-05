@@ -9,11 +9,14 @@ export const identifyCode = (params) => {
 }
 // 退出登录
 export const loginOut = (params) => {
-  return http.fetchPost('/users/loginOut', params)
+  return http.fetchPost('/consumer/cUser/loginOut', params)
 }
 // 用户信息
+// export const userInfo = (params) => {
+//   return http.fetchPost('/users/userInfo', params)
+// }
 export const userInfo = (params) => {
-  return http.fetchPost('/users/userInfo', params)
+  return http.fetchGet('/consumer/cUser/loginUser', params)
 }
 // 注册账号
 export const register = (params) => {
