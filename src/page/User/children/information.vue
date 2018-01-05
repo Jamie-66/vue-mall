@@ -10,21 +10,20 @@
           </div>
         </div>
         <div class="edit-userInfo">
-          修改用户信息
           <div>
-            <input type="text" placeholder="用户名" v-model="msg.userName">
+            <input type="text" placeholder="用户名">
           </div>
           <div>
-            <input type="text" placeholder="账号" v-model="msg.userName">
+            <input type="text" placeholder="账号">
           </div>
           <div>
-            <input type="text" placeholder="当前密码" v-model="msg.userName">
+            <input type="text" placeholder="当前密码">
           </div>
           <div>
-            <input type="text" placeholder="新密码" v-model="msg.userName">
+            <input type="text" placeholder="新密码">
           </div>
           <div>
-            <input type="text" placeholder="确认新密码" v-model="msg.userName">
+            <input type="text" placeholder="确认新密码">
           </div>
           <y-button text="更换头像" classStyle="main-btn" style="margin: 0;" @btnClick="editAvatar()"></y-button>
         </div>
