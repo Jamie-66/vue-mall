@@ -12,9 +12,6 @@ export const loginOut = (params) => {
   return http.fetchPost('/consumer/cUser/loginOut', params)
 }
 // 用户信息
-// export const userInfo = (params) => {
-//   return http.fetchPost('/users/userInfo', params)
-// }
 export const userInfo = (params) => {
   return http.fetchGet('/consumer/cUser/loginUser', params)
 }
@@ -33,5 +30,13 @@ export const updateheadimage = (params) => {
 // 首页接口
 export const productHome = (params) => {
   return http.fetchGet('/goods/productHome', params)
+}
+// 修改用户信息
+export const editUser = (params) => {
+  return http.fetchGet('/consumer/cUser/editUser', params)
+}
+// 修改密码
+export const editPassword = (params) => {
+  return http.fetchGet('/consumer/cUser/updatePassword', params)
 }
 

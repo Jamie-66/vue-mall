@@ -3,7 +3,7 @@
     <y-shelf title="我的收藏">
       <div slot="content">
         <div style="padding: 100px 0;text-align: center">
-          我的收藏
+          此页面暂未开发
         </div>
       </div>
     </y-shelf>

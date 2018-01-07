@@ -242,7 +242,7 @@
         //   return false; 
         // } 
         if (userPwd2 !== userPwd) {
-          this.registered.errMsg = '两次输入的密码不相同'
+          this.registered.errMsg = '两次输入的密码不一致'
           return false
         }
         // if (!smsCode) {

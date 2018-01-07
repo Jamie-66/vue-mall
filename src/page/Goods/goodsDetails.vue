@@ -7,13 +7,13 @@
           <div class="thumbnail">
             <ul>
               <li v-for="(item, i) in small" :key="i" :class="{on:big===item}" @click="big=item">
-                <img v-lazy="item" :alt="product.productName">
+                <img v-lazy="item" :alt="product.goods_name">
               </li>
             </ul>
           </div>
           <div class="thumb">
             <div class="big">
-              <img :src="big" :alt="product.productName">
+              <img :src="big" :alt="product.goods_name">
             </div>
           </div>
         </div>
@@ -21,24 +21,23 @@
       <!--右边-->
       <div class="banner">
         <div class="sku-custom-title">
-          <h4>{{product.productName}}</h4>
+          <h4>{{product.goods_name}}</h4>
           <h6>
             <span>{{product.sub_title}}</span>
-            <span class="price">
-              <em>¥</em><i>{{product.salePrice}}</i></span>
+            <span class="price"><em>¥</em><i>{{product.price}}</i></span>
           </h6>
         </div>
         <div class="num">
           <span class="params-name">数量</span>
-          <buy-num @edit-num="editNum" :limit="Number(product.limit_num)"></buy-num>
+          <buy-num @edit-num="editNum" :limit="Number(product.actual_stock)"></buy-num>
         </div>
         <div class="buy">
           <y-button text="加入购物车"
-                    @btnClick="addCart(product.productId,product.salePrice,product.productName,product.productImageBig)"
+                    @btnClick="addCart(product.ID,product.price,product.goods_name,product.image)"
                     classStyle="main-btn"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
           <y-button text="现在购买"
-                    @btnClick="checkout(product.productId)"
+                    @btnClick="checkout(product.ID)"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
         </div>
       </div>
@@ -61,7 +60,7 @@
   </div>
 </template>
 <script>
-  import { productDet, addCart } from '/api/goods'
+  import { getGoods, addCart } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
   import YShelf from '/components/shelf'
   import BuyNum from '/components/buynum'
@@ -81,13 +80,13 @@
     },
     methods: {
       ...mapMutations(['ADD_CART', 'ADD_ANIMATION', 'SHOW_CART']),
-      _productDet (productId) {
-        productDet({params: {productId}}).then(res => {
-          let result = res.result
+      _getGoodsDet (id) {
+        getGoods({params: {goodsTypeId: id}}).then(res => {
+          let result = res.data
           this.product = result
-          this.productMsg = result.productMsg || ''
-          this.small = result.productImageSmall
-          this.big = this.small[0]
+          this.productMsg = result.image || ''
+          // this.small = result.productImageSmall
+          // this.big = this.small[0]
         })
       },
       addCart (id, price, name, img) {
@@ -135,8 +134,8 @@
       YShelf, BuyNum, YButton
     },
     created () {
-      let id = this.$route.query.productId
-      this._productDet(id)
+      let id = this.$route.query.goods_type_id
+      this._getGoodsDet(id)
     }
   }
 </script>

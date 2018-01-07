@@ -17,22 +17,22 @@
 
     <!--商品-->
     <div class="goods-box w">
-      <mall-goods v-for="(item,i) in computer" :key="i" :msg="item"></mall-goods>
+      <mall-goods v-for="(item,i) in goods" :key="i" :msg="item"></mall-goods>
     </div>
     <div v-show="!busy" class="w" style="text-align: center;background: #fff" v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="busy" infinite-scroll-distance="100">
+         infinite-scroll-disabled="busy" infinite-scroll-immediate-check="true" infinite-scroll-distance="100">
       正在加载中...
     </div>
   </div>
 </template>
 <script>
-  import {getComputer} from '/api/goods.js'
+  import {getGoods} from '/api/goods.js'
   import mallGoods from '/components/mallGoods'
   import YButton from '/components/YButton'
   export default {
     data () {
       return {
-        computer: [],
+        goods: [],
         min: '',
         max: '',
         busy: false,
@@ -41,28 +41,28 @@
         windowHeight: null,
         windowWidth: null,
         params: {
-          page: 1,
-          sort: ''
+          current: 1,   // 页码
+          size: 10,     // 每页显示数量
+          sort: ''      // 排序
         }
       }
     },
     methods: {
-      _getComputer (flag) {
+      _getGoods (flag) {
         let params = {
-          params: {
-            page: this.params.page,
-            sort: this.params.sort,
-            priceGt: this.min,
-            priceLte: this.max
-          }
+          current: this.params.current,
+          size: this.params.size,
+          sort: ''
+          // priceGt: this.min,
+          // priceLte: this.max
         }
-        getComputer(params).then(res => {
-          if (res.result.count) {
-            let data = res.result.data
-            if (flag) {
-              this.computer = this.computer.concat(data)
+        getGoods({params: params}).then(res => {
+          if (res.data.length) {
+            let data = res.data
+            if (flag) {   // 加载更多
+              this.goods = this.goods.concat(data)
             } else {
-              this.computer = data
+              this.goods = data
             }
           } else {
             clearTimeout(this.timer)
@@ -74,30 +74,30 @@
       reset () {
         this.sortType = 1
         this.params.sort = ''
-        this.params.page = 1
+        // this.params.current = 1
         this.busy = false
-        this._getComputer()
+        this._getGoods()
       },
       // 价格排序
       sort (v) {
         v === 1 ? this.sortType = 2 : this.sortType = 3
         this.params.sort = v
-        this.params.page = 1
+        // this.params.current = 1
         this.busy = false
-        this._getComputer()
+        this._getGoods()
       },
       // 加载更多
       loadMore () {
         this.busy = true
         this.timer = setTimeout(() => {
-          this.params.page++
-          this._getComputer(true)
+          this.params.current++
+          this._getGoods(true)
           this.busy = false
         }, 500)
       }
     },
     created () {
-      this._getComputer()
+      this._getGoods()
     },
     mounted () {
       this.windowHeight = window.innerHeight

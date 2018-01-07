@@ -6,26 +6,48 @@
           <div class=img-box><img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt=""></div>
           <div class="r-box">
             <h3>修改头像</h3>
-            <y-button text="更换头像" classStyle="main-btn" style="margin: 0;" @btnClick="editAvatar()"></y-button>
+            <y-button text="更换头像" classStyle="main-btn" @btnClick="editAvatar()"></y-button>
+            <y-button text="编辑用户信息" :classStyle="editType==='message'?'default-btn':'main-btn'" @btnClick="editTypeChange('message')"></y-button>
+            <y-button text="修改密码" :classStyle="editType==='password'?'default-btn':'main-btn'" @btnClick="editTypeChange('password')"></y-button>
           </div>
         </div>
         <div class="edit-userInfo">
-          <div>
-            <input type="text" placeholder="用户名">
+          <div class="userMsg form-horizontal" v-if="editType===''">
+            <div class="form-group">
+              <label class="col-xs-1">用户名: </label>
+              <div class="col-xs-11">{{userInfo.info.name}}</div>
+            </div>
+            <div class="form-group">
+              <label class="col-xs-1">账号: </label>
+              <div class="col-xs-11">{{userInfo.info.mobile}}</div>
+            </div>
           </div>
-          <div>
-            <input type="text" placeholder="账号">
+          <div class="edit-msg" v-else-if="editType==='message'">
+            <div>
+              <input type="text" v-model="editUserInfo.userName" placeholder="用户名">
+            </div>
+            <span style="font-size: 12px;color: #d44d44">{{editUserInfo.errMsg}}</span>
+            <div style="margin-top: 15px;">
+              <y-button v-if="editType" text="保存" :classStyle="editUserInfo.userName?'main-btn':'disabled-btn'" @btnClick="saveEdit(editType)"></y-button>
+              <y-button v-if="editType" text="取消" @btnClick="editCancel(editType)"></y-button>
+            </div>
           </div>
-          <div>
-            <input type="text" placeholder="当前密码">
+          <div class="edit-psw" v-else-if="editType==='password'">
+            <div>
+              <input type="text" v-model="editPsw.oldPassword" placeholder="当前密码">
+            </div>
+            <div>
+              <input type="password" v-model="editPsw.password" placeholder="新密码">
+            </div>
+            <div>
+              <input type="password" v-model="editPsw.c_password" placeholder="确认新密码">
+            </div>
+            <span style="font-size: 12px;color: #d44d44">{{editPsw.errMsg}}</span>
+            <div style="margin-top: 15px;">
+              <y-button v-if="editType" text="保存" :classStyle="editPsw.oldPassword&&editPsw.password&&editPsw.c_password?'main-btn':'disabled-btn'" @btnClick="saveEdit(editType)"></y-button>
+              <y-button v-if="editType" text="取消" @btnClick="editCancel(editType)"></y-button>
+            </div>
           </div>
-          <div>
-            <input type="text" placeholder="新密码">
-          </div>
-          <div>
-            <input type="text" placeholder="确认新密码">
-          </div>
-          <y-button text="更换头像" classStyle="main-btn" style="margin: 0;" @btnClick="editAvatar()"></y-button>
         </div>
         <div class="edit-avatar" v-if="editAvatarShow">
           <y-shelf title="设置头像">
@@ -83,13 +105,16 @@
 </template>
 <script>
   import YButton from '/components/YButton'
-  import { upload, updateheadimage } from '/api/index'
+  import { upload, updateheadimage, editUser, editPassword, userInfo } from '/api/index'
   import YShelf from '/components/shelf'
   import vueCropper from 'vue-cropper'
   import { mapState, mapMutations } from 'vuex'
   export default {
     data () {
       return {
+        /*
+        * 修改头像
+        */ 
         imgSrc: '',
         editAvatarShow: false,
         cropContext: '',
@@ -110,6 +135,20 @@
           autoCropHeight: 250,
           // 开启宽度和高度比例
           fixed: true
+        },
+        /*
+        * 修改账号资料
+        */ 
+        editType: '',       // 切换编辑的内容
+        editUserInfo: {     // 修改用户信息
+          userName: '',     // 用户名
+          errMsg: ''        // 错误信息
+        },
+        editPsw: {          // 修改密码
+          oldPassword: '',  // 旧密码
+          password: '',     // 新密码
+          c_password: '',   // 重复密码
+          errMsg: ''        // 错误信息
         }
       }
     },
@@ -120,6 +159,7 @@
       ...mapMutations([
         'RECORD_USERINFO'
       ]),
+      // 上传头像
       upimg (e) {
         var file = e.target.files[0]
         if (!/\.(gif|jpg|jpeg|png|bmp|GIF|JPG|PNG)$/.test(e.target.value)) {
@@ -155,6 +195,7 @@
           alert('别玩我啊 先选照骗')
         }
       },
+      // 编辑头像
       editAvatar () {
         this.editAvatarShow = true
       },
@@ -162,6 +203,69 @@
         this.previews = data
         let w = 100 / data.w
         this.option.zoom = w
+      },
+      // 编辑内容转换
+      editTypeChange (type) {
+        if (this.editType === type) {
+          return false
+        }
+        this.editType = type;
+        this.editClean(type)
+      },
+      // 保存信息的修改
+      saveEdit (type) {
+        if (type === 'message') {
+          let params = {
+            name: this.editUserInfo.userName
+          }
+          editUser({params:params}).then(res => {
+            if (res.code === 0) {
+              userInfo().then(res => {
+                if (res.code === 0) {
+                  this.RECORD_USERINFO({info: res.data})
+                }
+              })
+              this.editType = ''
+            } else {
+              this.editUserInfo.errMsg = res.msg
+            }
+          })
+        } else if (type === 'password') {
+          if (this.editPsw.password === this.editPsw.c_password) {
+            let params = {
+              oldPassword: this.editPsw.oldPassword,
+              password: this.editPsw.password
+            }
+            editPassword({params:params}).then(res => {
+              if (res.code === 0) {
+                this.editPsw.errMsg = ''
+                this.editType = ''
+                console.log(res.msg)
+              } else {
+                this.editPsw.errMsg = res.msg
+              }
+            })
+          } else {
+            this.editPsw.errMsg = '两次输入的密码不一致'
+          }
+        }
+      },
+      // 取消修改
+      editCancel (type) {
+        this.editType = ''
+        this.editClean(type)
+      },
+      // 清空编辑信息
+      editClean (type) {
+        if (type === 'message') {
+          for (const key in this.editUserInfo) {
+            this.editUserInfo[key] = ''
+          }
+        } else {
+          for (const key in this.editPsw) {
+            this.editPsw[key] = ''
+          }
+        }
       }
     },
     components: {
@@ -234,8 +338,8 @@
       text-shadow: rgba(255, 255, 255, .496094) 0 1px 0;
       border: 1px solid #E6E6E6;
       border-radius: 10px;
-      &:hover {
-      }
+      // &:hover {
+      // }
       a {
         color: #666;
         display: block;
@@ -311,5 +415,12 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+  }
+  input[type=text], input[type=password] {
+    border: 1px solid #ccc;
+    line-height: 28px;
+    padding: 0 10px;
+    margin-bottom: 7px;
+    border-radius: 3px;
   }
 </style>

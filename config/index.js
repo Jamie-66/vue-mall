@@ -44,6 +44,10 @@ module.exports = {
         target: 'http://amoy.mysise.org',  // 短信验证码
         changeOrigin: true
       },
+      '/images': {
+        target: 'http://amoy.mysise.org',  // 商品图片
+        changeOrigin: true
+      },
       '/consumer': {
         target: 'http://amoy.mysise.org',
         changeOrigin: true

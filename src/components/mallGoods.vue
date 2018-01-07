@@ -2,25 +2,24 @@
   <div class="good-item">
     <div style="">
       <div class="good-img">
-        <router-link :to="'goodsDetails?productId='+msg.productId">
-          <img v-lazy="msg.productImageBig" :alt="msg.productName">
+        <router-link :to="'goodsDetails?goodsTypeId='+msg.goods_type_id">
+          <img v-lazy="msg.image" :alt="msg.goods_name">
         </router-link>
       </div>
-      <h6 class="good-title">{{msg.productName}}</h6>
-      <h3 class="sub-title ellipsis">{{msg.sub_title}}</h3>
+      <h6 class="good-title">{{msg.goods_name}}</h6>
+      <h3 class="sub-title ellipsis">{{msg.description}}</h3>
       <div class="good-price pr">
         <div class="ds pa">
-          <router-link :to="'goodsDetails?productId='+msg.productId">
+          <router-link :to="'goodsDetails?goodsTypeId='+msg.goods_type_id">
             <y-button text="查看详情" style="margin: 0 5px"></y-button>
           </router-link>
           <y-button text="加入购物车"
                     style="margin: 0 5px"
-                    @btnClick="addCart(msg.productId,msg.salePrice,msg.productName,msg.productImageBig)"
+                    @btnClick="addCart(msg.ID,msg.price,msg.goods_name,msg.image)"
                     classStyle="main-btn"
           ></y-button>
         </div>
-        <p><span style="font-size: 16px">￥</span>
-          {{msg.salePrice}}</p>
+        <p><span style="font-size: 16px">￥</span>{{msg.price}}</p>
       </div>
     </div>
   </div>
