@@ -48,11 +48,11 @@ export default {
 </script>
 <style lang="scss" scoped>
   button {
-    position: absolute;
-    right: 0;
-    cursor: pointer;
-    border-top-right-radius: 6px;
-    border-bottom-right-radius: 6px;
+    // position: absolute;
+    // right: 0;
+    // cursor: pointer;
+    // border-top-right-radius: 6px;
+    // border-bottom-right-radius: 6px;
     padding: 0 10px;
     height: 100%;
   }

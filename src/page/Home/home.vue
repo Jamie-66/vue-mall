@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="banner">
+    <div class="carousel">
       <!-- <div class="bg" ref="bg"
            @mouseover="bgOver($refs.bg)"
            @mousemove="bgMove($refs.bg,$event)"
@@ -9,16 +9,16 @@
         <span class="text b">以傲慢与偏执<br/>回敬傲慢与偏见</span>
         <span class="copyright c">code by qingjin.me | picture from t.tt</span>
       </div> -->
-      <!-- <slider :pages="pages" :sliderinit="sliderinit"></slider> -->
+      <el-carousel :interval="3000" type="card" arrow="never" height="200px">
+        <el-carousel-item v-for="(item,i) in carouselArr" :key="i">
+          <div style="height: 100%;width: 100%;">
+            <router-link :to="'goodsDetails?goodsTypeId=18'">
+              <img :src="item" style="height: 100%;">
+            </router-link>
+          </div>
+        </el-carousel-item>
+      </el-carousel>
     </div>
-    <div style="width:70%;margin:20px auto;height:400px">
-      <!-- 配置slider组件 -->
-      <slider ref="slider" :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
-          <!-- 设置loading,可自定义 -->
-          <div slot="loading">loading...</div>
-      </slider>
-    </div>
-
 
     <section class="w mt30 clearfix">
       <y-shelf title="热门商品">
@@ -45,7 +45,6 @@
   import YShelf from '/components/shelf'
   import product from '/components/product'
   import mallGoods from '/components/mallGoods'
-  import slider from 'vue-concise-slider'
   export default {
     data () {
       return {
@@ -58,41 +57,7 @@
         },
         floors: [],
         hot: [],
-        //图片列表[arr]
-        pages:[
-          {
-          html: '<div class="slider1">slider1</div>',
-          style: {
-            'background': '#1bbc9b'
-            }
-          },
-          {
-            html: '<div class="slider2">slider2</div>',
-            style: {
-              'background': '#4bbfc3'
-            }
-          },
-          {
-            html: '<div class="slider3">slider3</div>',
-            style: {
-              'background': '#7baabe'
-            }
-          }
-        ],
-        //滑动配置[obj]
-        sliderinit: {
-          currentPage: 0,//当前页码
-          thresholdDistance: 500,//滑动判定距离
-          thresholdTime: 100,//滑动判定时间
-          autoplay:1000,//自动滚动[ms]
-          loop:true,//循环滚动
-          direction:'vertical',//方向设置，垂直滚动
-          infinite:1,//无限滚动前后遍历数
-          slidesToScroll:1,//每次滑动项数
-          timingFunction: 'ease',
-          duration: 300
-        }
-
+        carouselArr: []
       }
     },
     methods: {
@@ -123,16 +88,6 @@
       bgOut (dom) {
         dom.style.transform = 'rotateY(0deg) rotateX(0deg)'
         dom.style['-webkit-transform'] = 'rotateY(0deg) rotateX(0deg)'
-      },
-      // Listener event
-      slide (data) {
-        console.log(data)
-      },
-      onTap (data) {
-        console.log(data)
-      },
-      onInit (data) {
-        console.log(data)
       }
 
     },
@@ -149,16 +104,35 @@
         });
         this.hot = data
       })
+      this.carouselArr = [
+        'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png',
+        'https://resource.smartisan.com/resource/6ef89d4c80a5026e256f586ded75ed31.png',
+        'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+      ]
     },
     components: {
       YShelf,
       product,
-      mallGoods,
-      slider
+      mallGoods
     }
   }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
+.el-carousel__item h3 {
+    color: #475669;
+    font-size: 14px;
+    opacity: 0.75;
+    line-height: 200px;
+    margin: 0;
+  }
+  
+  .el-carousel__item:nth-child(2n) {
+    background-color: #99a9bf;
+  }
+  
+  .el-carousel__item:nth-child(2n+1) {
+    background-color: #d3dce6;
+  }
   .banner, .banner span, .banner div {
     font-family: "Microsoft YaHei";
     transition: all .3s;

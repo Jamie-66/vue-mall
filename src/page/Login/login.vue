@@ -7,18 +7,19 @@
           <ul class="common-form">
             <li class="mobile border-1p">
               <div class="input">
-                <input type="text" v-model="ruleForm.mobile" placeholder="手机号">
+                <el-input v-model="ruleForm.mobile" placeholder="手机号"></el-input>
               </div>
             </li>
             <li>
               <div class="input">
-                <input type="password" v-model="ruleForm.userPwd" placeholder="密码">
+                <el-input type="password" v-model="ruleForm.userPwd" placeholder="密码"></el-input>
               </div>
             </li>
             <li>
-              <div class="input code">
-                <input type="text" v-model="ruleForm.sysCode" placeholder="验证码">
-                <span><img @click="refreshImgCode" v-bind:src="sysCodeUrl"></span>
+              <div class="input">
+                <el-input v-model="ruleForm.sysCode" placeholder="验证码">
+                  <template slot="append"><img @click="refreshImgCode" v-bind:src="sysCodeUrl"></template>
+                </el-input>
               </div>
             </li>
             <!-- <li style="text-align: right" class="pr">
@@ -36,7 +37,7 @@
           <ul class="common-form pr">
             <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{ruleForm.errMsg}}</li>
             <li style="text-align: right;line-height: 48px;margin-bottom: 0;">
-              <a href="javascript:;" style="padding: 0 5px" @click="loginPage=false">还没有账号? 点击注册</a>
+              <a href="javascript:;" style="padding: 0 5px" @click="resetForm('ruleForm')">还没有账号? 点击注册</a>
             </li>
           </ul>
         </div>
@@ -46,34 +47,36 @@
             <ul class="common-form">
               <li class="username border-1p">
                 <div class="input">
-                  <input type="text" v-model="registered.userName" placeholder="用户名">
+                  <el-input v-model="registered.userName" placeholder="用户名"></el-input>
                 </div>
               </li>
               <li>
                 <div class="input">
-                  <input type="text" v-model="registered.mobile" placeholder="手机号">
+                  <el-input v-model="registered.mobile" placeholder="手机号"></el-input>
                 </div>
               </li>
               <li>
                 <div class="input">
-                  <input type="password" v-model="registered.userPwd" placeholder="密码">
+                  <el-input type="password" v-model="registered.userPwd" placeholder="输入密码"></el-input>
                 </div>
               </li>
               <li>
                 <div class="input">
-                  <input type="password" v-model="registered.userPwd2" placeholder="再次输入密码">
+                  <el-input type="password" v-model="registered.userPwd2" placeholder="再次输入密码"></el-input>
                 </div>
               </li>
               <li>
-                <div class="input code">
-                  <input type="text" v-model="registered.sysCode" placeholder="验证码">
-                  <span><img @click="r_refreshImgCode" v-bind:src="r_sysCodeUrl"></span>
+                <div class="input">
+                  <el-input v-model="registered.sysCode" placeholder="图片验证码">
+                    <template slot="append"><img @click="r_refreshImgCode" v-bind:src="r_sysCodeUrl"></template>
+                  </el-input>
                 </div>
               </li>
               <li>
-                <div class="input code">
-                  <input type="text" v-model="registered.smsCode" placeholder="验证码">
-                  <sms-code @run="sendCode" ref="smscode"></sms-code>
+                <div class="input">
+                  <el-input v-model="registered.smsCode" placeholder="短信验证码">
+                    <template slot="append"><sms-code @run="sendCode" ref="smscode"></sms-code></template>
+                  </el-input>
                 </div>
               </li>
             </ul>
@@ -89,7 +92,7 @@
             <ul class="common-form pr">
               <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{registered.errMsg}}</li>
               <li style="text-align: right;line-height: 48px;margin-bottom: 0;">
-                <a href="javascript:;" style="margin: 0 5px" @click="loginPage=true">已有账号? 点击登录</a>
+                <a href="javascript:;" style="margin: 0 5px" @click="resetForm('registered')">已有账号? 点击登录</a>
               </li>
             </ul>
           </div>
@@ -268,6 +271,16 @@
             this.registered.errMsg = res.msg
           }
         })
+      },
+      resetForm (type) {
+        for (const key in this[type]) {
+          this[type][key] = ''
+        }
+        if (type === 'ruleForm') {
+          this.loginPage = false
+        } else {
+          this.loginPage = true
+        }
       }
     },
     mounted () {
@@ -285,6 +298,12 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
   * {
     box-sizing: content-box;
+  }
+  // element ui
+  .el-input-group__append {
+    img {
+      height: 100%;
+    }
   }
   .login {
     overflow-x: hidden;
@@ -366,7 +385,7 @@
     }
     .content {
       margin-top: 20px;
-      padding: 0 30px 22px;
+      padding: 0 30px;
       height: auto;
       .common-form {
         li {
