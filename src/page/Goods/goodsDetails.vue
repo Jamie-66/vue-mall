@@ -82,6 +82,7 @@
       ...mapMutations(['ADD_CART', 'ADD_ANIMATION', 'SHOW_CART']),
       _getGoodsDet (id) {
         getGoods({params: {goodsTypeId: id}}).then(res => {
+          console.log(res)
           let result = res.data
           this.product = result
           this.productMsg = result.image || ''
@@ -134,7 +135,7 @@
       YShelf, BuyNum, YButton
     },
     created () {
-      let id = this.$route.query.goods_type_id
+      let id = this.$route.query.goodsTypeId
       this._getGoodsDet(id)
     }
   }

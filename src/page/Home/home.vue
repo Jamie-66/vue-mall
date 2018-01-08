@@ -1,14 +1,22 @@
 <template>
   <div>
     <div class="banner">
-      <div class="bg" ref="bg"
+      <!-- <div class="bg" ref="bg"
            @mouseover="bgOver($refs.bg)"
            @mousemove="bgMove($refs.bg,$event)"
            @mouseout="bgOut($refs.bg)">
         <span class="img a"></span>
         <span class="text b">以傲慢与偏执<br/>回敬傲慢与偏见</span>
         <span class="copyright c">code by qingjin.me | picture from t.tt</span>
-      </div>
+      </div> -->
+      <!-- <slider :pages="pages" :sliderinit="sliderinit"></slider> -->
+    </div>
+    <div style="width:70%;margin:20px auto;height:400px">
+      <!-- 配置slider组件 -->
+      <slider ref="slider" :pages="pages" :sliderinit="sliderinit" @slide='slide' @tap='onTap' @init='onInit'>
+          <!-- 设置loading,可自定义 -->
+          <div slot="loading">loading...</div>
+      </slider>
     </div>
 
 
@@ -33,9 +41,11 @@
 </template>
 <script>
   import { productHome } from '/api/index.js'
+  import { getGoods } from '/api/goods.js'
   import YShelf from '/components/shelf'
   import product from '/components/product'
   import mallGoods from '/components/mallGoods'
+  import slider from 'vue-concise-slider'
   export default {
     data () {
       return {
@@ -47,7 +57,42 @@
           h: 0
         },
         floors: [],
-        hot: []
+        hot: [],
+        //图片列表[arr]
+        pages:[
+          {
+          html: '<div class="slider1">slider1</div>',
+          style: {
+            'background': '#1bbc9b'
+            }
+          },
+          {
+            html: '<div class="slider2">slider2</div>',
+            style: {
+              'background': '#4bbfc3'
+            }
+          },
+          {
+            html: '<div class="slider3">slider3</div>',
+            style: {
+              'background': '#7baabe'
+            }
+          }
+        ],
+        //滑动配置[obj]
+        sliderinit: {
+          currentPage: 0,//当前页码
+          thresholdDistance: 500,//滑动判定距离
+          thresholdTime: 100,//滑动判定时间
+          autoplay:1000,//自动滚动[ms]
+          loop:true,//循环滚动
+          direction:'vertical',//方向设置，垂直滚动
+          infinite:1,//无限滚动前后遍历数
+          slidesToScroll:1,//每次滑动项数
+          timingFunction: 'ease',
+          duration: 300
+        }
+
       }
     },
     methods: {
@@ -78,19 +123,38 @@
       bgOut (dom) {
         dom.style.transform = 'rotateY(0deg) rotateX(0deg)'
         dom.style['-webkit-transform'] = 'rotateY(0deg) rotateX(0deg)'
+      },
+      // Listener event
+      slide (data) {
+        console.log(data)
+      },
+      onTap (data) {
+        console.log(data)
+      },
+      onInit (data) {
+        console.log(data)
       }
+
     },
     mounted () {
-      productHome().then(res => {
-        let data = res.result
-        this.floors = data.home_floors
-        this.hot = data.home_hot
+      // productHome().then(res => {
+      //   let data = res.result
+      //   this.floors = data.home_floors
+      //   this.hot = data.home_hot
+      // })
+      getGoods().then(res => {
+        let data = res.data
+        data.forEach(item => {
+          item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+        });
+        this.hot = data
       })
     },
     components: {
       YShelf,
       product,
-      mallGoods
+      mallGoods,
+      slider
     }
   }
 </script>
