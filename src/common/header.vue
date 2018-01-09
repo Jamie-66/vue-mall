@@ -24,7 +24,7 @@
               <!-- 搜索 -->
               <div class="search pr">
                 <input type="text" placeholder="搜索">
-                <span><i class="fa fa-search"></i></span>
+                <span><i class="el-icon-search"></i></span>
               </div>
               <div class="user pr">
                 <router-link to="user">个人中心</router-link>
@@ -437,7 +437,7 @@
       span {
         position: absolute;
         right: 5px;
-        top: 3px;
+        top: 5px;
         font-size: 18px;
         cursor: pointer;
       }

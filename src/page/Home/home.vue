@@ -12,7 +12,7 @@
       <el-carousel :interval="3000" type="card" arrow="never" height="200px">
         <el-carousel-item v-for="(item,i) in carouselArr" :key="i">
           <div style="height: 100%;width: 100%;">
-            <router-link :to="'goodsDetails?goodsTypeId=18'">
+            <router-link :to="'goodsDetails?id=3'">
               <img :src="item" style="height: 100%;">
             </router-link>
           </div>
