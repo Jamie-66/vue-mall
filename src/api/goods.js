@@ -5,13 +5,13 @@ export const getGoods = (params) => {
 }
 // 获取购物车列表
 export const getCartList = (params) => {
-  return http.fetchPost('/users/cartList', params)
+  return http.fetchGet('/consumer/cart/getCartPage', params)
 }
 // 加入购物车
 export const addCart = (params) => {
-  return http.fetchPost('/goods/addCart', params)
+  return http.fetchPost('/consumer/cart/addCart', params)
 }
-// 加入购物车
+// 加入购物车--本地
 export const addCart1 = (params) => {
   return http.fetchPost('/goods/addCart1', params)
 }
@@ -56,8 +56,8 @@ export const orderList = (params) => {
   return http.fetchPost('/users/orderList', params)
 }
 // 商品详情
-export const productDet = (params) => {
-  return http.fetchGet('/goods/productDet', params)
+export const getGoodsDet = (params) => {
+  return http.fetchGet('/consumer/goods/getGoods', params)
 }
 // 删除订单
 export const delOrder = (params) => {

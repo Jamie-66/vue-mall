@@ -231,6 +231,7 @@
       }
     },
     mounted () {
+      console.log(this.cartList)
       this.INIT_BUYCART()
     },
     components: {

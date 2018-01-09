@@ -7,13 +7,13 @@
           <div class="thumbnail">
             <ul>
               <li v-for="(item, i) in small" :key="i" :class="{on:big===item}" @click="big=item">
-                <img v-lazy="item" :alt="product.goods_name">
+                <img v-lazy="item" :alt="product.goodsName">
               </li>
             </ul>
           </div>
           <div class="thumb">
             <div class="big">
-              <img :src="big" :alt="product.goods_name">
+              <img :src="big" :alt="product.goodsName">
             </div>
           </div>
         </div>
@@ -21,29 +21,32 @@
       <!--右边-->
       <div class="banner">
         <div class="sku-custom-title">
-          <h4>{{product.goods_name}}</h4>
+          <h4>{{product.goodsName}}</h4>
           <h6>
-            <span>{{product.sub_title}}</span>
+            <span>{{product.description}}</span>
             <span class="price"><em>¥</em><i>{{product.price}}</i></span>
           </h6>
         </div>
         <div class="num">
           <span class="params-name">数量</span>
-          <buy-num @edit-num="editNum" :limit="Number(product.actual_stock)"></buy-num>
+          <buy-num @edit-num="editNum" :limit="Number(product.actualStock)"></buy-num>
         </div>
-        <div class="buy">
+        <div class="buy" v-if="offShelf">
           <y-button text="加入购物车"
-                    @btnClick="addCart(product.ID,product.price,product.goods_name,product.image)"
+                    @btnClick="addCart(product.ID,product.price,product.goodsName,product.image)"
                     classStyle="main-btn"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
           <y-button text="现在购买"
                     @btnClick="checkout(product.ID)"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
         </div>
+        <div class="similar" v-else>
+          <span>该商品已下架</span>
+        </div>
       </div>
     </div>
     <!--产品信息-->
-    <div class="item-info">
+    <div class="item-info" v-if="offShelf">
       <y-shelf title="产品信息">
         <div slot="content">
           <div class="img-item" v-if="productMsg">
@@ -60,7 +63,7 @@
   </div>
 </template>
 <script>
-  import { getGoods, addCart } from '/api/goods'
+  import { getGoodsDet, addCart } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
   import YShelf from '/components/shelf'
   import BuyNum from '/components/buynum'
@@ -72,7 +75,8 @@
         small: [],
         big: '',
         product: {},
-        productNum: 1
+        productNum: 1,
+        offShelf: 1  //判断是否上架：0下架；1上架
       }
     },
     computed: {
@@ -80,20 +84,21 @@
     },
     methods: {
       ...mapMutations(['ADD_CART', 'ADD_ANIMATION', 'SHOW_CART']),
-      _getGoodsDet (id) {
-        getGoods({params: {goodsTypeId: id}}).then(res => {
-          console.log(res)
+      _getGoodsDet (_id) {
+        getGoodsDet({params: {id: _id}}).then(res => {
           let result = res.data
           this.product = result
           this.productMsg = result.image || ''
+          this.offShelf = result.state
           // this.small = result.productImageSmall
           // this.big = this.small[0]
+          this.big = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
         })
       },
       addCart (id, price, name, img) {
         if (!this.showMoveImg) {     // 动画是否在运动
           if (this.login) { // 登录了 直接存在用户名下
-            addCart({productId: id, productNum: this.productNum}).then(res => {
+            addCart({goodsId: id, num: this.productNum}).then(res => {
               // 并不重新请求数据
               this.ADD_CART({
                 productId: id,
@@ -135,8 +140,8 @@
       YShelf, BuyNum, YButton
     },
     created () {
-      let id = this.$route.query.goodsTypeId
-      this._getGoodsDet(id)
+      let _id = this.$route.query.id
+      this._getGoodsDet(_id)
     }
   }
 </script>
@@ -232,6 +237,12 @@
         position: relative;
         border-top: 1px solid #ebebeb;
         padding: 30px 0 0 10px;
+      }
+      .similar {
+        span {
+          font-size: 20px;
+          font-weight: 700;
+        }
       }
     }
   }

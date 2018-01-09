@@ -82,14 +82,15 @@
                                     <img :src="item.productImg">
                                   </div>
                                   <div class="item-desc">
-                                    <div class="cart-cell"><h4>
-                                      <a href="" v-text="item.productName"></a>
-                                    </h4>
-                                      <p class="attrs"><span>白色</span>
-                                      </p> <h6><span class="price-icon">¥</span><span
-                                        class="price-num">{{item.productPrice}}</span><span
-                                        class="item-num">x {{item.productNum}}</span>
-                                      </h6></div>
+                                    <div class="cart-cell">
+                                      <h4><a href="" v-text="item.productName"></a></h4>
+                                      <p class="attrs"><span>白色</span></p> 
+                                      <h6>
+                                        <span class="price-icon">¥</span>
+                                        <span class="price-num">{{item.productPrice}}</span>
+                                        <span class="item-num">x {{item.productNum}}</span>
+                                      </h6>
+                                    </div>
                                   </div>
                                 </router-link>
                                 <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
@@ -189,8 +190,9 @@
       // 登陆时获取一次购物车商品
       _getCartList () {
         getCartList().then(res => {
-          if (res.status === '1') {
-            setStore('buyCart', res.result)
+          console.log(res)
+          if (res.code === 0) {
+            setStore('buyCart', res.data)
           }
           // 重新初始化一次本地数据
         }).then(this.INIT_BUYCART)

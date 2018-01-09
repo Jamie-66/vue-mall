@@ -3,7 +3,7 @@
     <div class="nav">
 
       <div class="w">
-        <a href="javascript:;" :class="{active:sortType===1}" @click="reset()">综合排序</a>
+        <a href="javascript:;" @click="reset()" :class="{active:sortType===1}">综合排序</a>
         <a href="javascript:;" @click="sort(1)" :class="{active:sortType===2}">价格从低到高</a>
         <a href="javascript:;" @click="sort(-1)" :class="{active:sortType===3}">价格从高到低</a>
         <div class="price-interval">
@@ -64,6 +64,9 @@
             } else {
               this.goods = data
             }
+            this.goods.forEach(item => {
+              item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+            });
           } else {
             clearTimeout(this.timer)
             this.busy = true
