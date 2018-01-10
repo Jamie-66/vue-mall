@@ -98,11 +98,13 @@
       //   this.hot = data.home_hot
       // })
       getGoods().then(res => {
-        let data = res.data
-        data.forEach(item => {
-          item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
-        });
-        this.hot = data
+        if (res.data.length) {
+          let data = res.data
+          data.forEach(item => {
+            item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+          });
+          this.hot = data
+        } 
       })
       this.carouselArr = [
         'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png',

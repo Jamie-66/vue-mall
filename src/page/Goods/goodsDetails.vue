@@ -33,11 +33,11 @@
         </div>
         <div class="buy" v-if="offShelf">
           <y-button text="加入购物车"
-                    @btnClick="addCart(product.ID,product.price,product.goodsName,product.image)"
+                    @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"
                     classStyle="main-btn"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
           <y-button text="现在购买"
-                    @btnClick="checkout(product.ID)"
+                    @btnClick="checkout(product.id)"
                     style="width: 145px;height: 50px;line-height: 48px"></y-button>
         </div>
         <div class="similar" v-else>
@@ -95,10 +95,10 @@
           this.big = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
         })
       },
-      addCart (id, price, name, img) {
+      _addCart (id, price, name, img) {
         if (!this.showMoveImg) {     // 动画是否在运动
           if (this.login) { // 登录了 直接存在用户名下
-            addCart({goodsId: id, num: this.productNum}).then(res => {
+            addCart({params: {goodsId: id, count: this.productNum}}).then(res => {
               // 并不重新请求数据
               this.ADD_CART({
                 productId: id,

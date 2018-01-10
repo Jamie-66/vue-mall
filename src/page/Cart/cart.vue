@@ -12,11 +12,15 @@
             <div>
               <!--标题-->
               <div class="cart-table-title">
-                <span class="name">商品信息</span> <span class="operation">操作</span> <span
-                class="subtotal">小计</span> <span class="num">数量</span> <span class="price1">单价</span></div>
+                <span class="name">商品信息</span>
+                <span class="operation">操作</span>
+                <span class="subtotal">小计</span>
+                <span class="num">数量</span>
+                <span class="price1">单价</span>
+              </div>
               <!--列表-->
               <div class="cart-table" v-for="(item,i) in cartList" :key="i">
-                <div class="cart-group divide pr" :data-productid="item.productId">
+                <div class="cart-group divide pr" :data-goodsid="item.goods_id">
                   <div class="cart-top-items">
                     <div class="cart-items clearfix">
                       <!--勾选-->
@@ -26,42 +30,42 @@
                       </div>
                       <!--图片-->
                       <div class="items-thumb fl">
-                        <img :alt="item.productName"
-                             :src="item.productImg">
-                        <a href="javascript:;" :title="item.productName" target="_blank"></a>
+                        <img :alt="item.goods_name"
+                             :src="item.image">
+                        <a href="javascript:;" :title="item.goods_name" target="_blank"></a>
                       </div>
                       <!--信息-->
                       <div class="name hide-row fl">
                         <div class="name-table">
-                          <a href="javascript:;" :title="item.productName" target="_blank"
-                             v-text="item.productName"></a>
+                          <a href="javascript:;" :title="item.goods_name" target="_blank"
+                             v-text="item.goods_name"></a>
                           <ul class="attribute">
-                            <li>白色</li>
+                            <li>{{item.description}}</li>
                           </ul>
                         </div>
                       </div>
                       <!--删除按钮-->
                       <div class="operation">
-                        <a class="items-delete-btn" @click="cartdel(item.productId)"></a>
+                        <a class="items-delete-btn" @click="cartdel(item.goods_id)"></a>
                       </div>
                       <!--商品数量-->
                       <div>
                         <!--总价格-->
-                        <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
+                        <div class="subtotal" style="font-size: 14px">¥ {{item.price * item.num}}</div>
                         <!--数量-->
-                        <buy-num :num="item.productNum"
-                                 :id="item.productId"
+                        <buy-num :num="item.num"
+                                 :id="item.goods_id"
                                  :checked="item.checked"
                                  style="height: 140px;
                                    display: flex;
                                    align-items: center;
                                    justify-content: center;"
-                                 :limit="5"
+                                 :limit="item.actual_stock"
                                  @edit-num="EditNum"
                         >
                         </buy-num>
                         <!--价格-->
-                        <div class="price1">¥ {{item.productPrice}}</div>
+                        <div class="price1">¥ {{item.price}}</div>
                       </div>
                     </div>
                   </div>
@@ -231,8 +235,8 @@
       }
     },
     mounted () {
-      console.log(this.cartList)
       this.INIT_BUYCART()
+      console.log(this.cartList)
     },
     components: {
       YButton,

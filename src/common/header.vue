@@ -27,7 +27,7 @@
                 <span><i class="el-icon-search"></i></span>
               </div>
               <div class="user pr">
-                <router-link to="user">个人中心</router-link>
+                <router-link to="/user">个人中心</router-link>
                 <!--用户信息显示-->
                 <div class="nav-user-wrapper pa" v-if="login">
                   <div class="nav-user-list">
@@ -41,7 +41,7 @@
                         <p class="name">{{userInfo.info.name}}</p>
                       </li>
                       <li>
-                        <router-link to="orderList">我的订单</router-link>
+                        <router-link to="/orderList">我的订单</router-link>
                       </li>
                       <li>
                         <router-link to="/user/information">账号资料</router-link>
@@ -84,7 +84,7 @@
                                   <div class="item-desc">
                                     <div class="cart-cell">
                                       <h4><a href="" v-text="item.productName"></a></h4>
-                                      <p class="attrs"><span>白色</span></p> 
+                                      <!-- <p class="attrs"><span>白色</span></p>  -->
                                       <h6>
                                         <span class="price-icon">¥</span>
                                         <span class="price-num">{{item.productPrice}}</span>
@@ -190,7 +190,6 @@
       // 登陆时获取一次购物车商品
       _getCartList () {
         getCartList().then(res => {
-          console.log(res)
           if (res.code === 0) {
             setStore('buyCart', res.data)
           }

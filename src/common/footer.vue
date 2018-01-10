@@ -8,45 +8,11 @@
     <div class="cop"><p>Copyright © 2004-2017  xx.com 版权所有</p></div> -->
     <el-footer height="53px">
       <el-row type="flex" :gutter="20">
-        <el-col :span="6">
-          <router-link to="/">
-            <div class="grid-content" :class="{active:current==0}" @click="current=0">
-              <i class="fa fa-home"></i>
-              <span>首页</span>
-            </div>
-          </router-link>
-        </el-col>
-        <el-col :span="6">
-          <router-link to="user/collection">
-            <div class="grid-content" :class="{active:current==1}" @click="current=1">
-              <i class="fa fa-star-o"></i>
-              <span>收藏</span>
-            </div>
-          </router-link>
-        </el-col>
-        <el-col :span="6">
-          <router-link to="user/footprint">
-            <div class="grid-content" :class="{active:current==2}" @click="current=2">
-              <i class="fa fa-paw"></i>
-              <span>足迹</span>
-            </div>
-          </router-link>
-        </el-col>
-        <el-col :span="6">
-          <router-link to="cart">
-            <div class="grid-content" :class="{active:current==3}" @click="current=3">
-              <i class="fa fa-shopping-cart"></i>
-              <span>购物车</span>
-            </div>
-          </router-link>
-        </el-col>
-        <el-col :span="6">
-          <router-link to="/user/information">
-            <div class="grid-content" :class="{active:current==4}" @click="current=4">
-              <i class="fa fa-user"></i>
-              <span>用户中心</span>
-            </div>
-          </router-link>
+        <el-col :span="6" v-for="(item,i) in nav" :key="i">
+          <div class="grid-content" :class="{current:item.name===title}" @click="tab(item)">
+            <i :class="item.icon"></i>
+            <span>{{item.name}}</span>
+          </div>
         </el-col>
       </el-row>
     </el-footer>
@@ -56,7 +22,39 @@
   export default {
     data () {
       return {
-        current: 0
+        title: '首页',
+        nav: [
+          {name: '首页', path1: '/', path2: 'home', icon: 'fa fa-home'},
+          {name: '收藏', path1: '/user/', path2: 'collection', icon: 'fa fa-star-o'},
+          {name: '足迹', path1: '/user/', path2: 'footprint', icon: 'fa fa-paw'},
+          {name: '购物车', path1: '/', path2: 'cart', icon: 'fa fa-shopping-cart'},
+          {name: '用户中心', path1: '/user/', path2: 'information', icon: 'fa fa-user'}
+        ],
+      }
+    },
+    methods: {
+      tab (e) {
+        this.$router.push({path: e.path1+e.path2})
+      }
+    },
+    // 换页检测
+    created () {
+      let path = this.$route.path
+      this.nav.forEach(item => {
+        if (path.indexOf(item.path2) > -1) {
+          this.title = item.name
+        }
+      })
+    },
+    // 页内切换检测
+    watch: {
+      $route (to) {
+        let path = this.$route.path
+        this.nav.forEach(item => {
+          if (path.indexOf(item.path2) > -1) {
+            this.title = item.name
+          }
+        })
       }
     }
   }
@@ -74,6 +72,7 @@
       .grid-content {
         text-align: center;
         color: #666;
+        cursor: pointer;
         i {
           display: block;
           padding: 5px 0 0 0;
@@ -83,7 +82,7 @@
         span {
           font-size: 12px;
         }
-        &.active {
+        &.current {
           color: red;
         }
       }

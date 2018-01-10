@@ -9,7 +9,7 @@ export const getCartList = (params) => {
 }
 // 加入购物车
 export const addCart = (params) => {
-  return http.fetchPost('/consumer/cart/addCart', params)
+  return http.fetchGet('/consumer/cart/addCart', params)
 }
 // 加入购物车--本地
 export const addCart1 = (params) => {
