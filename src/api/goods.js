@@ -29,7 +29,7 @@ export const editCheckAll = (params) => {
 }
 // 删除整条购物车
 export const cartDel = (params) => {
-  return http.fetchPost('/users/cartDel', params)
+  return http.fetchGet('/consumer/cart/delCart', params)
 }
 // 获取用户地址
 export const addressList = (params) => {

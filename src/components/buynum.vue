@@ -9,9 +9,9 @@
       <span class="num">
         <input type="text"
                :class="{show:show}"
-               v-model="Num>=limit?limit:Num"
+               v-model="Num"
                @blur="blur()"
-               maxlength="2">
+               maxlength="5">
                   <ul ref="ul">
                     <li v-for="i in numList" :key="i">{{i}}</li>
                   </ul>

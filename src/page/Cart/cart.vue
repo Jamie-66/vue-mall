@@ -46,7 +46,7 @@
                       </div>
                       <!--删除按钮-->
                       <div class="operation">
-                        <a class="items-delete-btn" @click="cartdel(item.goods_id)"></a>
+                        <a class="items-delete-btn" @click="_cartDel(item.goods_id)"></a>
                       </div>
                       <!--商品数量-->
                       <div>
@@ -186,32 +186,12 @@
           this.EDIT_CART({checked: checkAll})
         })
       },
-      // 修改购物车
-      _cartEdit (productId, productNum, checked) {
-        cartEdit(
-          {
-            productId,
-            productNum,
-            checked
-          }
-        ).then(res => {
-          if (res.status === '0') {
-            this.EDIT_CART(
-              {
-                productId,
-                checked,
-                productNum
-              }
-            )
-          }
-        })
-      },
-      // 修改购物车
+      // 修改购物车--获取参数
       editCart (type, item) {
         if (type && item) {
           let checked = item.checked
-          let productId = item.productId
-          let productNum = item.productNum
+          let productId = item.goods_id
+          let productNum = item.num
           // 勾选
           if (type === 'check') {
             let newChecked = checked === '1' ? '0' : '1'
@@ -221,13 +201,21 @@
           console.log('缺少所需参数')
         }
       },
+      // 修改购物车--修改本地、远端
+      _cartEdit (productId, productNum, checked) {
+        // cartEdit({productId, productNum, checked}).then(res => {
+        //   if (res.status === '0') {
+        //     this.EDIT_CART({productId, checked, productNum})
+        //   }
+        // })
+      },
       EditNum (productNum, productId, checked) { // 数量
         this._cartEdit(productId, productNum, checked)
       },
       // 删除整条购物车
-      cartdel (productId) {
-        cartDel({productId}).then(res => {
-          this.EDIT_CART({productId})
+      _cartDel (id) {
+        cartDel({params: {goodsId:id}}).then(res => {
+          this.EDIT_CART({id})
         })
       },
       checkout () {
@@ -236,7 +224,6 @@
     },
     mounted () {
       this.INIT_BUYCART()
-      console.log(this.cartList)
     },
     components: {
       YButton,

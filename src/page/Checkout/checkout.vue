@@ -137,7 +137,7 @@
   </div>
 </template>
 <script>
-  import { getCartList, addressList, addressUpdate, addressAdd, addressDel, productDet } from '/api/goods'
+  import { getCartList, addressList, addressUpdate, addressAdd, addressDel, getGoodsDet } from '/api/goods'
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
@@ -259,8 +259,8 @@
       del (addressId) {
         this._addressDel({addressId})
       },
-      _productDet (productId) {
-        productDet({params: {productId}}).then(res => {
+      _getGoodsDet (productId) {
+        getGoodsDet({params: {productId}}).then(res => {
           let item = res.result
           item.checked = '1'
           item.productImg = item.productImageBig
@@ -275,7 +275,7 @@
       if (query.productId && query.num) {
         this.productId = query.productId
         this.num = query.num
-        this._productDet(this.productId)
+        this._getGoodsDet(this.productId)
       } else {
         this._getCartList()
       }

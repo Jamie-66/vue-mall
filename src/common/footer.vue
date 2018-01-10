@@ -66,24 +66,24 @@
     bottom: 0;
     left: 0;
     right: 0;
+    z-index: 100;
     background: linear-gradient(#fbfbfb, #ececec);
     .el-row {
       height: 100%;
       .grid-content {
         text-align: center;
-        color: #666;
+        color: #888;
         cursor: pointer;
         i {
           display: block;
           padding: 5px 0 0 0;
           font-size: 24px;
-          // color: red;
         }
         span {
           font-size: 12px;
         }
         &.current {
-          color: red;
+          color: #678ee7;
         }
       }
     } 

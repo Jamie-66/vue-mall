@@ -41,9 +41,9 @@
       //   this.$router.push({path: 'goodsDetails/productId=' + id})
       // },
       addCart (id, price, name, img) {
-        if (!this.showMoveImg) {     // 动画是否在运动
-          if (this.login) { // 登录了 直接存在用户名下
-            addCart({goodsId: id}).then(res => {
+        if (!this.showMoveImg) {  // 动画是否在运动
+          if (this.login) {  // 登录了 直接存在用户名下
+            addCart({params: {goodsId: id,count: 1}}).then(res => {
               // 并不重新请求数据
               this.ADD_CART({productId: id, productPrice: price, productName: name, productImg: img})
             })

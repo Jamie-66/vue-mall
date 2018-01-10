@@ -28,7 +28,7 @@
               </div>
               <div class="user pr">
                 <router-link to="/user">个人中心</router-link>
-                <!--用户信息显示-->
+                <!-- 用户信息显示 -->
                 <div class="nav-user-wrapper pa" v-if="login">
                   <div class="nav-user-list">
                     <ul>
@@ -235,10 +235,11 @@
     },
     mounted () {
       if (this.login) {
-        this._getCartList()
+        // this._getCartList()
       } else {
         this.INIT_BUYCART()
       }
+      console.log(this.cartList[0])
       this.navFixed()
       window.addEventListener('scroll', this.navFixed)
       window.addEventListener('resize', this.navFixed)

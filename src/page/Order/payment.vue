@@ -75,7 +75,7 @@
 <script>
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
-  import { addressList, getCartList, payMent, productDet } from '/api/goods'
+  import { addressList, getCartList, payMent, getGoodsDet } from '/api/goods'
   export default {
     data () {
       return {
@@ -124,8 +124,8 @@
           }
         })
       },
-      _productDet (productId) {
-        productDet({params: {productId}}).then(res => {
+      _getGoodsDet (productId) {
+        getGoodsDet({params: {productId}}).then(res => {
           let item = res.result
           item.checked = '1'
           item.productNum = this.num
@@ -142,7 +142,7 @@
         if (query.productId && query.num) {
           this.productId = query.productId
           this.num = query.num
-          this._productDet(this.productId)
+          this._getGoodsDet(this.productId)
         } else {
           this._getCartList()
         }
