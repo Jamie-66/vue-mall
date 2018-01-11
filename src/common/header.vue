@@ -27,9 +27,10 @@
                 <span><i class="el-icon-search"></i></span>
               </div>
               <div class="user pr">
-                <router-link to="/user">个人中心</router-link>
+                <!-- <router-link to="/user">个人中心</router-link> -->
+                <a href="javascript:;" @click="userShowState"></a>
                 <!-- 用户信息显示 -->
-                <div class="nav-user-wrapper pa" v-if="login">
+                <div class="nav-user-wrapper pa active" v-if="login" v-show="showUser">
                   <div class="nav-user-list">
                     <ul>
                       <!--头像-->
@@ -62,11 +63,13 @@
                   </div>
                 </div>
               </div>
-              <div class="shop pr" @mouseover="cartShowState(true)" @mouseout="cartShowState(false)"
+              <div class="shop pr" @click="cartShowState(cartShow=!cartShow)"
                    ref="positionMsg">
-                <router-link to="cart"></router-link>
+                <!-- <router-link to="cart"></router-link> -->
+                <a href="javascript:;"></a>
                 <span class="cart-num">
-                  <i class="num" :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{totalNum}}</i></span>
+                  <i class="num" :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{totalNum}}</i>
+                </span>
                 <!--购物车显示块-->
                 <div class="nav-user-wrapper pa active" v-show="showCart">
                   <div class="nav-user-list">
@@ -153,6 +156,8 @@
         user: {},
         // 查询数据库的商品
         st: true,
+        // 头部用户信息显示
+        showUser: false,
         // 头部购物车显示
         cartShow: false,
         positionL: 0,
@@ -186,6 +191,10 @@
       // 购物车显示
       cartShowState (state) {
         this.SHOW_CART({showCart: state})
+      },
+      // 用户信息显示
+      userShowState () {
+        this.showUser = !this.showUser
       },
       // 登陆时获取一次购物车商品
       _getCartList () {
@@ -239,7 +248,6 @@
       } else {
         this.INIT_BUYCART()
       }
-      console.log(this.cartList[0])
       this.navFixed()
       window.addEventListener('scroll', this.navFixed)
       window.addEventListener('resize', this.navFixed)
@@ -450,13 +458,14 @@
         a:before {
           background-position: -5px 0;
         }
-        .nav-user-wrapper {
-          top: 18px;
-          visibility: visible;
-          opacity: 1;
-          -webkit-transition: opacity .15s ease-out;
-          transition: opacity .15s ease-out;
-        }
+        
+      }
+      .nav-user-wrapper.active {
+        top: 18px;
+        visibility: visible;
+        opacity: 1;
+        -webkit-transition: opacity .15s ease-out;
+        transition: opacity .15s ease-out;
       }
       > a {
         position: relative;
@@ -484,7 +493,7 @@
         color: #616161;
         font-size: 12px;
         &:hover {
-          background: #fafafa;
+          background-color: #fafafa;
         }
         a {
           display: block;
@@ -634,7 +643,7 @@
           overflow: hidden;
           border-top: 1px solid #f0f0f0;
           &:hover {
-            background: #fcfcfc;
+            background-color: #fcfcfc;
             .del {
               display: block;
             }
