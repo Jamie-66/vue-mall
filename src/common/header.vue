@@ -27,8 +27,8 @@
                 <span><i class="el-icon-search"></i></span>
               </div>
               <div class="user pr">
-                <!-- <router-link to="/user">个人中心</router-link> -->
-                <a href="javascript:;" @click="userShowState"></a>
+                <a v-if="!login" href="#/login"></a>
+                <a v-else href="javascript:;" @click="userShowState"></a>
                 <!-- 用户信息显示 -->
                 <div class="nav-user-wrapper pa active" v-if="login" v-show="showUser">
                   <div class="nav-user-list">
@@ -180,6 +180,7 @@
       // 计算数量
       totalNum () {
         var totalNum = 0
+        console.log(this.cartList)
         this.cartList && this.cartList.forEach(item => {
           totalNum += (item.productNum)
         })
@@ -244,7 +245,7 @@
     },
     mounted () {
       if (this.login) {
-        // this._getCartList()
+        this._getCartList()
       } else {
         this.INIT_BUYCART()
       }

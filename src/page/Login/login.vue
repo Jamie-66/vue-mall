@@ -106,7 +106,7 @@
   import YButton from '/components/YButton'
   import smsCode from '/components/smsCode'
   import { userLogin, register, identifyCode } from '/api/index.js'
-  import { addCart1 } from '/api/goods.js'
+  import { addCart1, addCart } from '/api/goods.js'
   import { getStore, removeStore } from '/utils/storage.js'
   export default {
     data () {
@@ -284,7 +284,7 @@
       }
     },
     mounted () {
-      this.login_addCart()
+      // this.login_addCart()
       this.refreshImgCode()
       this.r_refreshImgCode()
     },

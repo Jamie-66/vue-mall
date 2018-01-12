@@ -14,7 +14,7 @@ export default {
   [INIT_BUYCART] (state) {
     let initCart = getStore('buyCart')
     if (initCart) {
-      state.cartList = JSON.parse(initCart)
+      // state.cartList = JSON.parse(initCart)
     }
   },
   // 加入购物车
@@ -27,6 +27,7 @@ export default {
       productName,
       productImg
     }
+    console.log(goods)
     if (cart.length) {        // 有内容
       cart.forEach(item => {
         if (item.productId === productId) {

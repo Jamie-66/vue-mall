@@ -15,7 +15,7 @@
           </router-link>
           <y-button text="加入购物车"
                     style="margin: 0 5px"
-                    @btnClick="addCart(msg.ID,msg.price,msg.goods_name,msg.image)"
+                    @btnClick="_addCart(msg.ID,msg.price,msg.goods_name,msg.image)"
                     classStyle="main-btn"
           ></y-button>
         </div>
@@ -40,7 +40,7 @@
       // goodsDetails (id) {
       //   this.$router.push({path: 'goodsDetails/productId=' + id})
       // },
-      addCart (id, price, name, img) {
+      _addCart (id, price, name, img) {
         if (!this.showMoveImg) {  // 动画是否在运动
           if (this.login) {  // 登录了 直接存在用户名下
             addCart({params: {goodsId: id,count: 1}}).then(res => {
@@ -59,6 +59,9 @@
           this.ADD_ANIMATION({moveShow: true, elLeft: elLeft, elTop: elTop, img: img})
           if (!this.showCart) {
             this.SHOW_CART({showCart: true})
+            setTimeout(_=>{
+              this.SHOW_CART({showCart: false})
+            },2000)
           }
         }
       }

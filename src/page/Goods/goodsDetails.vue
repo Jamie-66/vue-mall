@@ -27,21 +27,26 @@
             <span class="price"><em>¥</em><i>{{product.price}}</i></span>
           </h6>
         </div>
-        <div class="num">
-          <span class="params-name">数量</span>
-          <buy-num @edit-num="editNum" :limit="Number(product.actualStock)"></buy-num>
-        </div>
-        <div class="buy" v-if="offShelf">
-          <y-button text="加入购物车"
-                    @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"
-                    classStyle="main-btn"
-                    style="width: 145px;height: 50px;line-height: 48px"></y-button>
-          <y-button text="现在购买"
-                    @btnClick="checkout(product.id)"
-                    style="width: 145px;height: 50px;line-height: 48px"></y-button>
+        <div class="shelves" v-if="offShelf">
+          <div class="num">
+            <span class="params-name">数量</span>
+            <buy-num @edit-num="editNum" :limit="Number(product.actualStock)"></buy-num>
+          </div>
+          <div class="buy">
+            <y-button text="加入购物车"
+                      @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"
+                      classStyle="main-btn"
+                      style="width: 145px;height: 50px;line-height: 48px"></y-button>
+            <y-button text="现在购买"
+                      @btnClick="checkout(product.id)"
+                      style="width: 145px;height: 50px;line-height: 48px"></y-button>
+          </div>
         </div>
         <div class="similar" v-else>
           <span>该商品已下架</span>
+          <router-link to="/goods">
+            <y-button text="看看其他" style="width: 145px;height: 50px;line-height: 48px"></y-button>
+          </router-link>
         </div>
       </div>
     </div>
@@ -89,6 +94,7 @@
           let result = res.data
           this.product = result
           this.productMsg = result.image || ''
+          console.log(this.productMsg)
           this.offShelf = result.state
           // this.small = result.productImageSmall
           // this.big = this.small[0]
