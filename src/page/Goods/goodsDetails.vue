@@ -94,11 +94,23 @@
           let result = res.data
           this.product = result
           this.productMsg = result.image || ''
-          console.log(this.productMsg)
           this.offShelf = result.state
           // this.small = result.productImageSmall
           // this.big = this.small[0]
-          this.big = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+          this.productMsg = {
+            height: 15201,
+            piece_height: 1440,
+            pieces_num: 5,
+            url: ["http://image.smartisanos.cn/resource/956f3860a3b89581926ddfc27336bd6f.jpg"],
+            width: 2440
+          }
+          this.small = [
+            "http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg",
+            "http://image.smartisanos.cn/resource/62e72601141518c9cb0e9e70402a466c.jpg",
+            "http://image.smartisanos.cn/resource/4dc09d157d95e530607bf9180a844402.jpg",
+            "http://image.smartisanos.cn/resource/ad560139756301700f465214027aef5b.jpg"
+          ]
+          this.big = 'http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg'
         })
       },
       _addCart (id, price, name, img) {

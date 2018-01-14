@@ -20,7 +20,7 @@
               </div>
               <!--列表-->
               <div class="cart-table" v-for="(item,i) in cartList" :key="i">
-                <div class="cart-group divide pr" :data-goodsid="item.goods_id">
+                <div class="cart-group divide pr" :data-goodsid="item.productId">
                   <div class="cart-top-items">
                     <div class="cart-items clearfix">
                       <!--勾选-->
@@ -30,42 +30,42 @@
                       </div>
                       <!--图片-->
                       <div class="items-thumb fl">
-                        <img :alt="item.goods_name"
-                             :src="item.image">
-                        <a href="javascript:;" :title="item.goods_name" target="_blank"></a>
+                        <img :alt="item.productName"
+                             :src="item.productImg">
+                        <a href="javascript:;" :title="item.productName" target="_blank"></a>
                       </div>
                       <!--信息-->
                       <div class="name hide-row fl">
                         <div class="name-table">
-                          <a href="javascript:;" :title="item.goods_name" target="_blank"
-                             v-text="item.goods_name"></a>
+                          <a href="javascript:;" :title="item.productName" target="_blank"
+                             v-text="item.productName"></a>
                           <ul class="attribute">
-                            <li>{{item.description}}</li>
+                            <li v-text="item.productDescript"></li>
                           </ul>
                         </div>
                       </div>
                       <!--删除按钮-->
                       <div class="operation">
-                        <a class="items-delete-btn" @click="_cartDel(item.goods_id)"></a>
+                        <a class="items-delete-btn" @click="_cartDel(item.productId)"></a>
                       </div>
                       <!--商品数量-->
                       <div>
                         <!--总价格-->
-                        <div class="subtotal" style="font-size: 14px">¥ {{item.price * item.num}}</div>
+                        <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
                         <!--数量-->
-                        <buy-num :num="item.num"
-                                 :id="item.goods_id"
+                        <buy-num :num="item.productNum"
+                                 :id="item.productId"
                                  :checked="item.checked"
                                  style="height: 140px;
                                    display: flex;
                                    align-items: center;
                                    justify-content: center;"
-                                 :limit="item.actual_stock"
+                                 :limit="item.productStock"
                                  @edit-num="EditNum"
                         >
                         </buy-num>
                         <!--价格-->
-                        <div class="price1">¥ {{item.price}}</div>
+                        <div class="price1">¥ {{item.productPrice}}</div>
                       </div>
                     </div>
                   </div>
@@ -182,16 +182,17 @@
       // 全选
       editCheckAll () {
         let checkAll = !this.checkAllFlag
-        editCheckAll({checkAll: checkAll}).then(res => {
-          this.EDIT_CART({checked: checkAll})
-        })
+        // editCheckAll({checkAll: checkAll}).then(res => {
+        //   this.EDIT_CART({checked: checkAll})
+        // })
+        this.EDIT_CART({checked: checkAll})
       },
       // 修改购物车--获取参数
       editCart (type, item) {
         if (type && item) {
           let checked = item.checked
-          let productId = item.goods_id
-          let productNum = item.num
+          let productId = item.productId
+          let productNum = item.productNum
           // 勾选
           if (type === 'check') {
             let newChecked = checked === '1' ? '0' : '1'
@@ -201,13 +202,14 @@
           console.log('缺少所需参数')
         }
       },
-      // 修改购物车--修改本地、远端
+      // 修改购物车--修改本地、(远端:本项目不用)
       _cartEdit (productId, productNum, checked) {
         // cartEdit({productId, productNum, checked}).then(res => {
         //   if (res.status === '0') {
-        //     this.EDIT_CART({productId, checked, productNum})
+        //     this.EDIT_CART({productId, productNum, checked})
         //   }
         // })
+        this.EDIT_CART({productId, productNum, checked})
       },
       EditNum (productNum, productId, checked) { // 数量
         this._cartEdit(productId, productNum, checked)

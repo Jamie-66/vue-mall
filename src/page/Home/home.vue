@@ -12,8 +12,8 @@
       <el-carousel :interval="3000" type="card" arrow="never" height="200px">
         <el-carousel-item v-for="(item,i) in carouselArr" :key="i">
           <div style="height: 100%;width: 100%;">
-            <router-link :to="'goodsDetails?id=3'">
-              <img :src="item" style="height: 100%;">
+            <router-link :to="'goodsDetails?id='+item.id">
+              <img :src="item.image" style="height: 100%;">
             </router-link>
           </div>
         </el-carousel-item>
@@ -107,9 +107,18 @@
         } 
       })
       this.carouselArr = [
-        'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png',
-        'https://resource.smartisan.com/resource/6ef89d4c80a5026e256f586ded75ed31.png',
-        'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+        {
+          image: 'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png',
+          id: 3
+        },
+        {
+          image: 'https://resource.smartisan.com/resource/6ef89d4c80a5026e256f586ded75ed31.png',
+          id: 4
+        },
+        {
+          image: 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg',
+          id: 5
+        }
       ]
     },
     components: {

@@ -17,11 +17,11 @@ export const addCart1 = (params) => {
 }
 // 删除购物车
 export const delCart = (params) => {
-  return http.fetchPost('/goods/delCart', params)
+  return http.fetchPost('/consumer/cart/delCartAll', params)
 }
 // 编辑购物车
 export const cartEdit = (params) => {
-  return http.fetchPost('/users/cartEdit', params)
+  return http.fetchPost('/consumer/cart/delCart', params)
 }
 // 全选
 export const editCheckAll = (params) => {

@@ -15,7 +15,7 @@
           </router-link>
           <y-button text="加入购物车"
                     style="margin: 0 5px"
-                    @btnClick="_addCart(msg.ID,msg.price,msg.goods_name,msg.image)"
+                    @btnClick="_addCart(msg.ID,msg.price,msg.goods_name,msg.image,msg.description,msg.actual_stock)"
                     classStyle="main-btn"
           ></y-button>
         </div>
@@ -40,15 +40,29 @@
       // goodsDetails (id) {
       //   this.$router.push({path: 'goodsDetails/productId=' + id})
       // },
-      _addCart (id, price, name, img) {
+      _addCart (id, price, name, img, description, actual_stock) {
         if (!this.showMoveImg) {  // 动画是否在运动
           if (this.login) {  // 登录了 直接存在用户名下
             addCart({params: {goodsId: id,count: 1}}).then(res => {
               // 并不重新请求数据
-              this.ADD_CART({productId: id, productPrice: price, productName: name, productImg: img})
+              this.ADD_CART({
+                productId: id,
+                productPrice: price,
+                productName: name,
+                productImg: img,
+                productDescript: description,
+                productStock: actual_stock
+              })
             })
           } else { // 未登录 vuex
-            this.ADD_CART({productId: id, productPrice: price, productName: name, productImg: img})
+            this.ADD_CART({
+              productId: id,
+              productPrice: price,
+              productName: name,
+              productImg: img,
+              productDescript: description,
+              productStock: actual_stock
+            })
           }
           // 加入购物车动画
           var dom = event.target

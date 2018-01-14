@@ -42,7 +42,7 @@
                         <p class="name">{{userInfo.info.name}}</p>
                       </li>
                       <li>
-                        <router-link to="/orderList">我的订单</router-link>
+                        <router-link to="/user/orderList">我的订单</router-link>
                       </li>
                       <li>
                         <router-link to="/user/information">账号资料</router-link>
@@ -63,12 +63,12 @@
                   </div>
                 </div>
               </div>
-              <div class="shop pr" @click="cartShowState(cartShow=!cartShow)"
+              <div class="shop pr" @click="cartShowState"
                    ref="positionMsg">
                 <!-- <router-link to="cart"></router-link> -->
                 <a href="javascript:;"></a>
                 <span class="cart-num">
-                  <i class="num" :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{totalNum}}</i>
+                  <i class="num" :class="{no:totalNum <= 0,move_in_cart:receiveInCart}">{{cartList.length}}</i>
                 </span>
                 <!--购物车显示块-->
                 <div class="nav-user-wrapper pa active" v-show="showCart">
@@ -80,14 +80,14 @@
                           <li class="clearfix" v-for="(item,i) in cartList" :key="i">
                             <div class="cart-item">
                               <div class="cart-item-inner">
-                                <router-link :to="'goodsDetails?productId='+item.productId">
+                                <router-link :to="'goodsDetails?id='+item.productId">
                                   <div class="item-thumb">
                                     <img :src="item.productImg">
                                   </div>
                                   <div class="item-desc">
                                     <div class="cart-cell">
                                       <h4><a href="" v-text="item.productName"></a></h4>
-                                      <!-- <p class="attrs"><span>白色</span></p>  -->
+                                      <p class="attrs"><span v-text="item.productDescript"></span></p> 
                                       <h6>
                                         <span class="price-icon">¥</span>
                                         <span class="price-num">{{item.productPrice}}</span>
@@ -180,7 +180,6 @@
       // 计算数量
       totalNum () {
         var totalNum = 0
-        console.log(this.cartList)
         this.cartList && this.cartList.forEach(item => {
           totalNum += (item.productNum)
         })
@@ -190,18 +189,35 @@
     methods: {
       ...mapMutations(['ADD_CART', 'INIT_BUYCART', 'ADD_ANIMATION', 'SHOW_CART', 'REDUCE_CART', 'RECORD_USERINFO', 'EDIT_CART']),
       // 购物车显示
-      cartShowState (state) {
-        this.SHOW_CART({showCart: state})
+      cartShowState () {
+        this.cartShow = !this.cartShow
+        this.SHOW_CART({showCart: this.cartShow})
+        this.showUser = false
       },
       // 用户信息显示
       userShowState () {
         this.showUser = !this.showUser
+        this.cartShow = false
+        this.SHOW_CART({showCart: this.cartShow})
       },
       // 登陆时获取一次购物车商品
       _getCartList () {
         getCartList().then(res => {
           if (res.code === 0) {
-            setStore('buyCart', res.data)
+            let cartData = []
+            res.data.forEach((item,i) => {
+              cartData.push({
+                productId: item.goods_id,
+                productPrice: item.price,
+                productNum: item.num,
+                productName: item.goods_name,
+                productImg: item.image,
+                productDescript: item.description,
+                productStock: item.actual_stock,
+                checked: '0'
+              })
+            })
+            setStore('buyCart', cartData)
           }
           // 重新初始化一次本地数据
         }).then(this.INIT_BUYCART)
@@ -619,7 +635,7 @@
       }
       .nav-user-wrapper {
         right: 0;
-        width: 360px;
+        width: 328px;
         .nav-user-list {
           &:before {
             right: 34px;
@@ -643,12 +659,12 @@
           width: 100%;
           overflow: hidden;
           border-top: 1px solid #f0f0f0;
-          &:hover {
-            background-color: #fcfcfc;
-            .del {
-              display: block;
-            }
-          }
+          // &:hover {
+          //   background-color: #fcfcfc;
+          //   .del {
+          //     display: block;
+          //   }
+          // }
 
         }
         li:first-child .cart-item:first-child {
@@ -690,9 +706,9 @@
           margin-left: 98px;
           display: table;
           @include wh(205px, 80px);
-          h4 {
+          h4, .attrs {
             color: #000;
-            width: 185px;
+            width: 160px;
             overflow: hidden;
             word-break: keep-all;
             white-space: nowrap;
@@ -703,7 +719,7 @@
           }
           .attrs span {
             position: relative;
-            display: inline-block;
+            // display: inline-block;
             margin-right: 20px;
             font-size: 14px;
             line-height: 14px;
@@ -740,8 +756,9 @@
           vertical-align: middle;
         }
         .del {
-          display: none;
-          overflow: hidden;
+          // display: none;
+          // overflow: hidden;
+          display: block;
           position: absolute;
           right: 20px;
           top: 50%;

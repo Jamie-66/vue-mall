@@ -191,15 +191,6 @@
       },
       // 登录
       login () {
-        // if (!this.ruleForm.mobile || !this.ruleForm.userPwd) {
-        //   this.ruleForm.errMsg = '手机号或者密码不能为空!'
-        //   return false
-        // }
-        // if (!this.ruleForm.sysCode) {
-        //   this.ruleForm.errMsg = '验证码不能为空!'
-        //   return false
-        // }
-        
         let params = {
           mobile: this.ruleForm.mobile, 
           password: this.ruleForm.userPwd,
@@ -208,8 +199,8 @@
         userLogin({params: params}).then(res => {
           if (res.code === 0) {
             this.ruleForm.errMsg = ''
-            // this.$store.state.login = true
             // 登录时将本地的添加到用户购物车
+            console.log(this.cart)
             if (this.cart.length) {
               addCart1({productMsg: this.cart}).then(res => {
                 if (res.status === '1') {
@@ -232,26 +223,11 @@
         let userPwd2 = this.registered.userPwd2
         let sysCode = this.registered.sysCode
         let smsCode = this.registered.smsCode
-        // if (!userName || !userPwd || !userPwd2) {
-        //   this.registered.errMsg = '账号密码不能为空'
-        //   return false
-        // }
-        // if (!smsCode) {
-        //   this.registered.errMsg = '手机号不能为空'
-        //   return false
-        // }
-        // if(!(/^1[34578]\d{9}$/.test(mobile))){ 
-        //   this.registered.errMsg = '请输入正确的手机号' 
-        //   return false; 
-        // } 
+        
         if (userPwd2 !== userPwd) {
           this.registered.errMsg = '两次输入的密码不一致'
           return false
         }
-        // if (!smsCode) {
-        //   this.registered.errMsg = '验证码不能为空'
-        //   return false
-        // }
 
         let params = {
           name: userName,
@@ -284,7 +260,7 @@
       }
     },
     mounted () {
-      // this.login_addCart()
+      this.login_addCart()
       this.refreshImgCode()
       this.r_refreshImgCode()
     },
@@ -301,8 +277,15 @@
   }
   // element ui
   .el-input-group__append {
+    height: 100%;
     img {
       height: 100%;
+      padding-top: 4px;
+      border-top-right-radius: 6px;
+      border-bottom-right-radius: 6px;
+    }
+    button {
+      font-size: 14px;
     }
   }
   .login {

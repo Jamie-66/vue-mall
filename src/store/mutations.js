@@ -14,20 +14,22 @@ export default {
   [INIT_BUYCART] (state) {
     let initCart = getStore('buyCart')
     if (initCart) {
-      // state.cartList = JSON.parse(initCart)
+      state.cartList = JSON.parse(initCart)
     }
   },
   // 加入购物车
-  [ADD_CART] (state, {productId, productPrice, productName, productImg, productNum = 1}) {
+  [ADD_CART] (state, {productId, productPrice, productName, productImg, productDescript, productStock, productNum = 1}) {
     let cart = state.cartList // 购物车
     let flag = true
     let goods = {
       productId,
       productPrice,
       productName,
-      productImg
+      productImg,
+      productDescript,
+      productStock
     }
-    console.log(goods)
+
     if (cart.length) {        // 有内容
       cart.forEach(item => {
         if (item.productId === productId) {
@@ -43,7 +45,7 @@ export default {
       goods.checked = '1'
       cart.push(goods)
     }
-    console.log(cart)
+    // console.log(cart)
     state.cartList = cart
     // 存入localStorage
     setStore('buyCart', cart)
