@@ -5,8 +5,8 @@
         <div class="avatar-box">
           <div class=img-box><img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt=""></div>
           <div class="r-box">
-            <h3>修改头像</h3>
-            <y-button text="更换头像" classStyle="main-btn" @btnClick="editAvatar()"></y-button>
+            <h3>修改用户信息</h3>
+            <!-- <y-button text="更换头像" classStyle="main-btn" @btnClick="editAvatar()"></y-button> -->
             <y-button text="编辑用户信息" :classStyle="editType==='message'?'default-btn':'main-btn'" @btnClick="editTypeChange('message')"></y-button>
             <y-button text="修改密码" :classStyle="editType==='password'?'default-btn':'main-btn'" @btnClick="editTypeChange('password')"></y-button>
           </div>

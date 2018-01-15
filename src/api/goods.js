@@ -3,6 +3,10 @@ import http from './public'
 export const getGoods = (params) => {
   return http.fetchGet('/consumer/goods/getGoodsList', params)
 }
+// 商品详情
+export const getGoodsDet = (params) => {
+  return http.fetchGet('/consumer/goods/getGoods', params)
+}
 // 获取购物车列表
 export const getCartList = (params) => {
   return http.fetchGet('/consumer/cart/getCartPage', params)
@@ -51,13 +55,13 @@ export const addressDel = (params) => {
 export const payMent = (params) => {
   return http.fetchPost('/users/payMent', params)
 }
-// 订单
+// 订单列表
 export const orderList = (params) => {
   return http.fetchPost('/users/orderList', params)
 }
-// 商品详情
-export const getGoodsDet = (params) => {
-  return http.fetchGet('/consumer/goods/getGoods', params)
+// 生成订单
+export const createOrder = (params) => {
+  return http.fetchPost('/consumer/order/addOrderByCart', params)
 }
 // 删除订单
 export const delOrder = (params) => {

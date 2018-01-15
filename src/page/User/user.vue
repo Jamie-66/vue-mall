@@ -42,9 +42,9 @@
           {name: '账户资料', path: 'information'},
           {name: '我的订单', path: 'orderList'},
           {name: '收货地址', path: 'addressList'},
-          {name: '我的优惠', path: 'coupon'},
-          {name: '售后服务', path: 'support'},
-          {name: '以旧换新', path: 'exchange'},
+          // {name: '我的优惠', path: 'coupon'},
+          // {name: '售后服务', path: 'support'},
+          // {name: '以旧换新', path: 'exchange'},
           {name: '我的收藏', path: 'collection'},
           {name: '我的足迹', path: 'footprint'}
         ],

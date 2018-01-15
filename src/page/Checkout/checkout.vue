@@ -50,7 +50,7 @@
                 <span class="price">单价</span>
               </div>
               <!--列表-->
-              <div class="cart-table" v-for="(item,i) in cartList" :key="i" v-if="item.checked === '1'">
+              <div class="cart-table" v-for="(item,i) in o_cartList" :key="i">
                 <div class="cart-group divide pr" :data-productid="item.productId">
                   <div class="cart-top-items">
                     <div class="cart-items clearfix">
@@ -66,7 +66,7 @@
                           <a href="javascript:;" :title="item.productName" target="_blank"
                              v-text="item.productName"></a>
                           <ul class="attribute">
-                            <li>白色</li>
+                            <li v-text="item.productDescript"></li>
                           </ul>
                         </div>
                       </div>
@@ -137,7 +137,8 @@
   </div>
 </template>
 <script>
-  import { getCartList, addressList, addressUpdate, addressAdd, addressDel, getGoodsDet } from '/api/goods'
+  import { getCartList, addressList, addressUpdate, addressAdd, addressDel, getGoodsDet, createOrder } from '/api/goods'
+  import { mapMutations, mapState } from 'vuex'
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
@@ -146,13 +147,14 @@
   export default {
     data () {
       return {
-        cartList: [],
+        o_cartList: [],
         addList: [],
         addressId: '1',
         popupOpen: false,
         popupTitle: '管理收货地址',
         num: '', // 立刻购买
         productId: '',
+        totalPrice: 0,
         msg: {
           addressId: '',
           userName: '',
@@ -163,6 +165,9 @@
       }
     },
     computed: {
+      ...mapState(
+        ['cartList']
+      ),
       btnHighlight () {
         let msg = this.msg
         return msg.userName && msg.tel && msg.streetName
@@ -170,18 +175,24 @@
       // 选中的总价格
       checkPrice () {
         let totalPrice = 0
-        this.cartList && this.cartList.forEach(item => {
-          if (item.checked === '1') {
+        this.o_cartList && this.o_cartList.forEach(item => {
+          // if (item.checked === '1') {
             totalPrice += (item.productNum * item.productPrice)
-          }
+          // }
         })
+        this.totalPrice = totalPrice
         return totalPrice
       }
     },
     methods: {
       _getCartList () {
-        getCartList().then(res => {
-          this.cartList = res.result
+        // getCartList().then(res => {
+        //   this.o_cartList = res.data
+        // })
+        this.cartList && this.cartList.forEach(item => {
+          if (item.checked === '1') {
+            this.o_cartList.push(item)
+          }
         })
       },
       _addressList () {
@@ -212,15 +223,31 @@
       },
       // 付款
       payment () {
-        // 需要拿到地址id
-        this.$router.push({
-          path: '/order/payment',
-          query: {
-            'addressId': this.addressId,
-            'productId': this.productId,
-            'num': this.num
-          }
+        let params = {
+          addressId: this.addressId,
+          orderPrice: this.totalPrice,
+          CCarts: []
+        }
+        this.o_cartList.forEach(item => {
+          params.CCarts.push({
+            goodsId: item.productId,
+            id: 1,
+            num: item.productNum
+          })
         })
+        
+        createOrder(params).then(res => {
+          console.log(res)
+        })
+        // 需要拿到地址id
+        // this.$router.push({
+        //   path: '/order/payment',
+        //   query: {
+        //     'addressId': this.addressId,
+        //     'productId': this.productId,
+        //     'num': this.num
+        //   }
+        // })
       },
       // 选择地址
       defaultAddress (id) {
@@ -266,7 +293,7 @@
           item.productImg = item.productImageBig
           item.productNum = this.num
           item.productPrice = item.salePrice
-          this.cartList.push(item)
+          this.o_cartList.push(item)
         })
       }
     },

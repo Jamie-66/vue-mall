@@ -37,8 +37,11 @@
                       @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"
                       classStyle="main-btn"
                       style="width: 145px;height: 50px;line-height: 48px"></y-button>
-            <y-button text="现在购买"
+            <!-- <y-button text="现在购买"
                       @btnClick="checkout(product.id)"
+                      style="width: 145px;height: 50px;line-height: 48px"></y-button> -->
+            <y-button text="点击收藏"
+                      @btnClick="collect(product.id)"
                       style="width: 145px;height: 50px;line-height: 48px"></y-button>
           </div>
         </div>
@@ -149,6 +152,9 @@
       },
       checkout (productId) {
         this.$router.push({path: '/checkout', query: {productId, num: this.productNum}})
+      },
+      collect (productId) {
+        console.log(productId,'收藏')
       },
       editNum (num) {
         this.productNum = num
