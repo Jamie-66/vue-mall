@@ -200,13 +200,24 @@
           if (res.code === 0) {
             this.ruleForm.errMsg = ''
             // 登录时将本地的添加到用户购物车
-            console.log(this.cart)
             if (this.cart.length) {
-              addCart1({productMsg: this.cart}).then(res => {
-                if (res.status === '1') {
-                  removeStore('buyCart')
-                }
-              }).then(this.$router.go(-1))
+              let flag = true
+              this.cart.forEach(item => {
+                addCart({params: {goodsId: item.productId,count: item.productNum}}).then(res => {
+                  if (res.code !== 0) {
+                    flag = false
+                  }
+                })
+              })
+              if (flag) {
+                removeStore('buyCart')
+                this.$router.go(-1)
+              }
+              // addCart1({productMsg: this.cart}).then(res => {
+              //   if (res.status === '1') {
+              //     removeStore('buyCart')
+              //   }
+              // }).then(this.$router.go(-1))
             } else {
               this.$router.go(-1)
             }

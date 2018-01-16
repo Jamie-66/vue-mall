@@ -21,7 +21,7 @@ export const addCart1 = (params) => {
 }
 // 删除购物车
 export const delCart = (params) => {
-  return http.fetchPost('/consumer/cart/delCartAll', params)
+  return http.fetchPost('/consumer/cart/delCart', params)
 }
 // 编辑购物车
 export const cartEdit = (params) => {
@@ -33,7 +33,7 @@ export const editCheckAll = (params) => {
 }
 // 删除整条购物车
 export const cartDel = (params) => {
-  return http.fetchGet('/consumer/cart/delCart', params)
+  return http.fetchGet('/consumer/cart/delCartAll', params)
 }
 // 获取用户地址
 export const addressList = (params) => {
