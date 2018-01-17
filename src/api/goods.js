@@ -37,19 +37,19 @@ export const cartDel = (params) => {
 }
 // 获取用户地址
 export const addressList = (params) => {
-  return http.fetchPost('/users/addressList', params)
+  return http.fetchGet('/consumer/address/getAddressList', params)
 }
 // 修改收货地址
 export const addressUpdate = (params) => {
-  return http.fetchPost('/users/addressUpdate', params)
+  return http.fetchPost('/consumer/address/updateAddress', params)
 }
 // 添加收货地址
 export const addressAdd = (params) => {
-  return http.fetchPost('/users/addressAdd', params)
+  return http.fetchPost('/consumer/address', params)
 }
 // 删除收货地址
 export const addressDel = (params) => {
-  return http.fetchPost('/users/addressDel', params)
+  return http.fetchPost('/consumer/address/delAddress', params)
 }
 // 支付
 export const payMent = (params) => {
@@ -66,4 +66,8 @@ export const createOrder = (params) => {
 // 删除订单
 export const delOrder = (params) => {
   return http.fetchPost('/users/delOrder', params)
+}
+// 商品足迹
+export const footPrint = (params) => {
+  return http.fetchGet('/consumer/behavior/getBehaviorPage', params)
 }

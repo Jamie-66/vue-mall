@@ -10,8 +10,22 @@
   </div>
 </template>
 <script>
+  import { footPrint } from '/api/goods'
   import YShelf from '/components/shelf'
   export default {
+    data () {
+      return {}
+    },
+    methods: {
+      _footPrint () {
+        footPrint().then(res => {
+          console.log(res)
+        })
+      }
+    },
+    created () {
+      this._footPrint()
+    },
     components: {
       YShelf
     }

@@ -42,6 +42,9 @@
           <input type="text" placeholder="收货地址" v-model="msg.streetName">
         </div>
         <div>
+          <input type="text" placeholder="邮政编码" v-model="msg.postalcode">
+        </div>
+        <div>
           <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>
         </div>
         <y-button text='保存'
@@ -82,6 +85,7 @@
     methods: {
       _addressList () {
         addressList().then(res => {
+          console.log(res)
           let data = res.result
           if (data.length) {
             this.addList = res.result

@@ -80,7 +80,11 @@
                   <div class="choose-all">
                     <span :class="{'checkbox-on':checkAllFlag}" class="blue-checkbox-new" @click="editCheckAll"></span>全选
                   </div>
-                  <div class="delete-choose-goods">删除选中的商品
+                  <div class="delete-choose-goods">
+                    <y-button :classStyle="checkNum > 0?'main-btn':'disabled-btn'"
+                          class="big-main-btn"
+                          style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px"
+                          text="删除选中的商品" @btnClick="_chosenCartDel"></y-button>
                   </div>
                 </div>
               </div>
@@ -211,13 +215,26 @@
         // })
         this.EDIT_CART({productId, productNum, checked})
       },
-      EditNum (productNum, productId, checked) { // 数量
+      // 修改购物车商品数量
+      EditNum (productNum, productId, checked) {
         this._cartEdit(productId, productNum, checked)
       },
       // 删除整条购物车
-      _cartDel (id) {
-        cartDel({params: {goodsId:id}}).then(res => {
-          this.EDIT_CART({id})
+      _cartDel (productId) {
+        cartDel({params: {goodsIds: productId}}).then(res => {
+          this.EDIT_CART({productId})
+        })
+      },
+      // 删除选中购物车
+      _chosenCartDel () {
+        let selectIds = []
+        this.cartList && this.cartList.forEach((item) => {
+          if (item.checked === '1') selectIds.push(item.productId)
+        })
+        cartDel({params: {goodsIds: selectIds.join(',')}}).then(res => {
+          selectIds.forEach(productId => {
+            this.EDIT_CART({productId})
+          })
         })
       },
       checkout () {
