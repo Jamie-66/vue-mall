@@ -37,18 +37,22 @@ module.exports = {
         target: 'http://mall.yucccc.com:3333'
       },
       '/randomImgCodeServlet': {
+        // target: 'http://xc.mysise.org:9999',
         target: 'http://amoy.mysise.org',  // 图形验证码
         changeOrigin: true
       },
       '/sms/*': {
+        // target: 'http://xc.mysise.org:9999',
         target: 'http://amoy.mysise.org',  // 短信验证码
         changeOrigin: true
       },
       '/images': {
+        // target: 'http://xc.mysise.org:9999',
         target: 'http://amoy.mysise.org',  // 商品图片
         changeOrigin: true
       },
       '/consumer': {
+        // target: 'http://xc.mysise.org:9999',
         target: 'http://amoy.mysise.org',
         changeOrigin: true
       }

@@ -11,9 +11,9 @@
             <li v-for="(item,i) in addList"
                 :key="i"
                 class="address pr"
-                :class="{checked:addressId === item.addressId}"
-                @click="defaultAddress(item.addressId)">
-           <span v-if="addressId === item.addressId" class="pa">
+                :class="{checked:addressId === item.id}"
+                @click="defaultAddress(item.id)">
+           <span v-if="addressId === item.id" class="pa">
              <svg viewBox="0 0 1473 1024" width="17.34375" height="12">
              <path
                d="M1388.020 57.589c-15.543-15.787-37.146-25.569-61.033-25.569s-45.491 9.782-61.023 25.558l-716.054 723.618-370.578-374.571c-15.551-15.769-37.151-25.537-61.033-25.537s-45.482 9.768-61.024 25.527c-15.661 15.865-25.327 37.661-25.327 61.715 0 24.053 9.667 45.849 25.327 61.715l431.659 436.343c15.523 15.814 37.124 25.615 61.014 25.615s45.491-9.802 61.001-25.602l777.069-785.403c15.624-15.868 25.271-37.66 25.271-61.705s-9.647-45.837-25.282-61.717M1388.020 57.589z"
@@ -21,12 +21,13 @@
                </path>
              </svg>
              </span>
-              <p>收货人: {{item.userName}} {{item.isDefault ? '(默认地址)' : ''}}</p>
-              <p class="street-name ellipsis">收货地址: {{item.streetName}}</p>
-              <p>手机号码: {{item.tel}}</p>
+              <p>收货人: {{item.consignee}} {{item.isDefault ? '(默认地址)' : ''}}</p>
+              <p class="street-name ellipsis">收货地址: {{item.address}}</p>
+              <p>手机号码: {{item.consigneeMobile}}</p>
+              <p>邮政编码: {{item.postaCode}}</p>
               <div class="operation-section">
                 <span class="update-btn" @click="update(item)">修改</span>
-                <span class="delete-btn" :data-id="item.addressId" @click="del(item.addressId)">删除</span>
+                <span class="delete-btn" :data-id="item.id" @click="del(item.id,i)">删除</span>
               </div>
             </li>
 
@@ -123,12 +124,23 @@
             <input type="text" placeholder="收货地址" v-model="msg.streetName">
           </div>
           <div>
-            <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>
+            <input type="text" placeholder="邮政编码" v-model="msg.postaCode">
           </div>
+          <!-- <div>
+            <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>
+          </div> -->
           <y-button text='保存'
                     class="btn"
                     :classStyle="btnHighlight?'main-btn':'disabled-btn'"
-                    @btnClick="save({addressId:msg.addressId,userName:msg.userName,tel:msg.tel,streetName:msg.streetName,isDefault:msg.isDefault})">
+                    @btnClick="save({
+                      id: msg.addressId,
+                      consignee: msg.userName,
+                      consigneeMobile: msg.tel,
+                      address: msg.streetName,
+                      postaCode:  msg.postaCode })">
+          </y-button>
+          <y-button text='取消'
+                    @btnClick="cancel()">
           </y-button>
         </div>
       </y-popup>
@@ -160,6 +172,7 @@
           userName: '',
           tel: '',
           streetName: '',
+          postaCode: '',
           isDefault: false
         }
       }
@@ -170,7 +183,7 @@
       ),
       btnHighlight () {
         let msg = this.msg
-        return msg.userName && msg.tel && msg.streetName
+        return msg.userName && msg.tel && msg.streetName && msg.postaCode
       },
       // 选中的总价格
       checkPrice () {
@@ -197,27 +210,22 @@
       },
       _addressList () {
         addressList().then(res => {
-          let data = res.result
+          let data = res.data
           if (data.length) {
             this.addList = data
-            this.addressId = data[0].addressId || '1'
+            this.addressId = data[0].id || '1'
           } else {
             this.addList = []
           }
         })
       },
       _addressUpdate (params) {
-        addressUpdate(params).then(res => {
+        addressUpdate({params:params}).then(res => {
           this._addressList()
         })
       },
       _addressAdd (params) {
-        addressAdd(params).then(res => {
-          this._addressList()
-        })
-      },
-      _addressDel (params) {
-        addressDel(params).then(res => {
+        addressAdd({params:params}).then(res => {
           this._addressList()
         })
       },
@@ -258,33 +266,41 @@
         this.popupOpen = true
         if (item) {
           this.popupTitle = '管理收货地址'
-          this.msg.userName = item.userName
-          this.msg.tel = item.tel
-          this.msg.streetName = item.streetName
+          this.msg.userName = item.consignee
+          this.msg.tel = item.consigneeMobile
+          this.msg.streetName = item.address
+          this.msg.postaCode = item.postaCode
           this.msg.isDefault = item.isDefault
-          this.msg.addressId = item.addressId
+          this.msg.addressId = item.id
         } else {
           this.popupTitle = '新增收货地址'
           this.msg.userName = ''
           this.msg.tel = ''
           this.msg.streetName = ''
+          this.msg.postaCode = ''
           this.msg.isDefault = false
           this.msg.addressId = ''
         }
       },
       // 保存
       save (p) {
-        if (p.addressId) {
+        if (p.id) {
           this._addressUpdate(p)
         } else {
-          delete p.addressId
+          delete p.id
           this._addressAdd(p)
         }
         this.popupOpen = false
       },
       // 删除
-      del (addressId) {
-        this._addressDel({addressId})
+      del (addressId, i) {
+        addressDel({params:{ids: addressId}}).then(res => {
+          if (res.code === 0) {
+            this.addList.splice(i, 1)
+          } else {
+            alert('删除失败')
+          }
+        })
       },
       _getGoodsDet (productId) {
         getGoodsDet({params: {productId}}).then(res => {
@@ -295,6 +311,10 @@
           item.productPrice = item.salePrice
           this.o_cartList.push(item)
         })
+      },
+      // 取消编辑
+      cancel () {
+        this.popupOpen = false
       }
     },
     created () {
@@ -359,13 +379,13 @@
       -webkit-user-select: none;
       -o-user-select: none;
       user-select: none;
-      &:hover {
-        background: #F2F2F2;
-        .operation-section {
-          visibility: visible;
-          transform: translate(0, 0);
-        }
-      }
+      // &:hover {
+      //   background: #F2F2F2;
+      //   .operation-section {
+      //     visibility: visible;
+      //     transform: translate(0, 0);
+      //   }
+      // }
       &.add-address-item {
         text-align: center;
         display: flex;

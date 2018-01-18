@@ -2,7 +2,7 @@
   <div class="good-item">
     <div style="">
       <div class="good-img">
-        <router-link :to="'goodsDetails?id='+msg.ID">
+        <router-link :to="'/goodsDetails?id='+msg.ID">
           <img v-lazy="msg.image" :alt="msg.goods_name">
         </router-link>
       </div>
@@ -10,14 +10,21 @@
       <h3 class="sub-title ellipsis">{{msg.description}}</h3>
       <div class="good-price pr">
         <div class="ds pa">
-          <router-link :to="'goodsDetails?id='+msg.ID">
+          <router-link :to="'/goodsDetails?id='+msg.ID">
             <y-button text="查看详情" style="margin: 0 5px"></y-button>
           </router-link>
           <y-button text="加入购物车"
                     style="margin: 0 5px"
                     @btnClick="_addCart(msg.ID,msg.price,msg.goods_name,msg.image,msg.description,msg.actual_stock)"
                     classStyle="main-btn"
-          ></y-button>
+                    v-if="type === 'buy'">
+          </y-button>
+          <y-button text="删除"
+                    style="margin: 0 5px"
+                    @btnClick="_delFoot()"
+                    classStyle="main-btn"
+                    v-if="type === 'delete'">
+          </y-button>
         </div>
         <p><span style="font-size: 16px">￥</span>{{msg.price}}</p>
       </div>
@@ -30,16 +37,17 @@
   import { mapMutations, mapState } from 'vuex'
   export default {
     props: {
-      msg: {type: [Object, Array]}
+      msg: {type: [Object, Array]},
+      type: {
+        type: [String],
+        default: 'buy'
+      }
     },
     data () {
       return {}
     },
     methods: {
       ...mapMutations(['ADD_CART', 'ADD_ANIMATION', 'SHOW_CART']),
-      // goodsDetails (id) {
-      //   this.$router.push({path: 'goodsDetails/productId=' + id})
-      // },
       _addCart (id, price, name, img, description, actual_stock) {
         if (!this.showMoveImg) {  // 动画是否在运动
           if (this.login) {  // 登录了 直接存在用户名下
@@ -78,6 +86,10 @@
             },2000)
           }
         }
+      },
+      // 删除足迹
+      _delFoot () {
+        alert('功能待开发')
       }
     },
     computed: {

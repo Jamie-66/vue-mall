@@ -41,15 +41,23 @@ export const addressList = (params) => {
 }
 // 修改收货地址
 export const addressUpdate = (params) => {
-  return http.fetchPost('/consumer/address/updateAddress', params)
+  return http.fetchGet('/consumer/address/updateAddress', params)
 }
 // 添加收货地址
 export const addressAdd = (params) => {
-  return http.fetchPost('/consumer/address', params)
+  return http.fetchGet('/consumer/address/addAddress', params)
 }
 // 删除收货地址
 export const addressDel = (params) => {
-  return http.fetchPost('/consumer/address/delAddress', params)
+  return http.fetchGet('/consumer/address/delAddress', params)
+}
+// 获取收货地址详情
+export const addressDet = (params) => {
+  return http.fetchGet('/consumer/address/getAddressById', params)
+}
+// 设置默认收货地址
+export const addressDef = (params) => {
+  return http.fetchGet('/consumer/address/setDefaultAddress', params)
 }
 // 支付
 export const payMent = (params) => {
