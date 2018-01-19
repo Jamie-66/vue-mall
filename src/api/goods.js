@@ -69,7 +69,7 @@ export const orderList = (params) => {
 }
 // 生成订单
 export const createOrder = (params) => {
-  return http.fetchPost('/consumer/order/addOrderByCart', params)
+  return http.fetchGet('/consumer/order/addOrderByCart', params)
 }
 // 删除订单
 export const delOrder = (params) => {

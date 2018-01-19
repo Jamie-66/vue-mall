@@ -13,14 +13,14 @@
                 class="address pr"
                 :class="{checked:addressId === item.id}"
                 @click="defaultAddress(item.id)">
-           <span v-if="addressId === item.id" class="pa">
-             <svg viewBox="0 0 1473 1024" width="17.34375" height="12">
-             <path
-               d="M1388.020 57.589c-15.543-15.787-37.146-25.569-61.033-25.569s-45.491 9.782-61.023 25.558l-716.054 723.618-370.578-374.571c-15.551-15.769-37.151-25.537-61.033-25.537s-45.482 9.768-61.024 25.527c-15.661 15.865-25.327 37.661-25.327 61.715 0 24.053 9.667 45.849 25.327 61.715l431.659 436.343c15.523 15.814 37.124 25.615 61.014 25.615s45.491-9.802 61.001-25.602l777.069-785.403c15.624-15.868 25.271-37.66 25.271-61.705s-9.647-45.837-25.282-61.717M1388.020 57.589z"
-               fill="#6A8FE5" p-id="1025">
-               </path>
-             </svg>
-             </span>
+              <span v-if="addressId === item.id" class="pa">
+                <svg viewBox="0 0 1473 1024" width="17.34375" height="12">
+                <path
+                  d="M1388.020 57.589c-15.543-15.787-37.146-25.569-61.033-25.569s-45.491 9.782-61.023 25.558l-716.054 723.618-370.578-374.571c-15.551-15.769-37.151-25.537-61.033-25.537s-45.482 9.768-61.024 25.527c-15.661 15.865-25.327 37.661-25.327 61.715 0 24.053 9.667 45.849 25.327 61.715l431.659 436.343c15.523 15.814 37.124 25.615 61.014 25.615s45.491-9.802 61.001-25.602l777.069-785.403c15.624-15.868 25.271-37.66 25.271-61.705s-9.647-45.837-25.282-61.717M1388.020 57.589z"
+                  fill="#6A8FE5" p-id="1025">
+                  </path>
+                </svg>
+              </span>
               <p>收货人: {{item.consignee}} {{item.isDefault ? '(默认地址)' : ''}}</p>
               <p class="street-name ellipsis">收货地址: {{item.address}}</p>
               <p>手机号码: {{item.consigneeMobile}}</p>
@@ -103,7 +103,7 @@
                             classStyle="main-btn"
                             style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px"
                             text="提交订单"
-                            @btnClick="payment">
+                            @btnClick="_createOrder">
                   </y-button>
                 </div>
               </div>
@@ -137,7 +137,7 @@
                       consignee: msg.userName,
                       consigneeMobile: msg.tel,
                       address: msg.streetName,
-                      postaCode:  msg.postaCode })">
+                      postaCode: msg.postaCode })">
           </y-button>
           <y-button text='取消'
                     @btnClick="cancel()">
@@ -213,7 +213,12 @@
           let data = res.data
           if (data.length) {
             this.addList = data
-            this.addressId = data[0].id || '1'
+            data.forEach(item => {
+              if (item.isDefault === 1) {
+                this.addressId = item.id
+              }
+            })
+            // this.addressId = data[0].id || '1'
           } else {
             this.addList = []
           }
@@ -229,22 +234,25 @@
           this._addressList()
         })
       },
-      // 付款
-      payment () {
+      // 提交订单
+      _createOrder () {
+        let cart = []
         let params = {
           addressId: this.addressId,
           orderPrice: this.totalPrice,
           CCarts: []
         }
+        
         this.o_cartList.forEach(item => {
-          params.CCarts.push({
+          cart.push({
             goodsId: item.productId,
-            id: 1,
+            id: item.id,
             num: item.productNum
           })
         })
+        params.CCarts = JSON.stringify(cart)
         
-        createOrder(params).then(res => {
+        createOrder({params:params}).then(res => {
           console.log(res)
         })
         // 需要拿到地址id

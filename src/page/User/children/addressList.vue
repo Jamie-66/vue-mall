@@ -59,7 +59,7 @@
                     consignee: msg.userName,
                     consigneeMobile: msg.tel,
                     address: msg.streetName,
-                    postaCode:  msg.postaCode })">
+                    postaCode: msg.postaCode })">
         </y-button>
         <y-button text='取消'
                   @btnClick="cancel()">
@@ -122,7 +122,7 @@
       // 默认状态
       changeDef (item) {
         if (!item.isDefault) {
-          item.isDefault = 1
+          // item.isDefault = 1
           addressDef({params:{id: item.id}}).then(res => {
             if (res.code === 0) {
               this._addressList()
@@ -168,7 +168,7 @@
           this.msg.tel = ''
           this.msg.streetName = ''
           this.msg.postaCode = ''
-          this.msg.isDefault = false
+          this.msg.isDefault = 0
           this.msg.addressId = ''
         }
       },

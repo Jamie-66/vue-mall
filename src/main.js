@@ -6,6 +6,7 @@ import VueLazyload from 'vue-lazyload'
 import infiniteScroll from 'vue-infinite-scroll'
 import VueCookie from 'vue-cookie'
 import { userInfo } from './api'
+import { removeStore } from './utils/storage'
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 
@@ -27,6 +28,7 @@ router.beforeEach(function (to, from, next) {
       if (whiteList.indexOf(to.path) !== -1) { // 白名单
         next()
       } else {
+        removeStore('buyCart')  // 登录超时清除本地购物车，否则登录后购物车数量会加倍
         next('/login')
       }
     } else {

@@ -207,6 +207,7 @@
             let cartData = []
             res.data.forEach((item,i) => {
               cartData.push({
+                id: item.id,
                 productId: item.goods_id,
                 productPrice: item.price,
                 productNum: item.num,
