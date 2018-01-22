@@ -76,3 +76,19 @@
 .el-input-group__append {
   padding: 0;
 }
+
+.el-loading-mask.is-fullscreen .el-loading-spinner {
+  width: 100px;
+  height: 100px;
+  border-radius: 3px;
+  background: rgba(0, 0, 0, 0.7);
+  left: 50%;
+  margin-left: -50px;
+  padding: 25px 0;
+}
+.el-message {
+  top: 50%;
+  min-width: 80px;
+  // border-color: rgba(0, 0, 0, .14);
+  // background: rgba(0, 0, 0, 0.7);
+}

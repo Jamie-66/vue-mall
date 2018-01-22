@@ -79,3 +79,15 @@ export const delOrder = (params) => {
 export const footPrint = (params) => {
   return http.fetchGet('/consumer/behavior/getBehaviorPage', params)
 }
+// 收藏列表
+export const getCollections = (params) => {
+  return http.fetchGet('/consumer/collect/getCollectGoodsPage', params)
+}
+// 添加收藏
+export const collectionAdd = (params) => {
+  return http.fetchGet('consumer/collect/save', params)
+}
+// 删除收藏
+export const collectinDel = (params) => {
+  return http.fetchGet('consumer/collect/delete', params)
+}

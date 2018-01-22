@@ -238,32 +238,32 @@
       _createOrder () {
         let cart = []
         let params = {
-          addressId: this.addressId,
+          addressId: JSON.stringify(this.addressId),
           orderPrice: this.totalPrice,
-          CCarts: []
+          cCartIds: ''
         }
         
         this.o_cartList.forEach(item => {
-          cart.push({
-            goodsId: item.productId,
-            id: item.id,
-            num: item.productNum
-          })
+          cart.push(item.id)
         })
-        params.CCarts = JSON.stringify(cart)
+        params.cCartIds = cart.join(',')
         
         createOrder({params:params}).then(res => {
           console.log(res)
+          if (res.code === 0) {
+            // 需要拿到地址id
+            // this.$router.push({
+            //   path: '/order/payment',
+            //   query: {
+            //     'addressId': this.addressId,
+            //     'productId': this.productId,
+            //     'num': this.num
+            //   }
+            // })
+          } else {
+            console.log(res.msg)
+          }
         })
-        // 需要拿到地址id
-        // this.$router.push({
-        //   path: '/order/payment',
-        //   query: {
-        //     'addressId': this.addressId,
-        //     'productId': this.productId,
-        //     'num': this.num
-        //   }
-        // })
       },
       // 选择地址
       defaultAddress (id) {

@@ -41,7 +41,7 @@
                       @btnClick="checkout(product.id)"
                       style="width: 145px;height: 50px;line-height: 48px"></y-button> -->
             <y-button text="点击收藏"
-                      @btnClick="collect(product.id)"
+                      @btnClick="_collectionAdd(product.id)"
                       style="width: 145px;height: 50px;line-height: 48px"></y-button>
           </div>
         </div>
@@ -71,7 +71,7 @@
   </div>
 </template>
 <script>
-  import { getGoodsDet, addCart } from '/api/goods'
+  import { getGoodsDet, addCart, collectionAdd } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
   import YShelf from '/components/shelf'
   import BuyNum from '/components/buynum'
@@ -153,8 +153,14 @@
       checkout (productId) {
         this.$router.push({path: '/checkout', query: {productId, num: this.productNum}})
       },
-      collect (productId) {
-        console.log(productId,'收藏')
+      _collectionAdd (productId) {
+        collectionAdd({params:{goodsId: productId}}).then(res => {
+          if (res.code === 0) {
+            console.log('收藏成功')
+          } else {
+            console.log(res.msg)
+          }
+        })
       },
       editNum (num) {
         this.productNum = num

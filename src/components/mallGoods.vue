@@ -25,6 +25,12 @@
                     classStyle="main-btn"
                     v-if="type === 'delete'">
           </y-button>
+          <y-button text="取消收藏"
+                    style="margin: 0 5px"
+                    @btnClick="_cancelCollect(msg.ID, index)"
+                    classStyle="main-btn"
+                    v-if="type === 'cancel'">
+          </y-button>
         </div>
         <p><span style="font-size: 16px">￥</span>{{msg.price}}</p>
       </div>
@@ -33,7 +39,7 @@
 </template>
 <script>
   import YButton from '/components/YButton'
-  import { addCart } from '/api/goods.js'
+  import { addCart, collectinDel } from '/api/goods.js'
   import { mapMutations, mapState } from 'vuex'
   export default {
     props: {
@@ -41,7 +47,8 @@
       type: {
         type: [String],
         default: 'buy'
-      }
+      },
+      index: {type: [Number]}
     },
     data () {
       return {}
@@ -90,6 +97,16 @@
       // 删除足迹
       _delFoot () {
         alert('功能待开发')
+      },
+      // 取消收藏
+      _cancelCollect (productId, i) {
+        collectinDel({params:{goodsId: productId}}).then(res => {
+          if (res.code === 0) {
+            this.$emit('collect-del', i)
+          } else {
+            console.log(res.msg)
+          }
+        })
       }
     },
     computed: {

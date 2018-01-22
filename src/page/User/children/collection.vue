@@ -4,7 +4,7 @@
       <div slot="content">
         <div v-if="collectList.length">
           <div class="collect-box">
-            <mall-goods :msg="item" :type="'delete'" v-for="(item,i) in collectList" :key="i"></mall-goods>
+            <mall-goods :msg="item" :index="i" :type="'cancel'" @collect-del="collectDel" v-for="(item,i) in collectList" :key="i"></mall-goods>
           </div>
         </div>
         <div v-else style="padding: 80px 0;text-align: center">
@@ -20,7 +20,7 @@
   </div>
 </template>
 <script>
-  import { footPrint } from '/api/goods'
+  import { getCollections, collectinDel } from '/api/goods'
   import YShelf from '/components/shelf'
   import mallGoods from '/components/mallGoods'
   import YButton from '/components/YButton'
@@ -31,24 +31,28 @@
       }
     },
     methods: {
-      // _footPrint () {
-      //   footPrint().then(res => {
-      //     if (res.code === 0) {
-      //       res.data.forEach(item => {
-      //         this.collectList.push({
-      //           ID: item.id,
-      //           price: item.price,
-      //           goods_name: item.goodsName,
-      //           image: item.image,
-      //           description: item.description
-      //         })
-      //       });
-      //     }
-      //   })
-      // }
+      _getCollections () {
+        getCollections().then(res => {
+          if (res.code === 0) {
+            res.data.forEach(item => {
+              this.collectList.push({
+                ID: item.ID,
+                price: item.price,
+                goods_name: item.goods_name,
+                image: item.image,
+                description: item.description
+              })
+            });
+          }
+        })
+      },
+      // 删除成功的子组件回调
+      collectDel (i) {
+        this.collectList.splice(i, 1)
+      }
     },
     created () {
-      // this._footPrint()
+      this._getCollections()
     },
     components: {
       YShelf,

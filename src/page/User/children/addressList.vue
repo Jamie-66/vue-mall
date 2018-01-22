@@ -143,13 +143,25 @@
       },
       // 删除
       del (addressId, i) {
-        addressDel({params:{ids: addressId}}).then(res => {
-          if (res.code === 0) {
-            this.addList.splice(i, 1)
-          } else {
-            alert('删除失败')
-          }
+        // this.$loading({
+        //   lock: true,
+        //   text: 'Loading',
+        //   spinner: 'el-icon-loading',
+        //   background: 'transparent'
+        // })
+        this.$message({
+          message: '删除成功',
+          type: 'success',
+          duration: 0
         })
+        // addressDel({params:{ids: addressId}}).then(res => {
+        //   if (res.code === 0) {
+        //     this.addList.splice(i, 1)
+        //     this.$message.success('删除成功')
+        //   } else {
+        //     this.$message.error('删除失败')
+        //   }
+        // })
       },
       // 修改 -- 弹窗
       update (item) {
