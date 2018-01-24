@@ -33,7 +33,7 @@
   @import "../assets/style/theme";
 
   %style {
-    width: 100px;
+    width: 82px;
     height: 30px;
     line-height: 28px;
     vertical-align: middle;

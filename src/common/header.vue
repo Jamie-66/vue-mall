@@ -859,7 +859,7 @@
   .nav-sub {
     position: relative;
     z-index: 20;
-    height: 90px;
+    height: 60px;
     background: #f7f7f7;
     box-shadow: 0 2px 4px rgba(0, 0, 0, .04);
     &.fixed {
@@ -874,8 +874,8 @@
       background-image: linear-gradient(#fff, #f1f1f1);
     }
     .nav-sub-wrapper {
-      padding: 31px 0;
-      height: 90px;
+      padding: 16px 0;
+      height: 60px;
       position: relative;
       &.fixed {
         padding: 0;
@@ -920,7 +920,7 @@
         padding-left: 2px;
         a {
           display: block;
-          padding: 0 20px;
+          padding: 0 15px;
           color: #666;
         }
       }

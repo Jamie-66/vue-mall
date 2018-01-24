@@ -27,13 +27,13 @@ router.beforeEach(function (to, from, next) {
   userInfo().then(res => {
     if (res.code === 1) { // 没登录
       if (whiteList.indexOf(to.path) !== -1) { // 白名单
-        // if (getStore('userInfo')) {  // session过期导致未登录，把本地购物车和用户信息清除
-        //   removeStore('buyCart')
-        //   removeStore('userInfo')
-        // }
+        if (getStore('userInfo')) {  // session过期导致未登录，把本地购物车和用户信息清除
+          removeStore('buyCart')
+          removeStore('userInfo')
+        }
         next()
       } else {
-        removeStore('buyCart')  // 登录超时清除本地购物车，否则登录后购物车数量会加倍
+        // removeStore('buyCart')  // 登录超时清除本地购物车，否则登录后购物车数量会加倍
         next('/login')
       }
     } else {

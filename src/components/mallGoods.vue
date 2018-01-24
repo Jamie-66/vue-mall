@@ -125,9 +125,14 @@
 
   .good-item {
     background: #fff;
-    width: 25%;
+    // width: 25%;
+    width: 49%;
     transition: all .5s;
-    height: 430px;
+    // height: 430px;
+    border-radius: 5px;
+    &:nth-child(odd) {
+      margin-right: 5px;
+    }
     &:hover {
       transform: translateY(-3px);
       box-shadow: 1px 1px 20px #999;
@@ -146,22 +151,22 @@
 
     .good-img {
       img {
-        margin: 50px auto 10px;
-        @include wh(206px);
+        margin: 6px auto 10px;
+        @include wh(200px);
         display: block;
       }
     }
     .good-price {
-      margin: 15px 0;
+      margin: 10px 0;
       height: 30px;
       text-align: center;
       line-height: 30px;
       color: #e4393c;
-      font-size: 20px;
+      font-size: 18px;
     }
     .good-title {
       line-height: 1.2;
-      font-size: 16px;
+      font-size: 14px;
       color: #424242;
       margin: 0 auto;
       padding: 0 14px;

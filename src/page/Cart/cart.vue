@@ -108,12 +108,11 @@
           </div>
         </div>
         <div v-else style="padding:50px">
-          <div class="cart-e">
-          </div>
+          <div class="cart-e"></div>
           <p style="text-align: center;padding: 20px;color: #8d8d8d">你的购物车空空如也</p>
           <div style="text-align: center">
             <router-link to="/goods">
-              <y-button text="现在选购" style="width: 150px;height: 40px;line-height: 38px;color: #8d8d8d"></y-button>
+              <y-button text="现在选购" style="height: 30px;line-height: 28px;color: #8d8d8d;font-size: 14px;"></y-button>
             </router-link>
           </div>
 
@@ -255,9 +254,10 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
   .store-content {
     clear: both;
-    width: 1220px;
-    min-height: 600px;
-    padding: 0 0 25px;
+    // width: 1220px;
+    // min-height: 600px;
+    // padding: 0 0 25px;
+    padding-bottom: 53px;
     margin: 0 auto;
     .gray-box {
       position: relative;
@@ -272,7 +272,7 @@
         padding-left: 30px;
         position: relative;
         z-index: 10;
-        height: 60px;
+        height: 45px;
         padding: 0 10px 0 24px;
         border-bottom: 1px solid #d4d4d4;
         border-radius: 8px 8px 0 0;
@@ -280,9 +280,12 @@
         background: #f3f3f3;
         background: -webkit-linear-gradient(#fbfbfb, #ececec);
         background: linear-gradient(#fbfbfb, #ececec);
-        line-height: 60px;
-        font-size: 18px;
+        line-height: 45px;
+        font-size: 16px;
         color: #333;
+        h2 {
+          color: #626262;
+        }
       }
     }
     .ui-cart {
@@ -420,7 +423,7 @@
   }
 
   .page-cart {
-    padding-top: 40px;
+    padding-top: 15px;
     .fix-bottom {
       height: 90px;
       width: 100%;
@@ -536,8 +539,9 @@
   .cart-e {
     margin: 0 auto;
     background: url("/static/images/cart-empty_@2x.png") no-repeat;
-    width: 275px;
-    height: 300px;
+    background-size: 100%;
+    width: 150px;
+    height: 160px;
     color: #8d8d8d;
   }
 

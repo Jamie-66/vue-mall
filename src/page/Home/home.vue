@@ -22,7 +22,7 @@
 
     <section class="w mt30 clearfix">
       <y-shelf title="热门商品">
-        <div slot="content" class="hot">
+        <div slot="content" class="floors">
           <mall-goods :msg="item" v-for="(item,i) in hot" :key="i"></mall-goods>
         </div>
       </y-shelf>
@@ -141,6 +141,10 @@
     perspective: 3000px;
     position: relative;
     z-index: 19;
+  }
+
+  .carousel {
+    margin-top: 15px;
   }
 
   .bg {
@@ -276,7 +280,7 @@
   }
 
   .mt30 {
-    margin-top: 30px;
+    margin-top: 15px;
   }
 
   .hot {
@@ -292,6 +296,8 @@
     display: flex;
     flex-wrap: wrap;
     align-items: center;
+    padding-top: 3px;
+    padding-bottom: 33px;
     .imgbanner {
       width: 50%;
       height: 430px;

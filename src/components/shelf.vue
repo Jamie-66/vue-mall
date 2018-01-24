@@ -33,7 +33,7 @@
       padding-left: 30px;
       position: relative;
       z-index: 10;
-      height: 60px;
+      height: 45px;
       padding: 0 10px 0 24px;
       border-bottom: 1px solid #d4d4d4;
       border-radius: 8px 8px 0 0;
@@ -42,14 +42,15 @@
       background: -webkit-linear-gradient(#fbfbfb, #ececec);
       background: linear-gradient(#fbfbfb, #ececec);
       line-height: 60px;
-      font-size: 18px;
+      font-size: 16px;
       color: #333;
       display: flex;
       justify-content: space-between;
       align-items: center;
       h2 {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
+        line-height: 45px;
         color: #626262;
         display: inline-block;
       }
