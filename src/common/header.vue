@@ -255,7 +255,8 @@
       // 退出登陆
       _loginOut () {
         loginOut().then(res => {
-          removeStore('buyCart')
+          removeStore('buyCart')   // 清除本地购物车
+          removeStore('userInfo')  // 清除本地用户信息
           window.location.href = '/'
         })
       }

@@ -145,6 +145,7 @@
       login_addCart () {
         let cartArr = []
         let locaCart = JSON.parse(getStore('buyCart'))
+        console.log(locaCart)
         if (locaCart && locaCart.length) {
           locaCart.forEach(item => {
             cartArr.push({

@@ -67,6 +67,7 @@
             this.goods.forEach(item => {
               item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
             });
+            // this.busy = true
           } else {
             clearTimeout(this.timer)
             this.busy = true
