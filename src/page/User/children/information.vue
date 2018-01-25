@@ -3,7 +3,7 @@
     <y-shelf title="账户资料">
       <div slot="content">
         <div class="avatar-box">
-          <div class=img-box><img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt=""></div>
+          <div class="img-box"><img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt=""></div>
           <div class="r-box">
             <h3>修改用户信息</h3>
             <!-- <y-button text="更换头像" classStyle="main-btn" @btnClick="editAvatar()"></y-button> -->
@@ -12,19 +12,27 @@
           </div>
         </div>
         <div class="edit-userInfo">
-          <div class="userMsg form-horizontal" v-if="editType===''">
-            <div class="form-group">
-              <label class="col-xs-1">用户名: </label>
-              <div class="col-xs-11">{{userInfo.info.name}}</div>
-            </div>
-            <div class="form-group">
-              <label class="col-xs-1">账号: </label>
-              <div class="col-xs-11">{{userInfo.info.mobile}}</div>
-            </div>
+          <div class="userMsg" v-if="editType===''">
+            <ul>
+              <li class="first">
+                <span class="fl">头像</span>
+                <span class="fr avatar">
+                  <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt="">
+                </span>
+              </li>
+              <li>
+                <span class="fl">会员名</span>
+                <span class="fr">{{userInfo.info.name}}</span>
+              </li>
+              <li>
+                <span class="fl">账号</span>
+                <span class="fr">{{userInfo.info.mobile}}</span>
+              </li>
+            </ul>
           </div>
           <div class="edit-msg" v-else-if="editType==='message'">
-            <div>
-              <input type="text" v-model="editUserInfo.userName" placeholder="用户名">
+            <div class="edit-input">
+              <el-input type="text" size="small" v-model="editUserInfo.userName" placeholder="用户昵称"></el-input>
             </div>
             <span style="font-size: 12px;color: #d44d44">{{editUserInfo.errMsg}}</span>
             <div style="margin-top: 15px;">
@@ -34,13 +42,13 @@
           </div>
           <div class="edit-psw" v-else-if="editType==='password'">
             <div>
-              <input type="text" v-model="editPsw.oldPassword" placeholder="当前密码">
+              <el-input type="text" size="small" v-model="editPsw.oldPassword" placeholder="当前密码"></el-input>
             </div>
             <div>
-              <input type="password" v-model="editPsw.password" placeholder="新密码">
+              <el-input type="password" size="small" v-model="editPsw.password" placeholder="新密码"></el-input>
             </div>
             <div>
-              <input type="password" v-model="editPsw.c_password" placeholder="确认新密码">
+              <el-input type="password" size="small" v-model="editPsw.c_password" placeholder="确认新密码"></el-input>
             </div>
             <span style="font-size: 12px;color: #d44d44">{{editPsw.errMsg}}</span>
             <div style="margin-top: 15px;">
@@ -104,8 +112,8 @@
   </div>
 </template>
 <script>
-  import YButton from '/components/YButton'
   import { upload, updateheadimage, editUser, editPassword, userInfo } from '/api/index'
+  import YButton from '/components/YButton'
   import YShelf from '/components/shelf'
   import vueCropper from 'vue-cropper'
   import { mapState, mapMutations } from 'vuex'
@@ -278,11 +286,15 @@
 <style lang="scss" scoped>
   @import "../../../assets/style/mixin";
 
+  .gray-box {
+    margin-bottom: 53px;
+  }
+
   .avatar-box {
-    height: 124px;
+    height: 120px;
     display: flex;
-    margin: 0 30px 30px;
-    border-bottom: #dadada solid 1px;
+    padding: 0 30px;
+    // border-bottom: #dadada solid 1px;
     line-height: 30px;
     display: flex;
     align-items: center;
@@ -290,13 +302,13 @@
       @include wh(80px);
       border-radius: 5px;
       overflow: hidden;
+      margin-right: 20px;
     }
     img {
       display: block;
       @include wh(100%)
     }
     .r-box {
-      margin-left: 20px;
       h3 {
         font-size: 18px;
         font-weight: 400;
@@ -305,7 +317,8 @@
     }
   }
   .edit-userInfo {
-    margin: 0 30px 30px;
+    padding: 0 30px 20px;
+    margin-top: 15px;
   }
 
   // 修改头像
@@ -416,6 +429,7 @@
     align-items: center;
     justify-content: space-between;
   }
+
   input[type=text], input[type=password] {
     border: 1px solid #ccc;
     line-height: 28px;
@@ -423,4 +437,38 @@
     margin-bottom: 7px;
     border-radius: 3px;
   }
+
+  .userMsg {
+    li {
+      height: 48px;
+      border-top: 1px solid #EBEBEB;
+      line-height: 48px;
+      padding: 0 10px;
+      &.first {
+        height: 54px;
+        line-height: 54px;
+        .avatar {
+          padding-top: 4px;
+        }
+      }
+      .avatar{
+        // width: 45px;
+        height: 100%;
+        line-height: 100%;
+        img {
+          width: 45px;
+          height: 45px;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+
+  .edit-input, .edit-psw {
+    padding-right: 60px;
+    .el-input {
+      margin-bottom: 10px;
+    }
+  }
+
 </style>

@@ -7,35 +7,39 @@
             <div class="gray-sub-title cart-title">
               <div class="first">
                 <div>
-                  <span class="date" v-text="item.createDate"></span>
-                  <span class="order-id"> 订单号： <a href="javascript:;">{{item.orderId}}</a> </span>
+                  <span class="date" v-text="item.time"></span>
+                  <span class="order-id"> 订单号： <a href="javascript:;">{{item.id}}</a> </span>
                 </div>
                 <div class="f-bc">
                   <span class="price">单价</span>
                   <span class="num">数量</span>
-                  <span class="operation">商品操作</span>
+                  <!-- <span class="operation">商品操作</span> -->
                 </div>
               </div>
               <div class="last">
                 <span class="sub-total">实付金额</span>
-                <span class="order-detail"> <a href="javascript:;">查看详情<em class="icon-font"></em></a> </span>
+                <span class="order-detail">订单状态</span>
               </div>
             </div>
             <div class="pr">
-              <div class="cart" v-for="(good,j) in item.goodsList" :key="j">
+              <div class="cart" v-for="(good,j) in item.orderGoodsList" :key="j">
                 <div class="cart-l" :class="{bt:j>0}">
                   <div class="car-l-l">
-                    <div class="img-box"><img
-                      :src="good.productImg"
-                      alt=""></div>
-                    <div class="ellipsis">{{good.productName}}</div>
+                    <div class="img-box">
+                      <img :src="good.image" alt="">
+                    </div>
+                    <!-- <div class="ellipsis">{{good.goods_name}}</div> -->
+                    <div class="ellipsis">
+                      <p>{{good.goods_name}}</p>
+                      <p>{{good.description}}</p>
+                    </div>
                   </div>
                   <div class="cart-l-r">
-                    <div>¥ {{good.productPrice}}</div>
-                    <div class="num">{{good.productNum}}</div>
-                    <div class="type"><a @click="_delOrder(item.orderId,i)" href="javascript:;" v-if="j<1"
-                                         class="del-order">删除此订单</a>
-                    </div>
+                    <div>¥ {{good.price}}</div>
+                    <div class="num">{{good.num}}</div>
+                    <!-- <div class="type">
+                      <a @click="_delOrder(item.id,i)" href="javascript:;" v-if="j<1" class="del-order">删除此订单</a>
+                    </div> -->
                   </div>
                 </div>
                 <div class="cart-r">
@@ -44,10 +48,17 @@
                 </div>
               </div>
               <div class="prod-operation pa" style="right: 0;top: 0;">
-                <div class="total">¥ {{item.orderTotal}}</div>
-                <div class="status"> {{item.orderStatus === '1' ? '已支付' : '已关闭'}}  </div>
+                <div class="total">¥ {{item.orderPrice}}</div>
+                <div class="status" v-if="item.state === 0">已取消</div>
+                <div class="status" v-else-if="item.state === 1">待发货</div>
+                <div class="status" v-else-if="item.state === 2">已发货</div>
+                <div class="status" v-else-if="item.state === 3">已收货</div>
+                <div class="status" v-else-if="item.state === 4">待付款</div>
               </div>
             </div>
+          </div>
+          <div class="operation">
+            <y-button text="删除订单" @btnClick="_delOrder(item.id,i)"></y-button>
           </div>
         </div>
         <div v-else>
@@ -63,6 +74,7 @@
 <script>
   import { orderList, delOrder } from '/api/goods'
   import YShelf from '/components/shelf'
+  import YButton from '/components/YButton'
   export default {
     data () {
       return {
@@ -72,7 +84,9 @@
     methods: {
       _orderList () {
         orderList().then(res => {
-          this.orderList = res.result
+          if (res.code === 0) {
+            this.orderList = res.data
+          }
         })
       },
       _delOrder (orderId, i) {
@@ -89,7 +103,8 @@
       this._orderList()
     },
     components: {
-      YShelf
+      YShelf,
+      YButton
     }
   }
 </script>
@@ -219,5 +234,11 @@
     div:last-child {
       padding-right: 24px;
     }
+  }
+
+  .operation {
+    border-top: 1px solid #dcdcdc;
+    padding: 10px 20px;
+    text-align: right;
   }
 </style>

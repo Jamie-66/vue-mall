@@ -257,11 +257,11 @@
     // width: 1220px;
     // min-height: 600px;
     // padding: 0 0 25px;
-    padding-bottom: 53px;
+    padding-bottom: 10px;
     margin: 0 auto;
     .gray-box {
       position: relative;
-      margin-bottom: 30px;
+      margin-bottom: 53px;
       overflow: hidden;
       background: #fff;
       border-radius: 8px;

@@ -8,6 +8,7 @@ const goodsDetails = resolve => require(['/page/Goods/goodsDetails'], resolve)
 const Cart = resolve => require(['/page/Cart/cart'], resolve)
 const order = resolve => require(['/page/Order/order'], resolve)
 const user = resolve => require(['/page/User/user'], resolve)
+const userCenter = resolve => require(['/page/User/children/usercenter'], resolve)
 const orderList = resolve => require(['/page/User/children/order'], resolve)
 const information = resolve => require(['/page/User/children/information'], resolve)
 const addressList = resolve => require(['/page/User/children/addressList'], resolve)
@@ -48,8 +49,9 @@ export default new Router({
       path: '/user',
       name: 'user',
       component: user,
-      redirect: '/user/information',
+      redirect: '/user/usercenter',
       children: [
+        {path: 'usercenter', name: '用户中心', component: userCenter},
         {path: 'orderList', name: '订单列表', component: orderList},
         {path: 'information', name: '账户资料', component: information},
         {path: 'addressList', name: '收货地址', component: addressList},

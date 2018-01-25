@@ -11,7 +11,7 @@
       <div class="good-price pr">
         <div class="ds pa">
           <router-link :to="'/goodsDetails?id='+msg.ID">
-            <y-button text="查看详情" style="margin: 0 5px"></y-button>
+            <y-button text="查看详情" style="margin: 0 5px;"></y-button>
           </router-link>
           <y-button text="加入购物车"
                     style="margin: 0 5px"
@@ -130,6 +130,7 @@
     transition: all .5s;
     // height: 430px;
     border-radius: 5px;
+    padding-bottom: 5px;
     &:nth-child(odd) {
       margin-right: 5px;
     }
@@ -152,7 +153,7 @@
     .good-img {
       img {
         margin: 6px auto 10px;
-        @include wh(200px);
+        @include wh(170px);
         display: block;
       }
     }
@@ -178,7 +179,7 @@
       line-height: 1.2;
       font-size: 12px;
       color: #d0d0d0;
-      padding: 10px;
+      padding: 5px 10px;
     }
 
   }

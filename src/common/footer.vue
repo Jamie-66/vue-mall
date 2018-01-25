@@ -28,7 +28,7 @@
           {name: '收藏', path1: '/user/', path2: 'collection', icon: 'fa fa-star-o'},
           {name: '足迹', path1: '/user/', path2: 'footprint', icon: 'fa fa-paw'},
           {name: '购物车', path1: '/', path2: 'cart', icon: 'fa fa-shopping-cart'},
-          {name: '用户中心', path1: '/user/', path2: 'information', icon: 'fa fa-user'}
+          {name: '用户中心', path1: '/user/', path2: 'usercenter', icon: 'fa fa-user'}
         ],
       }
     },

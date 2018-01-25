@@ -33,7 +33,8 @@
   @import "../assets/style/theme";
 
   %style {
-    width: 82px;
+    min-width: 80px;
+    padding: 0 8px;
     height: 30px;
     line-height: 28px;
     vertical-align: middle;
@@ -42,7 +43,7 @@
   @mixin color($a,$b,$c) {
     border: 1px solid $a;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 14px;
     color: $b;
     background-color: $c;
   }

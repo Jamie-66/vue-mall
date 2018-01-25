@@ -124,7 +124,7 @@
       display: flex;
       align-items: center;
       a {
-        padding: 0 15px;
+        padding: 0 8px;
         height: 100%;
         @extend %block-center;
         font-size: 12px;
@@ -137,15 +137,16 @@
         }
       }
       input {
-        @include wh(80px, 30px);
+        @include wh(43px, 24px);
         border: 1px solid #ccc;
+        line-height: 22px;
       }
       input + input {
         margin-left: 10px;
       }
     }
     .price-interval {
-      padding: 0 15px;
+      padding: 0 8px;
       @extend %block-center;
       input[type=number] {
         border: 1px solid #ccc;

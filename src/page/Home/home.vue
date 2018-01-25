@@ -145,6 +145,7 @@
 
   .carousel {
     margin-top: 15px;
+    padding: 0 10px;
   }
 
   .bg {
@@ -281,6 +282,7 @@
 
   .mt30 {
     margin-top: 15px;
+    padding: 0 10px 10px;
   }
 
   .hot {
@@ -297,7 +299,6 @@
     flex-wrap: wrap;
     align-items: center;
     padding-top: 3px;
-    padding-bottom: 33px;
     .imgbanner {
       width: 50%;
       height: 430px;

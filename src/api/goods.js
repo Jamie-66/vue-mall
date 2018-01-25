@@ -65,7 +65,7 @@ export const payMent = (params) => {
 }
 // 订单列表
 export const orderList = (params) => {
-  return http.fetchPost('/users/orderList', params)
+  return http.fetchGet('/consumer/order/getOrderList', params)
 }
 // 生成订单
 export const createOrder = (params) => {
@@ -73,7 +73,7 @@ export const createOrder = (params) => {
 }
 // 删除订单
 export const delOrder = (params) => {
-  return http.fetchPost('/users/delOrder', params)
+  return http.fetchPost('/consumer/order/delOrder', params)
 }
 // 商品足迹
 export const footPrint = (params) => {

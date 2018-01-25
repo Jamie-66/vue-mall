@@ -23,10 +23,10 @@
             <div class="nav-aside" ref="aside" :class="{fixed:st}">
               <!-- 搜索 -->
               <div class="search pr">
-                <input type="text" placeholder="搜索">
-                <span><i class="el-icon-search"></i></span>
+                <input type="text" placeholder="搜索" v-model="keyword" @keyup.13="goodSearch">
+                <span @click="goodSearch"><i class="el-icon-search"></i></span>
               </div>
-              <div class="user pr">
+              <div class="user pr" :class="{active:showUser}">
                 <a v-if="!login" href="#/login"></a>
                 <a v-else href="javascript:;" @click="userShowState"></a>
                 <!-- 用户信息显示 -->
@@ -63,8 +63,7 @@
                   </div>
                 </div>
               </div>
-              <div class="shop pr" @click="cartShowState"
-                   ref="positionMsg">
+              <div class="shop pr" @click="cartShowState" ref="positionMsg" :class="{active:showCart}">
                 <!-- <router-link to="cart"></router-link> -->
                 <a href="javascript:;"></a>
                 <span class="cart-num">
@@ -107,13 +106,11 @@
                         class="price-icon">¥</span><span
                         class="price-num">{{totalPrice}}</span></h5>
                         <h6>
-                          <y-button classStyle="main-btn"
-                                    style="height: 40px;width: 100%;margin: 0;color: #fff;font-size: 14px;line-height: 38px"
-                                    text="去购物车" @btnClick="toCart"></y-button>
+                          <y-button classStyle="main-btn" text="去购物车" @btnClick="toCart"></y-button>
                         </h6>
                       </div>
                     </div>
-                    <div v-show="!totalNum" style="height: 313px;text-align: center" class="cart-con">
+                    <div v-show="!totalNum" style="height: 160px;text-align: center" class="cart-con">
                       <p>你的购物车竟然是空的!</p>
                     </div>
                   </div>
@@ -142,6 +139,7 @@
         </div>
       </slot>
     </div>
+    <div class="mask" v-show="showMask" @click="maskShowState"></div>
   </div>
 </template>
 <script>
@@ -154,15 +152,14 @@
     data () {
       return {
         user: {},
-        // 查询数据库的商品
-        st: true,
-        // 头部用户信息显示
-        showUser: false,
-        // 头部购物车显示
-        cartShow: false,
+        st: false,           // 控制顶部
+        showUser: false,     // 头部用户信息显示
+        cartShow: false,     // 头部购物车显示
         positionL: 0,
         positionT: 0,
-        timerCartShow: null // 定时隐藏购物车
+        timerCartShow: null, // 定时隐藏购物车
+        keyword: '',         // 商品搜索
+        showMask: false      // 控制遮罩层
       }
     },
     computed: {
@@ -190,15 +187,23 @@
       ...mapMutations(['ADD_CART', 'INIT_BUYCART', 'ADD_ANIMATION', 'SHOW_CART', 'REDUCE_CART', 'RECORD_USERINFO', 'EDIT_CART']),
       // 购物车显示
       cartShowState () {
+        this.cartShow ? this.showMask = false : this.showMask = true
         this.cartShow = !this.cartShow
         this.SHOW_CART({showCart: this.cartShow})
         this.showUser = false
       },
       // 用户信息显示
       userShowState () {
+        this.showUser ? this.showMask = false : this.showMask = true
         this.showUser = !this.showUser
         this.cartShow = false
         this.SHOW_CART({showCart: this.cartShow})
+      },
+      // 遮罩层显示
+      maskShowState () {
+        this.showUser = false
+        this.SHOW_CART({showCart: false})
+        this.showMask = false
       },
       // 登陆时获取一次购物车商品
       _getCartList () {
@@ -259,6 +264,12 @@
           removeStore('userInfo')  // 清除本地用户信息
           window.location.href = '/'
         })
+      },
+      // 商品搜索
+      goodSearch () {
+        if (this.keyword) {
+          console.log(this.keyword)
+        }
       }
     },
     mounted () {
@@ -364,6 +375,16 @@
 
   }
 
+  .mask {
+    position: fixed;
+    top: 0;
+    bottom: 53px;
+    left: 0;
+    right: 0;
+    z-index: 29;
+    background: rgba(0, 0, 0, .1);
+  }
+
   header {
     height: 100px;
     z-index: 30;
@@ -387,6 +408,7 @@
         @include wh(50px, 40px);
         text-indent: -9999px;
         background-position: 0 0;
+        margin-left: 10px;
       }
     }
     .nav-list {
@@ -425,7 +447,7 @@
         // margin-left: 451px;
         margin-top: 0;
         z-index: 32;
-        top: -40px;
+        top: -43px;
         -webkit-transform: translate3d(0, 59px, 0);
         transform: translate3d(0, 59px, 0);
         -webkit-transition: -webkit-transform .3s cubic-bezier(.165, .84, .44, 1);
@@ -456,7 +478,8 @@
     // 搜索
     .search {
       input {
-        height: 28px;
+        height: 26px;
+        width: 150px;
         padding: 0 25px 0 10px;
         border: 1px solid #eee;
         border-radius: 2px;
@@ -464,16 +487,16 @@
       span {
         position: absolute;
         right: 5px;
-        top: 5px;
+        top: 3px;
         font-size: 18px;
         cursor: pointer;
       }
     }
     // 用户
     .user {
-      margin-left: 41px;
+      margin-left: 5px;
       width: 36px;
-      &:hover {
+      &.active {
         a:before {
           background-position: -5px 0;
         }
@@ -507,8 +530,8 @@
         text-align: center;
         position: relative;
         border-top: 1px solid #f5f5f5;
-        line-height: 44px;
-        height: 44px;
+        line-height: 36px;
+        height: 36px;
         color: #616161;
         font-size: 12px;
         &:hover {
@@ -548,7 +571,7 @@
 
         }
         .name {
-          margin-bottom: 16px;
+          margin-bottom: 10px;
           font-size: 12px;
           line-height: 1.5;
           text-align: center;
@@ -556,12 +579,12 @@
         }
       }
       .nav-user-wrapper {
-        width: 168px;
+        width: 140px;
         transform: translate(-50%);
         left: 50%;
       }
       .nav-user-list {
-        width: 168px;
+        width: 140px;
         &:before {
           left: 50%;
         }
@@ -571,10 +594,10 @@
     .shop {
       position: relative;
       float: left;
-      margin-left: 21px;
+      // margin-left: 21px;
       width: 61px;
       z-index: 99;
-      &:hover {
+      &.active {
         a:before {
           content: " ";
           background-position: 0 -19px;
@@ -636,11 +659,11 @@
 
       }
       .nav-user-wrapper {
-        right: 0;
+        right: 8px;
         width: 328px;
         .nav-user-list {
           &:before {
-            right: 34px;
+            right: 25px;
           }
         }
       }
@@ -770,7 +793,7 @@
       .nav-cart-total {
         box-sizing: content-box;
         position: relative;
-        padding: 20px;
+        padding: 12px;
         height: 40px;
         background: #fafafa;
         border-top: 1px solid #f0f0f0;
@@ -802,8 +825,8 @@
         h6 {
           position: absolute;
           right: 20px;
-          top: 20px;
-          width: 108px;
+          top: 17px;
+          // width: 108px;
         }
       }
     }
@@ -837,7 +860,7 @@
     top: -3000px;
     .nav-user-list {
       position: relative;
-      padding-top: 20px;
+      padding-top: 12px;
       background: #fff;
       border: 1px solid #d6d6d6;
       border-color: rgba(0, 0, 0, .08);
@@ -947,9 +970,9 @@
     text-align: center;
     position: relative;
     p {
-      padding-top: 185px;
+      padding-top: 110px;
       color: #333333;
-      font-size: 16px;
+      font-size: 14px;
     }
   }
 
