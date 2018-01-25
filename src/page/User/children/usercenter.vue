@@ -53,6 +53,7 @@
       padding-top: 20px;
       border-radius: 10px;
       text-align: center;
+      background: #fff;
       img {
         width: 168px;
         height: 168px;

@@ -23,8 +23,11 @@
             <div class="nav-aside" ref="aside" :class="{fixed:st}">
               <!-- 搜索 -->
               <div class="search pr">
-                <input type="text" placeholder="搜索" v-model="keyword" @keyup.13="goodSearch">
-                <span @click="goodSearch"><i class="el-icon-search"></i></span>
+                <el-input placeholder="搜索" size="mini" v-model="keyword">
+                  <i slot="suffix" class="el-input__icon el-icon-search" @click="goodSearch"></i>
+                </el-input>
+                <!-- <input type="text" placeholder="搜索" v-model="keyword" @keyup.13="goodSearch"> -->
+                <!-- <span @click="goodSearch"><i class="el-icon-search"></i></span> -->
               </div>
               <div class="user pr" :class="{active:showUser}">
                 <a v-if="!login" href="#/login"></a>
@@ -477,20 +480,21 @@
     }
     // 搜索
     .search {
-      input {
-        height: 26px;
-        width: 150px;
-        padding: 0 25px 0 10px;
-        border: 1px solid #eee;
-        border-radius: 2px;
-      }
-      span {
-        position: absolute;
-        right: 5px;
-        top: 3px;
-        font-size: 18px;
-        cursor: pointer;
-      }
+      width: 150px;
+      // input {
+      //   height: 26px;
+      //   width: 150px;
+      //   padding: 0 25px 0 10px;
+      //   border: 1px solid #eee;
+      //   border-radius: 2px;
+      // }
+      // span {
+      //   position: absolute;
+      //   right: 5px;
+      //   top: 3px;
+      //   font-size: 18px;
+      //   cursor: pointer;
+      // }
     }
     // 用户
     .user {

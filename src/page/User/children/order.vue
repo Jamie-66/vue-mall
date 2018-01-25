@@ -159,6 +159,10 @@
     margin-left: 20px;
   }
 
+  .pr {
+    background: #fff;
+  }
+
   .cart {
     display: flex;
     justify-content: space-between;

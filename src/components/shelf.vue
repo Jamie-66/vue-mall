@@ -24,7 +24,7 @@
     position: relative;
     margin-bottom: 53px;
     overflow: hidden;
-    background: #fff;
+    // background: #fff;
     border-radius: 8px;
     border: 1px solid #dcdcdc;
     border-color: rgba(0, 0, 0, .14);
@@ -41,7 +41,7 @@
       background: #f3f3f3;
       background: -webkit-linear-gradient(#fbfbfb, #ececec);
       background: linear-gradient(#fbfbfb, #ececec);
-      line-height: 60px;
+      line-height: 45px;
       font-size: 16px;
       color: #333;
       display: flex;

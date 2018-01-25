@@ -288,6 +288,7 @@
 
   .gray-box {
     margin-bottom: 53px;
+    background: #fff;
   }
 
   .avatar-box {

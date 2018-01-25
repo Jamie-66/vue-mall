@@ -4,8 +4,8 @@
 
       <div class="w">
         <a href="javascript:;" @click="reset()" :class="{active:sortType===1}">综合排序</a>
-        <a href="javascript:;" @click="sort(1)" :class="{active:sortType===2}">价格从低到高</a>
-        <a href="javascript:;" @click="sort(-1)" :class="{active:sortType===3}">价格从高到低</a>
+        <a href="javascript:;" @click="sort(1)" :class="{active:sortType===2}">价格<i class="fa fa-caret-up fa-fw"></i></a>
+        <a href="javascript:;" @click="sort(-1)" :class="{active:sortType===3}">价格<i class="fa fa-caret-down fa-fw"></i></a>
         <div class="price-interval">
           <input type="number" class="input" placeholder="价格" v-model="min">
           <span style="margin: 0 5px"> - </span>
@@ -127,7 +127,7 @@
         padding: 0 8px;
         height: 100%;
         @extend %block-center;
-        font-size: 12px;
+        font-size: 14px;
         color: #999;
         &.active {
           color: #5683EA;
@@ -151,7 +151,7 @@
       input[type=number] {
         border: 1px solid #ccc;
         text-align: center;
-        background: none;
+        background: #fff;
         border-radius: 5px;
       }
     }

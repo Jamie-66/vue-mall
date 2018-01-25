@@ -58,7 +58,8 @@ export default {
         background: rgba(0, 0, 0, .5);
     }
     .content {
-        width: 30%;
+        // width: 63%;
+        width: 260px;
         background: #fff;
         border-radius: 10px;
     }
@@ -67,7 +68,7 @@ export default {
         z-index: 10;
         overflow: hidden;
         width: 100%;
-        height: 60px;
+        height: 45px;
         background: #F5F5F5;
         background: linear-gradient(#FFF,#F5F5F5);
         border-bottom: 1px solid #DCDCDC;
@@ -75,9 +76,9 @@ export default {
         box-shadow: 2px 0 5px rgba(0,0,0,.1);
     }
     .dialog-tit {
-        height: 60px;
+        height: 45px;
         padding: 0 15px;
-        line-height: 60px;
+        line-height: 45px;
          h4 {
         text-align: center;
         font-size: 18px;
@@ -86,7 +87,7 @@ export default {
         }
     }
     .s-content{
-        padding: 30px 15px;
+        padding: 20px 15px 10px;
     }
     .close{
         position: absolute;

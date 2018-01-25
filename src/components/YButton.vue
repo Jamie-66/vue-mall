@@ -33,7 +33,7 @@
   @import "../assets/style/theme";
 
   %style {
-    min-width: 80px;
+    // min-width: 80px;
     padding: 0 8px;
     height: 30px;
     line-height: 28px;

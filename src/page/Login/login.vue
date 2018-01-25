@@ -32,7 +32,7 @@
             <y-button text="登录"
                       :classStyle="ruleForm.userPwd&&ruleForm.mobile&&ruleForm.sysCode?'main-btn':'disabled-btn'"
                       @btnClick="login"
-                      style="margin: 0;width: 100%;height: 48px;font-size: 18px;line-height: 48px"></y-button>
+                      style="margin: 0;width: 100%;height: 46px;font-size: 18px;line-height: 46px"></y-button>
           </div>
           <ul class="common-form pr">
             <li class="pa" style="left: 0;top: 0;margin: 0;color: #d44d44">{{ruleForm.errMsg}}</li>
