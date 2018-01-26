@@ -19,12 +19,12 @@
                     classStyle="main-btn"
                     v-if="type === 'buy'">
           </y-button>
-          <y-button text="删除"
+          <!-- <y-button text="删除"
                     style="margin: 0 5px"
                     @btnClick="_delFoot()"
                     classStyle="main-btn"
                     v-if="type === 'delete'">
-          </y-button>
+          </y-button> -->
           <y-button text="取消收藏"
                     style="margin: 0 5px"
                     @btnClick="_cancelCollect(msg.ID, index)"
@@ -131,6 +131,7 @@
     // height: 430px;
     border-radius: 5px;
     padding-bottom: 5px;
+    margin-bottom: 5px;
     &:nth-child(odd) {
       margin-right: 5px;
     }

@@ -112,11 +112,12 @@
   </div>
 </template>
 <script>
-  import { upload, updateheadimage, editUser, editPassword, userInfo } from '/api/index'
+  import { upload, updateheadimage, editUser, editPassword, userInfo, loginOut } from '/api/index'
   import YButton from '/components/YButton'
   import YShelf from '/components/shelf'
   import vueCropper from 'vue-cropper'
   import { mapState, mapMutations } from 'vuex'
+  import { removeStore } from '/utils/storage'
   export default {
     data () {
       return {
@@ -226,29 +227,42 @@
           let params = {
             name: this.editUserInfo.userName
           }
+
           editUser({params:params}).then(res => {
             if (res.code === 0) {
+              this.editType = ''
+              this.$message.success('修改成功')
+              
               userInfo().then(res => {
                 if (res.code === 0) {
                   this.RECORD_USERINFO({info: res.data})
                 }
               })
-              this.editType = ''
             } else {
               this.editUserInfo.errMsg = res.msg
             }
           })
+
         } else if (type === 'password') {
           if (this.editPsw.password === this.editPsw.c_password) {
             let params = {
               oldPassword: this.editPsw.oldPassword,
               password: this.editPsw.password
             }
+
             editPassword({params:params}).then(res => {
               if (res.code === 0) {
                 this.editPsw.errMsg = ''
                 this.editType = ''
-                console.log(res.msg)
+                
+                let self = this
+                this.$message({
+                  message: '密码修改成功, 3s后将退出重新登录...',
+                  type: 'success',
+                  onClose: function() {
+                    self._loginOut()
+                  }
+                })
               } else {
                 this.editPsw.errMsg = res.msg
               }
@@ -274,6 +288,14 @@
             this.editPsw[key] = ''
           }
         }
+      },
+      // 退出登陆
+      _loginOut () {
+        loginOut().then(res => {
+          removeStore('buyCart')   // 清除本地购物车
+          removeStore('userInfo')  // 清除本地用户信息
+          this.$router.push({path: '/login'})
+        })
       }
     },
     components: {

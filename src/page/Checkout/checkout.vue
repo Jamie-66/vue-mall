@@ -249,19 +249,18 @@
         params.cCartIds = cart.join(',')
         
         createOrder({params:params}).then(res => {
-          console.log(res)
           if (res.code === 0) {
             // 需要拿到地址id
-            // this.$router.push({
-            //   path: '/order/payment',
-            //   query: {
-            //     'addressId': this.addressId,
-            //     'productId': this.productId,
-            //     'num': this.num
-            //   }
-            // })
+            this.$router.push({
+              path: '/order/payment',
+              query: {
+                'addressId': this.addressId,
+                'productId': this.productId,
+                'num': this.num
+              }
+            })
           } else {
-            console.log(res.msg)
+            this.$message.error('订单添加失败')
           }
         })
       },

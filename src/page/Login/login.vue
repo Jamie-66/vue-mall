@@ -285,7 +285,7 @@
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
   * {
-    box-sizing: content-box;
+    box-sizing: border-box;
   }
   // element ui
   .el-input-group__append {

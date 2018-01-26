@@ -4,17 +4,24 @@
     <div class="gray-box">
       <div class="gallery-wrapper">
         <div class="gallery">
-          <div class="thumbnail">
+          <!-- <div class="thumbnail">
             <ul>
               <li v-for="(item, i) in small" :key="i" :class="{on:big===item}" @click="big=item">
                 <img v-lazy="item" :alt="product.goodsName">
               </li>
             </ul>
-          </div>
+          </div> -->
           <div class="thumb">
-            <div class="big">
+            <!-- <div class="big">
               <img :src="big" :alt="product.goodsName">
-            </div>
+            </div> -->
+            <el-carousel :interval="3000" arrow="never" height="200px" indicator-position="outside">
+              <el-carousel-item v-for="(item,i) in small" :key="i">
+                <div style="height: 100%;width: 100%;">
+                  <img :src="item" style="height: 100%;">
+                </div>
+              </el-carousel-item>
+            </el-carousel>
           </div>
         </div>
       </div>
@@ -24,6 +31,8 @@
           <h4>{{product.goodsName}}</h4>
           <h6>
             <span>{{product.description}}</span>
+          </h6>
+          <h6>
             <span class="price"><em>¥</em><i>{{product.price}}</i></span>
           </h6>
         </div>
@@ -33,22 +42,15 @@
             <buy-num @edit-num="editNum" :limit="Number(product.actualStock)"></buy-num>
           </div>
           <div class="buy">
-            <y-button text="加入购物车"
-                      @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"
-                      classStyle="main-btn"
-                      style="width: 145px;height: 50px;line-height: 48px"></y-button>
-            <!-- <y-button text="现在购买"
-                      @btnClick="checkout(product.id)"
-                      style="width: 145px;height: 50px;line-height: 48px"></y-button> -->
-            <y-button text="点击收藏"
-                      @btnClick="_collectionAdd(product.id)"
-                      style="width: 145px;height: 50px;line-height: 48px"></y-button>
+            <y-button text="加入购物车" classStyle="main-btn" @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"></y-button>
+            <!-- <y-button text="现在购买" @btnClick="checkout(product.id)"></y-button> -->
+            <y-button text="点击收藏" @btnClick="_collectionAdd(product.id)"></y-button>
           </div>
         </div>
         <div class="similar" v-else>
           <span>该商品已下架</span>
           <router-link to="/goods">
-            <y-button text="看看其他" style="width: 145px;height: 50px;line-height: 48px"></y-button>
+            <y-button text="看看其他"></y-button>
           </router-link>
         </div>
       </div>
@@ -58,9 +60,10 @@
       <y-shelf title="产品信息">
         <div slot="content">
           <div class="img-item" v-if="productMsg">
-            <img v-for="(item,i) in productMsg.pieces_num" :key="i"
+            <!-- <img v-for="(item,i) in productMsg.pieces_num" :key="i"
                  v-lazy="`${productMsg.url}?x-oss-process=image/resize,w_2440/indexcrop,y_1440,i_${item-1}/quality,Q_100/format,webp`"
-                 alt="">
+                 alt=""> -->
+                 <img v-lazy="productMsg.url[0]" alt="">
           </div>
           <div class="no-info" v-else>
             该产品暂无内容
@@ -180,20 +183,21 @@
 
   .store-content {
     clear: both;
-    width: 1220px;
-    min-height: 600px;
+    // width: 1220px;
+    // min-height: 600px;
     padding: 0 0 25px;
     margin: 0 auto;
   }
 
   .gray-box {
-    display: flex;
-    padding: 60px;
-    margin: 20px 0;
+    // display: flex;
+    padding: 20px;
+    margin: 20px 10px;
+    background: #fff;
     .gallery-wrapper {
       .gallery {
-        display: flex;
-        width: 540px;
+        // display: flex;
+        // width: 540px;
         .thumbnail {
           li:first-child {
             margin-top: 0px;
@@ -223,20 +227,21 @@
           }
           img {
             display: block;
-            @include wh(440px)
+            margin: 0 auto;
+            @include wh(auto,100%)
           }
         }
       }
     }
     // 右边
     .banner {
-      width: 450px;
-      margin-left: 10px;
+      // width: 450px;
+      // margin-left: 10px;
       h4 {
-        font-size: 24px;
+        font-size: 16px;
         line-height: 1.25;
         color: #000;
-        margin-bottom: 13px;
+        margin-bottom: 5px;
       }
       h6 {
         font-size: 14px;
@@ -248,7 +253,7 @@
       }
       .sku-custom-title {
         overflow: hidden;
-        padding: 8px 8px 18px 10px;
+        padding: 8px 8px 12px 10px;
         position: relative;
       }
       .params-name {
@@ -258,7 +263,7 @@
         line-height: 36px;
       }
       .num {
-        padding: 29px 0 8px 10px;
+        padding: 10px 8px;
         border-top: 1px solid #ebebeb;
         display: flex;
         align-items: center;
@@ -266,7 +271,11 @@
       .buy {
         position: relative;
         border-top: 1px solid #ebebeb;
-        padding: 30px 0 0 10px;
+        padding: 10px;
+        text-align: right;
+        > input {
+          margin-left: 5px;
+        }
       }
       .similar {
         span {
@@ -284,7 +293,8 @@
       display: block;
     }
     .img-item {
-      width: 1220px;
+      // width: 1220px;
+      padding: 0 10px;
       img {
         width: 100%;
         height: auto;
@@ -294,9 +304,9 @@
   }
 
   .no-info {
-    padding: 200px 0;
+    padding: 80px 0;
     text-align: center;
-    font-size: 30px;
+    font-size: 16px;
   }
 
   .price {
@@ -306,6 +316,7 @@
     font-size: 16px;
     line-height: 20px;
     text-align: right;
+    margin-top: 8px;
     i {
       padding-left: 2px;
       font-size: 24px;

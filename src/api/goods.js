@@ -75,6 +75,10 @@ export const createOrder = (params) => {
 export const delOrder = (params) => {
   return http.fetchPost('/consumer/order/delOrder', params)
 }
+// 修改订单状态
+export const setOrderState = (params) => {
+  return http.fetchGet('/consumer/order/setOrderState', params)
+}
 // 商品足迹
 export const footPrint = (params) => {
   return http.fetchGet('/consumer/behavior/getBehaviorPage', params)

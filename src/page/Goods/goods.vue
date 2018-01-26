@@ -4,14 +4,14 @@
 
       <div class="w">
         <a href="javascript:;" @click="reset()" :class="{active:sortType===1}">综合排序</a>
-        <a href="javascript:;" @click="sort(1)" :class="{active:sortType===2}">价格<i class="fa fa-caret-up fa-fw"></i></a>
-        <a href="javascript:;" @click="sort(-1)" :class="{active:sortType===3}">价格<i class="fa fa-caret-down fa-fw"></i></a>
-        <div class="price-interval">
+        <a href="javascript:;" @click="sort(true)" :class="{active:sortType===2}">价格<i class="fa fa-caret-up fa-fw"></i></a>
+        <a href="javascript:;" @click="sort(false)" :class="{active:sortType===3}">价格<i class="fa fa-caret-down fa-fw"></i></a>
+        <!-- <div class="price-interval">
           <input type="number" class="input" placeholder="价格" v-model="min">
           <span style="margin: 0 5px"> - </span>
           <input type="number" placeholder="价格" v-model="max">
           <y-button text="确定" classStyle="main-btn" @btnClick="reset" style="margin-left: 10px;"></y-button>
-        </div>
+        </div> -->
       </div>
     </div>
 
@@ -33,8 +33,8 @@
     data () {
       return {
         goods: [],
-        min: '',
-        max: '',
+        // min: '',
+        // max: '',
         busy: false,
         timer: null,
         sortType: 1,
@@ -43,7 +43,9 @@
         params: {
           current: 1,   // 页码
           size: 10,     // 每页显示数量
-          sort: ''      // 排序
+          sort: '',     // 排序
+          orderBy: '',  // 价格排序
+          isAsc: true   // 默认升序
         }
       }
     },
@@ -52,7 +54,8 @@
         let params = {
           current: this.params.current,
           size: this.params.size,
-          sort: ''
+          orderByField: this.params.orderBy,
+          isAsc: this.params.isAsc
           // priceGt: this.min,
           // priceLte: this.max
         }
@@ -77,16 +80,19 @@
       // 默认排序
       reset () {
         this.sortType = 1
-        this.params.sort = ''
-        // this.params.current = 1
+        this.params.orderBy = ''
+        this.params.isAsc = true
+        this.params.current = 1
+        this.params.size = 10
         this.busy = false
         this._getGoods()
       },
       // 价格排序
       sort (v) {
-        v === 1 ? this.sortType = 2 : this.sortType = 3
-        this.params.sort = v
-        // this.params.current = 1
+        v ? this.sortType = 2 : this.sortType = 3
+        this.params.orderBy = 'price'
+        this.params.isAsc = v
+        this.params.current = 1
         this.busy = false
         this._getGoods()
       },

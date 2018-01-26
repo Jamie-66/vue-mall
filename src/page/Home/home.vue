@@ -157,8 +157,8 @@
     background-size: 100% 100%;
     border-radius: 10px;
     transform-style: preserve-3d;
-    -webkit-transform-origin: 50% 50%;
-    -webkit-transform: rotateY(0deg) rotateX(0deg);
+    transform-origin: 50% 50%;
+    transform: rotateY(0deg) rotateX(0deg);
   }
 
   .img {
@@ -193,15 +193,15 @@
   }
 
   .a {
-    -webkit-transform: translateZ(40px);
+    transform: translateZ(40px);
   }
 
   .b {
-    -webkit-transform: translateZ(20px);
+    transform: translateZ(20px);
   }
 
   .c {
-    -webkit-transform: translateZ(0px);
+    transform: translateZ(0px);
   }
 
   .sk_item {

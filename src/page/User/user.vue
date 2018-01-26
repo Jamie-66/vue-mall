@@ -55,9 +55,9 @@
       ...mapState(['userInfo'])
     },
     methods: {
-      tab (e) {
-        this.$router.push({path: '/user/' + e.path})
-      }
+      // tab (e) {
+      //   this.$router.push({path: '/user/' + e.path})
+      // }
     },
     created () {
       // let path = this.$route.path.split('/')[2]

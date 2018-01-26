@@ -101,4 +101,17 @@
     background-image: linear-gradient(180deg, #b8b8b8, #a9a9a9);
   }
 
+  // 删除
+  .danger-btn {
+    @include color(#f66b6b, #fff, #f56868);
+    @extend %style;
+    background-image: -webkit-linear-gradient(top, #f56868, #f56c6c);
+    background-image: linear-gradient(180deg, #f56868, #f56c6c);
+    &:hover {
+      background-color: #eee;
+      background-image: -webkit-linear-gradient(top, #f56868, #f34848);
+      background-image: linear-gradient(180deg, #f56868, #f34848);
+    }
+  }
+
 </style>

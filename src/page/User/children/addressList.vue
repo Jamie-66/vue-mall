@@ -53,9 +53,9 @@
           </div>
         </div>
         <div v-else>
-          <div style="padding: 80px 0;text-align: center">
-            <div style="font-size: 20px">你还未添加收货地址</div>
-            <div style="margin: 20px ">
+          <div class="empty">
+            <div class="empty-msg">你还未添加收货地址</div>
+            <div class="empty-btn">
               <y-button text="添加地址" @btnClick="update()"></y-button>
             </div>
           </div>
@@ -140,13 +140,23 @@
       // 修改地址
       _addressUpdate (params) {
         addressUpdate({params:params}).then(res => {
-          this._addressList()
+          if (res.code === 0) {
+            this._addressList()
+            this.$message.success('修改成功')
+          } else {
+            this.$message.error('修改失败')
+          }
         })
       },
       // 新增地址
       _addressAdd (params) {
         addressAdd({params:params}).then(res => {
-          this._addressList()
+          if (res.code === 0) {
+            this._addressList()
+            this.$message.success('添加成功')
+          } else {
+            this.$message.error('添加失败')
+          }
         })
       },
       // 默认状态
@@ -155,6 +165,7 @@
           // item.isDefault = 1
           addressDef({params:{id: item.id}}).then(res => {
             if (res.code === 0) {
+              this.$message.success('设置默认地址成功')
               this._addressList()
             }
           })
@@ -179,19 +190,14 @@
         //   spinner: 'el-icon-loading',
         //   background: 'transparent'
         // })
-        this.$message({
-          message: '删除成功',
-          type: 'success',
-          duration: 0
+        addressDel({params:{ids: addressId}}).then(res => {
+          if (res.code === 0) {
+            this.addList.splice(i, 1)
+            this.$message.success('删除成功')
+          } else {
+            this.$message.error('删除失败')
+          }
         })
-        // addressDel({params:{ids: addressId}}).then(res => {
-        //   if (res.code === 0) {
-        //     this.addList.splice(i, 1)
-        //     this.$message.success('删除成功')
-        //   } else {
-        //     this.$message.error('删除失败')
-        //   }
-        // })
       },
       // 修改 -- 弹窗
       update (item) {
@@ -305,17 +311,21 @@
     &:not(:last-child) {
       margin-bottom: 10px;
     }
+
     > div {
       overflow: hidden;
       padding: 0 10px;
     }
+
     .item-name {
       line-height: 28px;
     }
+
     .item-address {
       padding-bottom: 10px;
       padding-top: 5px;
     }
+
     .operation {
       padding-top: 10px;
       border-top: 1px solid #CFCFCF;
@@ -324,6 +334,7 @@
       }
     }
   }
+
   .md {
     > div {
       margin-bottom: 6px;
@@ -332,4 +343,17 @@
       padding-top: 15px;
     }
   }
+
+  .empty {
+    padding: 80px 0;
+    text-align: center;
+    background: #fff;
+    .empty-msg {
+      font-size: 18px;
+    }
+    .empty-btn {
+      margin: 20px
+    }
+  }
+
 </style>
