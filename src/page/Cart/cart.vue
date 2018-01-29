@@ -22,7 +22,9 @@
               <div class="cart-table" v-for="(item,i) in cartList" :key="i">
                 <div class="cart-group divide pr" :data-goodsid="item.productId">
                   <div class="cart-top-items">
-                    <div class="cart-items-operate"><a href="javascript:;" v-text="item.operateState==='0'?'编辑':'完成'" @click="item.operateState==='0'?(EDIT_CART({operateState: '1'})):(EDIT_CART({operateState: '0'}))"></a></div>
+                    <div class="cart-items-operate">
+                      <a href="javascript:;" v-text="item.operateState==='0'?'编辑':'完成'" @click="editCart('operate',item)"></a>
+                    </div>
                     <div class="cart-items clearfix">
                       <!--勾选-->
                       <div class="items-choose">
@@ -194,10 +196,14 @@
           let checked = item.checked
           let productId = item.productId
           let productNum = item.productNum
+          let operateState = item.operateState
           // 勾选
           if (type === 'check') {
             let newChecked = checked === '1' ? '0' : '1'
             this._cartEdit(productId, productNum, newChecked)
+          } else if (type === 'operate') {
+            let newOperate = operateState === '1' ? '0' : '1'
+            this.EDIT_CART({productId: productId,operateState: newOperate})
           }
         } else {
           console.log('缺少所需参数')
@@ -239,7 +245,6 @@
       }
     },
     mounted () {
-      console.log(this.cartList)
       this.INIT_BUYCART()
     },
     components: {
