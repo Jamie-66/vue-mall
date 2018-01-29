@@ -150,6 +150,9 @@
           this.ADD_ANIMATION({moveShow: true, elLeft: elLeft, elTop: elTop, img: img})
           if (!this.showCart) {
             this.SHOW_CART({showCart: true})
+            setTimeout(_=>{
+              this.SHOW_CART({showCart: false})
+            },2000)
           }
         }
       },

@@ -92,13 +92,19 @@ export default {
     setStore('buyCart', state.cartList)
   },
   // 修改购物车
-  [EDIT_CART] (state, {productId, productNum, checked}) {
+  [EDIT_CART] (state, {productId, productNum, checked, operateState}) {
     let cart = state.cartList
     if (productNum) {
       cart.forEach((item, i) => {
         if (item.productId === productId) {
           item.productNum = productNum
           item.checked = checked
+        }
+      })
+    } else if (operateState) {
+      cart.forEach((item, i) => {
+        if (item.productId === productId) {
+          item.operateState = operateState
         }
       })
     } else if (productId) {

@@ -223,7 +223,8 @@
                 productImg: item.image,
                 productDescript: item.description,
                 productStock: item.actual_stock,
-                checked: '0'
+                checked: '0',
+                operateState: '0'
               })
             })
             setStore('buyCart', cartData)

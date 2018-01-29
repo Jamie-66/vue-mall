@@ -11,17 +11,18 @@
           <div class="ui-cart">
             <div>
               <!--标题-->
-              <div class="cart-table-title">
+              <!-- <div class="cart-table-title">
                 <span class="name">商品信息</span>
                 <span class="operation">操作</span>
                 <span class="subtotal">小计</span>
                 <span class="num">数量</span>
                 <span class="price1">单价</span>
-              </div>
+              </div> -->
               <!--列表-->
               <div class="cart-table" v-for="(item,i) in cartList" :key="i">
                 <div class="cart-group divide pr" :data-goodsid="item.productId">
                   <div class="cart-top-items">
+                    <div class="cart-items-operate"><a href="javascript:;" v-text="item.operateState==='0'?'编辑':'完成'" @click="item.operateState==='0'?(EDIT_CART({operateState: '1'})):(EDIT_CART({operateState: '0'}))"></a></div>
                     <div class="cart-items clearfix">
                       <!--勾选-->
                       <div class="items-choose">
@@ -35,37 +36,36 @@
                         <a href="javascript:;" :title="item.productName" target="_blank"></a>
                       </div>
                       <!--信息-->
-                      <div class="name hide-row fl">
+                      <div class="name hide-row fl" v-show="item.operateState === '0'">
                         <div class="name-table">
-                          <a href="javascript:;" :title="item.productName" target="_blank"
-                             v-text="item.productName"></a>
-                          <ul class="attribute">
-                            <li v-text="item.productDescript"></li>
-                          </ul>
+                          <a href="javascript:;" :title="item.productName" v-text="item.productName" target="_blank"></a>
+                          <p class="attribute" v-text="item.productDescript"></p>
+                          <div>
+                            <!--价格-->
+                            <span class="fl">¥ {{item.productPrice}}</span>
+                            <!--数量-->
+                            <span class="fr">x {{item.productNum}}</span>
+                          </div>
                         </div>
                       </div>
-                      <!--删除按钮-->
-                      <div class="operation">
-                        <a class="items-delete-btn" @click="_cartDel(item.productId)"></a>
-                      </div>
-                      <!--商品数量-->
-                      <div>
+                      <!--操作-->
+                      <div class="operate" v-show="item.operateState === '1'">
                         <!--总价格-->
-                        <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
-                        <!--数量-->
+                        <!-- <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div> -->
+                        <!--数量编辑-->
                         <buy-num :num="item.productNum"
                                  :id="item.productId"
                                  :checked="item.checked"
-                                 style="height: 140px;
-                                   display: flex;
-                                   align-items: center;
-                                   justify-content: center;"
+                                 style="display: flex;align-items: center;justify-content: center;"
                                  :limit="item.productStock"
-                                 @edit-num="EditNum"
-                        >
+                                 @edit-num="EditNum">
                         </buy-num>
                         <!--价格-->
-                        <div class="price1">¥ {{item.productPrice}}</div>
+                        <!-- <div class="price1">¥ {{item.productPrice}}</div> -->
+                        <!--删除按钮-->
+                        <div class="operation">
+                          <a class="items-delete-btn" @click="_cartDel(item.productId)"></a>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -83,26 +83,25 @@
                   <div class="delete-choose-goods">
                     <y-button :classStyle="checkNum > 0?'main-btn':'disabled-btn'"
                           class="big-main-btn"
-                          style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px"
-                          text="删除选中的商品" @btnClick="_chosenCartDel"></y-button>
+                          text="删除选中" @btnClick="_chosenCartDel"></y-button>
                   </div>
                 </div>
               </div>
               <div class="shipping">
                 <div class="shipping-box">
-                  <div class="shipping-total shipping-num"><h4
+                  <!-- <div class="shipping-total shipping-num"><h4
                     class="highlight">已选择 <i v-text="checkNum"></i> 件商品</h4>
                     <h5>共计 <i v-text="totalNum"></i> 件商品</h5></div>
                   <div class="shipping-total shipping-price"><h4
                     class="highlight">应付总额：<span>￥</span><i v-text="checkPrice"></i>
                   </h4>
                     <h5 class="shipping-tips ng-scope">应付总额不含运费</h5>
-                  </div>
+                  </div> -->
+                  <div>合计：<span>￥</span><i v-text="checkPrice"></i></div>
                 </div>
                 <y-button :classStyle="checkNum > 0?'main-btn':'disabled-btn'"
                           class="big-main-btn"
-                          style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px"
-                          text="现在结算" @btnClick="checkout"></y-button>
+                          :text="'结算('+checkNum+')'" @btnClick="checkout"></y-button>
               </div>
             </div>
           </div>
@@ -115,7 +114,6 @@
               <y-button text="现在选购" style="height: 30px;line-height: 28px;color: #8d8d8d;font-size: 14px;"></y-button>
             </router-link>
           </div>
-
         </div>
       </div>
     </div>
@@ -241,6 +239,7 @@
       }
     },
     mounted () {
+      console.log(this.cartList)
       this.INIT_BUYCART()
     },
     components: {
@@ -289,7 +288,7 @@
       }
     }
     .ui-cart {
-      padding-bottom: 91px;
+      // padding-bottom: 91px;
       .cart-table-title {
         position: relative;
         z-index: 1;
@@ -316,13 +315,23 @@
           border-top: 1px dashed #eee;
         }
       }
+      .cart-items-operate {
+        height: 38px;
+        line-height: 38px;
+        // border-bottom: 1px solid #DBDBDB;
+        box-shadow: 0 -1px 3px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.06);
+        padding: 0 10px;
+        background: #fff;
+        text-align: right;
+      }
       .cart-items {
         position: relative;
-        height: 140px;
-        margin-left: 74px;
+        display: flex;
+        // height: 140px;
+        margin-left: 39px;
         /*删除*/
         .operation {
-          padding: 58px 0 0;
+          padding: 34px 10px 0 0;
           font-size: 12px;
           line-height: 24px;
           .items-delete-btn {
@@ -354,11 +363,11 @@
         .price1,
         .subtotal {
           overflow: hidden;
-          float: right;
-          width: 137px;
+          float: left;
+          // width: 137px;
           text-align: center;
           color: #666;
-          line-height: 140px;
+          // line-height: 140px;
         }
       }
       .cart-group.divide .cart-top-items:first-child .cart-items {
@@ -366,24 +375,24 @@
       }
       .items-choose {
         position: absolute;
-        left: -74px;
+        left: -30px;
         top: 0;
-        width: 74px;
+        width: 20px;
         height: 20px;
-        padding: 60px 0 0 31px;
+        padding: 35px 0 0 0;
         font-size: 12px;
         color: #999;
       }
       .items-thumb {
         position: relative;
-        margin-top: 30px;
+        margin: 10px 0;
         overflow: hidden;
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
       }
       img {
-        width: 80px;
-        height: 80px;
+        width: 70px;
+        height: 70px;
       }
       .cart-items .items-thumb > a, .ui-cart .cart-items .items-thumb > i {
         position: absolute;
@@ -397,25 +406,42 @@
         box-shadow: inset 0 0 0 1px rgba(0, 0, 0, .06);
       }
       .name {
-        width: 380px;
-        margin-left: 20px;
+        display: flex;
+        flex: 1;
+        // width: 380px;
+        margin-left: 10px;
+        padding: 10px 10px 10px 0;
+        overflow: hidden;
         color: #323232;
-        display: table;
+        // display: table;
         a {
           color: #333;
           font-size: 16px;
+          word-break: break-all;
+        }
+        p {
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
         }
       }
+      .operate {
+        display: flex;
+        justify-content: space-between;
+        margin-left: 10px;
+        flex: 1;
+      }
       .name-table {
-        display: table-cell;
+        // display: table-cell;
         vertical-align: middle;
-        height: 140px;
+        width: 100%;
+        // height: 140px;
       }
       .attribute, .name p {
         color: #999;
         font-size: 12px;
         padding-top: 4px;
-        line-height: 17px;
+        line-height: 14px;
       }
 
     }
@@ -425,17 +451,23 @@
   .page-cart {
     padding-top: 15px;
     .fix-bottom {
-      height: 90px;
+      // height: 90px;
+      height: 53px;
       width: 100%;
-      position: absolute;
-      bottom: 0;
-      z-index: 1;
+      // position: absolute;
+      position: fixed;
+      // bottom: 0;
+      bottom: 54px;
+      left: 0;
+      right: 0;
+      z-index: 100;
       background-position: center;
       background: #fdfdfd;
       background: -webkit-linear-gradient(#fdfdfd, #f9f9f9);
       background: linear-gradient(#fdfdfd, #f9f9f9);
       border-top: 1px solid #e9e9e9;
-      box-shadow: 0 -3px 8px rgba(0, 0, 0, .04);
+      // box-shadow: 0 -3px 8px rgba(0, 0, 0, .04);
+      box-shadow: 0 -3px 8px rgba(0, 0, 0, .04), 0 2px 8px rgba(0, 0, 0, .1);
       .cart-bottom-bg {
         height: 80px;
         /*background: url(../img/store/library/cart-wrapper-bg_4c8003c76e.jpg) repeat-x;*/
@@ -445,8 +477,9 @@
     }
     .cart-bar-operation {
       float: left;
-      padding: 35px 26px;
-      font-size: 12px;
+      // padding: 35px 26px;
+      padding: 16px 8px;
+      font-size: 14px;
     }
     .blue-checkbox-new {
       float: left;
@@ -478,12 +511,14 @@
     }
     .delete-choose-goods {
       position: relative;
-      margin-left: 21px;
+      // margin-left: 21px;
+      margin-left: 12px;
       color: #bbb;
     }
     .shipping {
       float: right;
-      padding: 20px 30px;
+      // padding: 20px 30px;
+      padding: 16px 8px;
     }
     .shipping-box {
       display: inline-block;
@@ -532,7 +567,9 @@
     }
     .big-main-btn {
       float: right;
-      height: 48px;
+      // height: 48px;
+      height: 30px;
+      margin-top: -4px;
     }
   }
 
