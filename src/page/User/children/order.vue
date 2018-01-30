@@ -57,7 +57,7 @@
             <div class="operation">
               <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="_setOrderState(item.id, 0)"></y-button>
               <y-button v-if="item.state==4" text="取消订单" @btnClick="_setOrderState(item.id, 0)"></y-button>
-              <y-button v-if="item.state==2" text="确认收货" @btnClick="_setOrderState(item.id, 3)"></y-button>
+              <y-button v-if="item.state==2 || item.state==1" classStyle="main-btn" text="确认收货" @btnClick="_setOrderState(item.id, 3)"></y-button>
               <y-button v-if="item.state==0||item.state==3" text="删除订单" classStyle="danger-btn" @btnClick="_delOrder(item.id,i)"></y-button>
             </div>
           </div>
@@ -319,9 +319,10 @@
   }
 
   .empty {
-    padding: 100px 0;
+    padding: 90px 0;
     text-align: center;
-    font-size: 16px;
+    font-size: 14px;
+    background: #fff;
   }
 
 </style>

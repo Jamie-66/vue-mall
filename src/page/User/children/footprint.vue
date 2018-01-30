@@ -7,9 +7,9 @@
             <mall-goods :msg="item" :type="'delete'" v-for="(item,i) in footList" :key="i"></mall-goods>
           </div>
         </div>
-        <div v-else style="padding: 80px 0;text-align: center">
-          <div style="font-size: 20px">你还未浏览过任何东西</div>
-          <div style="margin: 20px ">
+        <div v-else class="empty">
+          <div class="empty-tip">你还未浏览过任何东西</div>
+          <div class="empty-operate">
             <router-link to="/goods">
               <y-button text="现在浏览"></y-button>
             </router-link>
@@ -61,6 +61,16 @@
   .foot-box>div {
     float: left;
     border: 1px solid #efefef;
+  }
+
+  .empty {
+    padding: 60px 0;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
+    .empty-operate {
+      margin: 20px;
+    }
   }
 </style>
 
