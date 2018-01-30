@@ -55,7 +55,7 @@
               <div class="total">共<span>{{3}}</span>件商品 合计：¥<span class="total-price">{{item.orderPrice}}</span></div>
             </div>
             <div class="operation">
-              <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="_setOrderState(item.id, 0)"></y-button>
+              <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="_setOrderState(item.id, 1)"></y-button>
               <y-button v-if="item.state==4" text="取消订单" @btnClick="_setOrderState(item.id, 0)"></y-button>
               <y-button v-if="item.state==2 || item.state==1" classStyle="main-btn" text="确认收货" @btnClick="_setOrderState(item.id, 3)"></y-button>
               <y-button v-if="item.state==0||item.state==3" text="删除订单" classStyle="danger-btn" @btnClick="_delOrder(item.id,i)"></y-button>
@@ -101,7 +101,7 @@
       },
       // 删除订单
       _delOrder (orderId, i) {
-        delOrder({ID: orderId}).then(res => {
+        delOrder({params:{orderIds: orderId}}).then(res => {
           if (res.code === 0) {
             this.$message.success('删除成功')
             this.orderList.splice(i, 1)
@@ -114,6 +114,20 @@
       _setOrderState (id, state) {
         setOrderState({params:{id: id,state: state}}).then(res => {
           console.log(res)
+          if (res.code === 0) {
+            switch (state) {
+              case 0: 
+                this.$message.success('订单取消成功')
+                break
+              case 1: 
+                this.$message.success('支付成功')
+                break
+              case 3 :
+                this.$message.success('已确认收货')
+                break
+            }
+            this._orderList()
+          }
         })
       },
       // 订单状态
@@ -319,7 +333,7 @@
   }
 
   .empty {
-    padding: 90px 0;
+    padding: 80px 0;
     text-align: center;
     font-size: 14px;
     background: #fff;

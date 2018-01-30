@@ -90,9 +90,7 @@
                       address: msg.streetName,
                       postaCode: msg.postaCode })">
           </y-button>
-          <y-button text='取消'
-                    @btnClick="cancel()">
-          </y-button>
+          <y-button text='取消' @btnClick="cancel()"></y-button>
         </div>
       </div>
     </y-popup>
@@ -341,6 +339,9 @@
     }
     .submit {
       padding-top: 15px;
+      > input:last-child {
+        margin-left: 4px;
+      }
     }
   }
 

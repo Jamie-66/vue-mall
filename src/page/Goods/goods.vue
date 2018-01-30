@@ -16,12 +16,17 @@
     </div>
 
     <!--商品-->
-    <div class="goods-box w">
-      <mall-goods v-for="(item,i) in goods" :key="i" :msg="item"></mall-goods>
+    <div v-if="goods.length">
+      <div class="goods-box w">
+        <mall-goods v-for="(item,i) in goods" :key="i" :msg="item"></mall-goods>
+      </div>
+      <div v-show="!busy" class="w" style="text-align: center;background: #fff" v-infinite-scroll="loadMore"
+          infinite-scroll-disabled="busy" infinite-scroll-immediate-check="true" infinite-scroll-distance="100">
+        正在加载中...
+      </div>
     </div>
-    <div v-show="!busy" class="w" style="text-align: center;background: #fff" v-infinite-scroll="loadMore"
-         infinite-scroll-disabled="busy" infinite-scroll-immediate-check="true" infinite-scroll-distance="100">
-      正在加载中...
+    <div v-else class="empty">
+      <span>没有找到符合条件的商品</span>
     </div>
   </div>
 </template>
@@ -41,12 +46,20 @@
         windowHeight: null,
         windowWidth: null,
         params: {
-          current: 1,   // 页码
-          size: 10,     // 每页显示数量
-          sort: '',     // 排序
-          orderBy: '',  // 价格排序
-          isAsc: true   // 默认升序
+          current: 1,     // 页码
+          size: 10,       // 每页显示数量
+          sort: '',       // 排序
+          orderBy: '',    // 价格排序
+          isAsc: true,    // 默认升序
+          goodsName: '',  // 商品名搜索
+          goodsTypeId: '' // 商品类型id搜索 
         }
+      }
+    },
+    computed: {
+      _getGoodsList () {
+        this._getGoods()
+        return this.goods
       }
     },
     methods: {
@@ -55,7 +68,8 @@
           current: this.params.current,
           size: this.params.size,
           orderByField: this.params.orderBy,
-          isAsc: this.params.isAsc
+          isAsc: this.params.isAsc,
+          goodsName: this.params.goodsName
           // priceGt: this.min,
           // priceLte: this.max
         }
@@ -107,11 +121,22 @@
       }
     },
     created () {
+      let query =  this.$route.query
+      if (query.goodsName) {
+        this.params.goodsName = query.goodsName
+      } else {
+        this.params.goodsName = ''
+      }
       this._getGoods()
     },
     mounted () {
       this.windowHeight = window.innerHeight
       this.windowWidth = window.innerWidth
+    },
+    watch: {
+      $route (to, from) {
+        this.$router.go(0)
+      }
     },
     components: {
       mallGoods,
@@ -170,5 +195,11 @@
     }
   }
 
+  .empty {
+    padding: 60px 0;
+    text-align: center;
+    font-size: 14px;
+    background: #fff;
+  }
 
 </style>

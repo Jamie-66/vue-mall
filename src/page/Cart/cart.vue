@@ -33,8 +33,7 @@
                       </div>
                       <!--图片-->
                       <div class="items-thumb fl">
-                        <img :alt="item.productName"
-                             :src="item.productImg">
+                        <img :alt="item.productName" :src="item.productImg">
                         <a href="javascript:;" :title="item.productName" target="_blank"></a>
                       </div>
                       <!--信息-->
@@ -108,12 +107,12 @@
             </div>
           </div>
         </div>
-        <div v-else style="padding:50px">
+        <div v-else class="empty">
           <div class="cart-e"></div>
-          <p style="text-align: center;padding: 20px;color: #8d8d8d">你的购物车空空如也</p>
-          <div style="text-align: center">
+          <p>你的购物车空空如也</p>
+          <div>
             <router-link to="/goods">
-              <y-button text="现在选购" style="height: 30px;line-height: 28px;color: #8d8d8d;font-size: 14px;"></y-button>
+              <y-button text="现在选购"></y-button>
             </router-link>
           </div>
         </div>
@@ -241,7 +240,12 @@
         })
       },
       checkout () {
-        this.$router.push({path: 'checkout'})
+        let selectIds = []
+        this.cartList && this.cartList.forEach((item) => {
+          if (item.checked === '1') selectIds.push(item.productId)
+        })
+        selectIds = selectIds.join(',')
+        this.$router.push({path: '/checkout',query: {productIds: selectIds}})
       }
     },
     mounted () {
@@ -462,7 +466,7 @@
       // position: absolute;
       position: fixed;
       // bottom: 0;
-      bottom: 54px;
+      bottom: 53px;
       left: 0;
       right: 0;
       z-index: 100;
@@ -471,6 +475,7 @@
       background: -webkit-linear-gradient(#fdfdfd, #f9f9f9);
       background: linear-gradient(#fdfdfd, #f9f9f9);
       border-top: 1px solid #e9e9e9;
+      border-bottom: 1px solid #e9e9e9;
       // box-shadow: 0 -3px 8px rgba(0, 0, 0, .04);
       box-shadow: 0 -3px 8px rgba(0, 0, 0, .04), 0 2px 8px rgba(0, 0, 0, .1);
       .cart-bottom-bg {
@@ -578,14 +583,21 @@
     }
   }
 
-  .cart-e {
-    margin: 0 auto;
-    background: url("/static/images/cart-empty_@2x.png") no-repeat;
-    background-size: 100%;
-    width: 150px;
-    height: 160px;
-    color: #8d8d8d;
+  .empty {
+    padding: 20px;
+    text-align: center;
+    .cart-e {
+      margin: 0 auto;
+      background: url("/static/images/cart-empty_@2x.png") no-repeat;
+      background-size: 100%;
+      width: 80px;
+      height: 90px;
+      color: #8d8d8d;
+    }
+    p {
+      padding: 10px 0;
+      color: #8d8d8d;
+    }
   }
-
 
 </style>

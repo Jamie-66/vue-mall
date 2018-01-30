@@ -73,7 +73,7 @@ export const createOrder = (params) => {
 }
 // 删除订单
 export const delOrder = (params) => {
-  return http.fetchPost('/consumer/order/delOrder', params)
+  return http.fetchGet('/consumer/order/delOrder', params)
 }
 // 修改订单状态
 export const setOrderState = (params) => {

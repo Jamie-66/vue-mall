@@ -3,53 +3,49 @@
     <y-header>
       <div slot="nav"></div>
     </y-header>
-    <div class="w" style="padding-top: 40px;">
+    <div class="w">
       <!-- 收货地址 -->
-      <y-shelf title="收货信息">
+      <y-shelf title="收货信息" class="address-box">
         <div slot="content">
           <ul class="address-item-list clearfix">
-            <li v-for="(item,i) in addList"
-                :key="i"
-                class="address pr"
-                :class="{checked:addressId === item.id}"
-                @click="defaultAddress(item.id)">
+            <li class="address pr" v-for="(item,i) in addList" :key="i" :class="{checked:addressId === item.id}" @click="defaultAddress(item.id)">
               <span v-if="addressId === item.id" class="pa">
                 <svg viewBox="0 0 1473 1024" width="17.34375" height="12">
-                <path
-                  d="M1388.020 57.589c-15.543-15.787-37.146-25.569-61.033-25.569s-45.491 9.782-61.023 25.558l-716.054 723.618-370.578-374.571c-15.551-15.769-37.151-25.537-61.033-25.537s-45.482 9.768-61.024 25.527c-15.661 15.865-25.327 37.661-25.327 61.715 0 24.053 9.667 45.849 25.327 61.715l431.659 436.343c15.523 15.814 37.124 25.615 61.014 25.615s45.491-9.802 61.001-25.602l777.069-785.403c15.624-15.868 25.271-37.66 25.271-61.705s-9.647-45.837-25.282-61.717M1388.020 57.589z"
-                  fill="#6A8FE5" p-id="1025">
-                  </path>
+                  <path d="M1388.020 57.589c-15.543-15.787-37.146-25.569-61.033-25.569s-45.491 9.782-61.023 25.558l-716.054 723.618-370.578-374.571c-15.551-15.769-37.151-25.537-61.033-25.537s-45.482 9.768-61.024 25.527c-15.661 15.865-25.327 37.661-25.327 61.715 0 24.053 9.667 45.849 25.327 61.715l431.659 436.343c15.523 15.814 37.124 25.615 61.014 25.615s45.491-9.802 61.001-25.602l777.069-785.403c15.624-15.868 25.271-37.66 25.271-61.705s-9.647-45.837-25.282-61.717M1388.020 57.589z" fill="#6A8FE5" p-id="1025"></path>
                 </svg>
               </span>
-              <p>收货人: {{item.consignee}} {{item.isDefault ? '(默认地址)' : ''}}</p>
-              <p class="street-name ellipsis">收货地址: {{item.address}}</p>
-              <p>手机号码: {{item.consigneeMobile}}</p>
-              <p>邮政编码: {{item.postaCode}}</p>
+              <p class="consignee">
+                <span class="fl">收货人: <em>{{item.consignee}}</em></span>
+                <span class="fr">{{item.consigneeMobile}}</span>
+              </p>
+              <p class="street-name">收货地址: <span>{{item.address}} {{item.isDefault ? '(默认地址)' : ''}}</span></p>
+              <!-- <p>手机号码: {{item.consigneeMobile}}</p> -->
+              <!-- <p>邮政编码: {{item.postaCode}}</p> -->
               <div class="operation-section">
                 <span class="update-btn" @click="update(item)">修改</span>
                 <span class="delete-btn" :data-id="item.id" @click="del(item.id,i)">删除</span>
               </div>
             </li>
 
-            <li class="add-address-item" @click="update()">
+            <li class="add-address-item new-address" @click="update()">
               <img src="../../../static/svg/jia.svg" alt="">
-              <p>使用新地址</p>
+              <span>使用新地址</span>
             </li>
           </ul>
         </div>
       </y-shelf>
       <!-- 购物清单 -->
-      <y-shelf title="购物清单">
+      <y-shelf title="购物清单" class="cart-box">
         <div slot="content">
           <div class="box-inner ui-cart">
             <div>
               <!--标题-->
-              <div class="cart-table-title">
+              <!-- <div class="cart-table-title">
                 <span class="name">商品信息</span>
                 <span class="subtotal">小计</span>
                 <span class="num">数量</span>
                 <span class="price">单价</span>
-              </div>
+              </div> -->
               <!--列表-->
               <div class="cart-table" v-for="(item,i) in o_cartList" :key="i">
                 <div class="cart-group divide pr" :data-productid="item.productId">
@@ -57,33 +53,35 @@
                     <div class="cart-items clearfix">
                       <!--图片-->
                       <div class="items-thumb fl">
-                        <img :alt="item.productName"
-                             :src="item.productImg">
+                        <img :alt="item.productName" :src="item.productImg">
                         <a href="javascript:;" :title="item.productName" target="_blank"></a>
                       </div>
                       <!--信息-->
                       <div class="name hide-row fl">
                         <div class="name-table">
-                          <a href="javascript:;" :title="item.productName" target="_blank"
-                             v-text="item.productName"></a>
-                          <ul class="attribute">
-                            <li v-text="item.productDescript"></li>
-                          </ul>
+                          <a href="javascript:;" :title="item.productName" target="_blank" v-text="item.productName"></a>
+                          <p class="attribute" v-text="item.productDescript"></p>
+                          <div>
+                            <!--价格-->
+                            <span class="fl">¥ {{item.productPrice}}</span>
+                            <!--数量-->
+                            <span class="fr">x {{item.productNum}}</span>
+                          </div>
                         </div>
                       </div>
                       <!--商品数量-->
-                      <div>
+                      <!-- <div> -->
                         <!--总价格-->
-                        <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div>
+                        <!-- <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div> -->
                         <!--数量-->
-                        <div class="item-cols-num">
+                        <!-- <div class="item-cols-num">
                           <div class="select">
                             <span v-text="item.productNum"></span>
                           </div>
-                        </div>
+                        </div> -->
                         <!--价格-->
-                        <div class="price">¥ {{item.productPrice}}</div>
-                      </div>
+                        <!-- <div class="price">¥ {{item.productPrice}}</div> -->
+                      <!-- </div> -->
                     </div>
                   </div>
                 </div>
@@ -93,18 +91,12 @@
             <div class="cart-bottom-bg fix-bottom">
               <div class="fix-bottom-inner">
                 <div class="shipping">
-                  <div class="shipping-box" style="padding: 0 40px;">
-                    <div class="shipping-total shipping-price"><h4
-                      class="highlight">应付总额：<em>￥{{checkPrice}}</em>
-                    </h4>
+                  <div class="shipping-box">
+                    <div class="shipping-total shipping-price">
+                      <h4 class="highlight">应付总额：<em>￥{{checkPrice}}</em></h4>
                     </div>
                   </div>
-                  <y-button class="big-main-btn"
-                            classStyle="main-btn"
-                            style="margin: 0;width: 130px;height: 50px;line-height: 50px;font-size: 16px"
-                            text="提交订单"
-                            @btnClick="_createOrder">
-                  </y-button>
+                  <y-button classStyle="main-btn" text="提交订单" @btnClick="_createOrder"></y-button>
                 </div>
               </div>
             </div>
@@ -115,33 +107,33 @@
       <y-popup :open="popupOpen" @close='popupOpen=false' :title="popupTitle">
         <div slot="content" class="md" :data-id="msg.addressId">
           <div>
-            <input type="text" placeholder="收货人姓名" v-model="msg.userName">
+            <el-input size="small" v-model="msg.userName" placeholder="收货人"></el-input>
           </div>
           <div>
-            <input type="number" placeholder="手机号码" v-model="msg.tel">
+            <el-input size="small" type="number" v-model="msg.tel" placeholder="联系方式"></el-input>
           </div>
           <div>
-            <input type="text" placeholder="收货地址" v-model="msg.streetName">
+            <el-input size="small" v-model="msg.streetName" placeholder="收货地址"></el-input>
           </div>
           <div>
-            <input type="text" placeholder="邮政编码" v-model="msg.postaCode">
+            <el-input size="small" v-model="msg.postaCode" placeholder="邮政编号"></el-input>
           </div>
           <!-- <div>
             <span><input type="checkbox" v-model="msg.isDefault" style="margin-right: 5px;">设为默认</span>
           </div> -->
-          <y-button text='保存'
-                    class="btn"
-                    :classStyle="btnHighlight?'main-btn':'disabled-btn'"
-                    @btnClick="save({
-                      id: msg.addressId,
-                      consignee: msg.userName,
-                      consigneeMobile: msg.tel,
-                      address: msg.streetName,
-                      postaCode: msg.postaCode })">
-          </y-button>
-          <y-button text='取消'
-                    @btnClick="cancel()">
-          </y-button>
+          <div class="submit">
+            <y-button text='保存'
+                      class="btn"
+                      :classStyle="btnHighlight?'main-btn':'disabled-btn'"
+                      @btnClick="save({
+                        id: msg.addressId,
+                        consignee: msg.userName,
+                        consigneeMobile: msg.tel,
+                        address: msg.streetName,
+                        postaCode: msg.postaCode })">
+            </y-button>
+            <y-button text='取消' @btnClick="cancel()"></y-button>
+          </div>
         </div>
       </y-popup>
     </div>
@@ -151,6 +143,7 @@
 <script>
   import { getCartList, addressList, addressUpdate, addressAdd, addressDel, getGoodsDet, createOrder } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
+  import { getStore } from '../../utils/storage'
   import YShelf from '/components/shelf'
   import YButton from '/components/YButton'
   import YPopup from '/components/popup'
@@ -198,14 +191,22 @@
       }
     },
     methods: {
-      _getCartList () {
+      ...mapMutations(
+        ['INIT_BUYCART']
+      ),
+      _getCartList (ids) {
         // getCartList().then(res => {
         //   this.o_cartList = res.data
         // })
-        this.cartList && this.cartList.forEach(item => {
-          if (item.checked === '1') {
-            this.o_cartList.push(item)
-          }
+        let idsArr = ids.split(',')
+        let cartArr = JSON.parse(getStore('buyCart'))
+
+        idsArr && idsArr.forEach(id => {
+          cartArr && cartArr.forEach(item => {
+            if (item.productId === parseInt(id)) {
+              this.o_cartList.push(item)
+            }
+          })
         })
       },
       _addressList () {
@@ -326,14 +327,17 @@
     },
     created () {
       let query = this.$route.query
-      if (query.productId && query.num) {
+      if (query.productId && query.num) {  // 商品详情-->马上购买
         this.productId = query.productId
         this.num = query.num
         this._getGoodsDet(this.productId)
-      } else {
-        this._getCartList()
+      } else {  // 购物车生成订单
+        this._getCartList(query.productIds)
       }
       this._addressList()
+    },
+    mounted () {
+      this.INIT_BUYCART()
     },
     components: {
       YShelf,
@@ -345,13 +349,31 @@
   }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
+  .w {
+    padding-top: 10px;
+    .gray-box {
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+    .address-box {
+      margin-bottom: 15px;
+    }
+  }
   // 收货地址
   .address-item-list {
-    padding: 30px 13px 0;
+    // padding: 30px 13px 0;
     .address {
-      padding: 19px 14px 0 19px;
+      // padding: 19px 14px 0 19px;
+      padding: 10px;
       p {
-        line-height: 26px;
+        line-height: 20px;
+        font-size: 14px;
+      }
+      .consignee {
+        overflow: hidden;
+      }
+      .street-name {
+        padding-right: 18px;
       }
     }
     li.checked {
@@ -359,20 +381,22 @@
       position: relative;
       background: #fff;
       .pa {
-        right: 15px;
-        top: 18px;
+        right: 10px;
+        // top: 18px;
+        bottom: 10px;
       }
       &:hover {
-        background: #fff;
+        background-color: #fff;
       }
     }
     li {
       position: relative;
       overflow: hidden;
-      float: left;
-      width: 276px;
-      height: 158px;
-      margin: 0 0 30px 16px;
+      // float: left;
+      // width: 276px;
+      // height: 158px;
+      // margin: 0 0 30px 16px;
+      margin-bottom: 3px;
       border: 1px solid #E5E5E5;
       border-radius: 3px;
       background: #FAFAFA;
@@ -398,9 +422,18 @@
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-direction: column;
+        // flex-direction: column;
         p {
           margin-top: 5px;
+        }
+      }
+      &.new-address {
+        margin-bottom: 0px;
+        padding: 10px 0;
+        border-bottom-right-radius: 8px;
+        border-bottom-left-radius: 8px;
+        img {
+          margin-right: 5px;
         }
       }
       .operation-section {
@@ -441,9 +474,9 @@
 
   .s-content {
     .md {
-      > div {
+      > div:not(.submit) {
         text-align: left;
-        margin-bottom: 15px;
+        margin-bottom: 6px;
         > input {
           width: 100%;
           height: 50px;
@@ -455,15 +488,21 @@
           line-height: 46px;
         }
       }
+      > .submit {
+        padding-top: 15px;
+        > input:last-child {
+          margin-left: 4px;
+        }
+      }
     }
 
-    .btn {
-      margin: 0;
-      width: 100%;
-      height: 50px;
-      font-size: 14px;
-      line-height: 48px
-    }
+    // .btn {
+    //   margin: 0;
+    //   width: 100%;
+    //   height: 50px;
+    //   font-size: 14px;
+    //   line-height: 48px
+    // }
   }
 
   .ui-cart {
@@ -494,14 +533,17 @@
       }
     }
     .cart-group.divide {
+      background: #fff;
+      margin-bottom: 2px;
       .cart-items {
         border-top: 1px dashed #eee;
       }
     }
     .cart-items {
       position: relative;
-      height: 140px;
-      margin-left: 74px;
+      display: flex;
+      // height: 140px;
+      margin-left: 10px;
       .subtotal {
         font-weight: 700;
       }
@@ -573,10 +615,14 @@
 
   .items-thumb {
     position: relative;
-    margin-top: 30px;
+    margin: 10px 0;
     overflow: hidden;
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
+    img {
+      width: 70px;
+      height: 70px;
+    }
   }
 
   .cart-items .items-thumb > a, .ui-cart .cart-items .items-thumb > i {
@@ -592,32 +638,43 @@
   }
 
   .name {
-    width: 380px;
-    margin-left: 20px;
+    display: flex;
+    flex: 1;
+    // width: 380px;
+    margin-left: 10px;
+    padding: 10px 10px 10px 0;
+    overflow: hidden;
     color: #323232;
-    display: table;
+    // display: table;
     a {
       color: #333;
       font-size: 16px;
+      word-break: break-all;
+    }
+    p {
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
     }
   }
 
   .name-table {
-    display: table-cell;
+    // display: table-cell;
     vertical-align: middle;
-    height: 140px;
+    width: 100%;
+    // height: 140px;
   }
 
   .fix-bottom {
-    padding: 22px 29px 19px 30px;
-    height: 90px;
+    padding: 20px;
+    // height: 90px;
     width: 100%;
     z-index: 1;
     background-position: center;
     background: #fdfdfd;
     background: -webkit-linear-gradient(#fdfdfd, #f9f9f9);
     background: linear-gradient(#fdfdfd, #f9f9f9);
-    border-top: 1px solid #e9e9e9;
+    // border-top: 1px solid #e9e9e9;
     box-shadow: 0 -3px 8px rgba(0, 0, 0, .04);
     .cart-bottom-bg {
       height: 80px;
@@ -634,12 +691,15 @@
       display: flex;
       align-items: center;
     }
+    .shipping-box {
+      padding: 0 20px;
+    }
     em {
-      display: inline-block;
-      position: relative;
-      top: 3px;
-      margin-top: -4px;
-      font-size: 24px;
+      // display: inline-block;
+      // position: relative;
+      // top: 3px;
+      // margin-top: -4px;
+      font-size: 18px;
       color: #d44d44;
       font-weight: 700;
     }
@@ -649,7 +709,7 @@
     color: #999;
     font-size: 12px;
     padding-top: 4px;
-    line-height: 17px;
+    line-height: 14px;
   }
 
 

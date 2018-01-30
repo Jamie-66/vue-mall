@@ -44,21 +44,9 @@
                         </div>
                         <p class="name">{{userInfo.info.name}}</p>
                       </li>
-                      <li>
-                        <router-link to="/user/information">账号资料</router-link>
+                      <li v-for="(item,i) in nav" :key="i">
+                        <router-link :to="item.path" @click.native="showUser=false;showMask=false">{{item.title}}</router-link>
                       </li>
-                      <li>
-                        <router-link to="/user/orderList">我的订单</router-link>
-                      </li>
-                      <li>
-                        <router-link to="/user/addressList">收货地址</router-link>
-                      </li>
-                      <!-- <li>
-                        <router-link to="/user/support">售后服务</router-link>
-                      </li> -->
-                      <!-- <li>
-                        <router-link to="/user/coupon">我的优惠</router-link>
-                      </li> -->
                       <li>
                         <a href="javascript:;" @click="_loginOut">退出</a>
                       </li>
@@ -162,7 +150,12 @@
         positionT: 0,
         timerCartShow: null, // 定时隐藏购物车
         keyword: '',         // 商品搜索
-        showMask: false      // 控制遮罩层
+        showMask: false,     // 控制遮罩层
+        nav: [ 
+          {path: '/user/information', title: '账号资料'},
+          {path: '/user/orderList', title: '我的订单'},
+          {path: '/user/addressList', title: '收货地址'}
+        ]
       }
     },
     computed: {
@@ -272,7 +265,12 @@
       // 商品搜索
       goodSearch () {
         if (this.keyword) {
-          console.log(this.keyword)
+          this.$router.push({
+            path: '/goods',
+            query: {
+              goodsName: this.keyword
+            }
+          })
         }
       }
     },
