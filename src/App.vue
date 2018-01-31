@@ -13,9 +13,10 @@
 
   #app {
     height: 100%;
+    background: #ededed;
   }
 
-  .main {
-    background: #ededed;;
-  }
+  // .main {
+  //   background: #ededed;
+  // }
 </style>

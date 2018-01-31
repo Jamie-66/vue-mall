@@ -86,12 +86,12 @@
           let elTop = dom.getBoundingClientRect().top + (dom.offsetHeight / 2)
           // 需要触发
           this.ADD_ANIMATION({moveShow: true, elLeft: elLeft, elTop: elTop, img: img})
-          if (!this.showCart) {
-            this.SHOW_CART({showCart: true})
-            setTimeout(_=>{
-              this.SHOW_CART({showCart: false})
-            },2000)
-          }
+          // if (!this.showCart) {
+          //   this.SHOW_CART({showCart: true})
+          //   setTimeout(_=>{
+          //     this.SHOW_CART({showCart: false})
+          //   },2000)
+          // }
         }
       },
       // 删除足迹

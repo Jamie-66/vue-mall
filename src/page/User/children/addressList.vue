@@ -346,11 +346,11 @@
   }
 
   .empty {
-    padding: 80px 0;
+    padding: 60px 0;
     text-align: center;
     background: #fff;
     .empty-msg {
-      font-size: 18px;
+      font-size: 14px;
     }
     .empty-btn {
       margin: 20px

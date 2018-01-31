@@ -4,7 +4,7 @@
       <div slot="nav">
       </div>
     </y-header>
-    <router-view style="margin-top: 40px;"></router-view>
+    <router-view></router-view>
     <y-footer></y-footer>
   </div>
 </template>

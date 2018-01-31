@@ -1,18 +1,14 @@
 <template>
   <div class="w">
-    <y-shelf title="支付成功" style="text-align: center">
+    <y-shelf title="支付成功">
       <div slot="content" class="content">
-        <p>恭喜你支付成功，总共花费 <span class="price"><em style="font-size: 18px">¥</em>{{price}}</span> 元</p>
-        <div style="margin-top: 20px;">
-          <router-link to="/user">
-            <y-button text="查看订单" style="width: 150px;height: 50px;line-height: 48px;font-size: 20px"
-                      classStyle="main-btn"></y-button>
-
+        <p>恭喜你支付成功，总共花费 <span class="price"><em>¥</em>{{price}}</span> 元</p>
+        <div class="operate">
+          <router-link to="/user/orderList">
+            <y-button text="查看订单" classStyle="main-btn"></y-button>
           </router-link>
-          <router-link to="/home">
-            <y-button text="继续选购" style="width: 150px;height: 50px;line-height: 48px;font-size: 20px"
-                      classStyle="main-btn"></y-button>
-
+          <router-link to="/goods">
+            <y-button text="继续选购"></y-button>
           </router-link>
         </div>
       </div>
@@ -25,7 +21,7 @@
   export default {
     data () {
       return {
-        price: 10
+        price: 0
       }
     },
     components: {
@@ -38,15 +34,20 @@
   }
 </script>
 <style lang="scss" scoped>
+  .w {
+    padding: 10px;
+    background: #ededed;
+  }
   .content {
-    padding: 150px 0;
-    font-size: 30px;
+    padding: 60px 0;
+    font-size: 16px;
+    background: #fff;
+    text-align: center;
   }
-
-  .btn {
-
+  .operate {
+    margin-top: 20px;
   }
-   span.price {
+  span.price {
     color: #d44d44;
     font-weight: 700;
     line-height: 20px;

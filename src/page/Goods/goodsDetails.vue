@@ -162,9 +162,9 @@
       _collectionAdd (productId) {
         collectionAdd({params:{goodsId: productId}}).then(res => {
           if (res.code === 0) {
-            console.log('收藏成功')
+            this.$message.success('收藏成功')
           } else {
-            console.log(res.msg)
+            this.$message.error(res.msg)
           }
         })
       },
@@ -188,14 +188,14 @@
     clear: both;
     // width: 1220px;
     // min-height: 600px;
-    padding: 0 0 25px;
+    // padding: 0 0 25px;
     margin: 0 auto;
   }
 
   .gray-box {
     // display: flex;
-    padding: 20px;
-    margin: 20px 10px;
+    padding: 10px;
+    margin: 10px 8px;
     background: #fff;
     .gallery-wrapper {
       .gallery {
@@ -281,16 +281,20 @@
         }
       }
       .similar {
+        padding: 0 10px;
         span {
-          font-size: 20px;
+          font-size: 18px;
           font-weight: 700;
+        }
+        a {
+          margin-left: 10px;
         }
       }
     }
   }
 
   .item-info {
-
+    padding-bottom: 53px;
     .gray-box {
       padding: 0;
       display: block;

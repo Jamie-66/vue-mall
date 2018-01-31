@@ -9,7 +9,7 @@
             </h1>
           </div>
           <div class="right-box">
-            <div class="nav-list">
+            <!-- <div class="nav-list"> -->
               <!-- <input type="text" placeholder="搜索"> -->
               <!-- <span><i class="fa fa-search"></i></span> -->
               <!-- <router-link to="goods">全部商品</router-link> -->
@@ -19,7 +19,7 @@
               <router-link to="/">欢喜云</router-link>
               <router-link to="/">应用下载</router-link>
               <router-link to="/">官方论坛</router-link> -->
-            </div>
+            <!-- </div> -->
             <div class="nav-aside" ref="aside" :class="{fixed:st}">
               <!-- 搜索 -->
               <div class="search pr">
@@ -113,7 +113,7 @@
       </header>
       <slot name="nav">
         <div class="nav-sub" :class="{fixed: st}">
-          <div class="nav-sub-bg"></div>
+          <!-- <div class="nav-sub-bg"></div> -->
           <div class="nav-sub-wrapper" :class="{fixed:st}">
             <div class="w">
               <ul class="nav-list">
@@ -284,6 +284,12 @@
       window.addEventListener('scroll', this.navFixed)
       window.addEventListener('resize', this.navFixed)
     },
+    watch: {
+      $route (to) {
+        let path = this.$route.path
+        console.log(path)
+      }
+    },
     components: {
       YButton
     }
@@ -388,7 +394,7 @@
   }
 
   header {
-    height: 100px;
+    height: 80px;
     z-index: 30;
     position: relative;
   }
@@ -835,23 +841,23 @@
     }
   }
 
-  @media (max-height: 780px) {
-    .nav-cart-items {
-      max-height: 423px !important;
-    }
-  }
+  // @media (max-height: 780px) {
+  //   .nav-cart-items {
+  //     max-height: 423px !important;
+  //   }
+  // }
 
-  @media (max-height: 900px) {
-    .nav-cart-items {
-      max-height: 544px !important;
-    }
-  }
+  // @media (max-height: 900px) {
+  //   .nav-cart-items {
+  //     max-height: 544px !important;
+  //   }
+  // }
 
-  @media (max-height: 1080px) {
-    .nav-cart-items {
-      max-height: 620px !important;
-    }
-  }
+  // @media (max-height: 1080px) {
+  //   .nav-cart-items {
+  //     max-height: 620px !important;
+  //   }
+  // }
 
   // 用户信息弹出
   .nav-user-wrapper {

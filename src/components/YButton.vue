@@ -34,16 +34,16 @@
 
   %style {
     // min-width: 80px;
-    padding: 0 8px;
-    height: 30px;
-    line-height: 28px;
+    padding: 0 6px;
+    height: 26px;
+    line-height: 24px;
     vertical-align: middle;
   }
 
   @mixin color($a,$b,$c) {
     border: 1px solid $a;
     border-radius: 4px;
-    font-size: 14px;
+    font-size: 12px;
     color: $b;
     background-color: $c;
   }

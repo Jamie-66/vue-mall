@@ -169,7 +169,7 @@
     margin-left: 10px;
     margin-right: 10px;
     flex: 1;
+    padding-bottom: 53px;
   }
-
 
 </style>

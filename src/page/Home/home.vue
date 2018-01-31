@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="main-content">
     <div class="carousel">
       <!-- <div class="bg" ref="bg"
            @mouseover="bgOver($refs.bg)"
@@ -103,7 +103,7 @@
           data.forEach(item => {
             item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
           });
-          this.hot = data
+          this.hot = data.slice(0,4)
         } 
       })
       this.carouselArr = [
@@ -141,6 +141,10 @@
     perspective: 3000px;
     position: relative;
     z-index: 19;
+  }
+
+  .main-content {
+    padding-bottom: 53px;
   }
 
   .carousel {

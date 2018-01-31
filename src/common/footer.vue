@@ -8,7 +8,7 @@
     <div class="cop"><p>Copyright © 2004-2017  xx.com 版权所有</p></div> -->
     <el-footer height="53px">
       <el-row type="flex" :gutter="20">
-        <el-col :span="6" v-for="(item,i) in nav" :key="i">
+        <el-col class="nav-item" :span="6" v-for="(item,i) in nav" :key="i">
           <div class="grid-content" :class="{current:item.name===title}" @click="tab(item)">
             <i :class="item.icon"></i>
             <span>{{item.name}}</span>
@@ -70,6 +70,9 @@
     background: linear-gradient(#fbfbfb, #ececec);
     .el-row {
       height: 100%;
+      .nav-item:last-child {
+        min-width: 70px;
+      }
       .grid-content {
         text-align: center;
         color: #888;

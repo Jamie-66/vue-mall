@@ -82,9 +82,8 @@
               this.goods = data
             }
             this.goods.forEach(item => {
-              item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+              // item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
             });
-            // this.busy = true
           } else {
             clearTimeout(this.timer)
             this.busy = true
@@ -112,6 +111,7 @@
       },
       // 加载更多
       loadMore () {
+        console.log(23)
         this.busy = true
         this.timer = setTimeout(() => {
           this.params.current++
@@ -148,9 +148,14 @@
   @import "../../assets/style/mixin";
   @import "../../assets/style/theme";
 
+  .goods {
+    padding: 0 0 53px;
+  }
   .nav {
     height: 60px;
     line-height: 60px;
+    background: #fff;
+    margin-bottom: 5px;
     > div {
       display: flex;
       align-items: center;
@@ -189,6 +194,7 @@
   }
 
   .goods-box {
+    overflow: hidden;
     > div {
       float: left;
       border: 1px solid #efefef;

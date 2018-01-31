@@ -316,7 +316,7 @@
   .avatar-box {
     height: 120px;
     display: flex;
-    padding: 0 30px;
+    padding: 0 20px;
     // border-bottom: #dadada solid 1px;
     line-height: 30px;
     display: flex;
@@ -333,14 +333,14 @@
     }
     .r-box {
       h3 {
-        font-size: 18px;
+        font-size: 16px;
         font-weight: 400;
         color: #333;
       }
     }
   }
   .edit-userInfo {
-    padding: 0 30px 20px;
+    padding: 0 20px 10px;
     margin-top: 15px;
   }
 

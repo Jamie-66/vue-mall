@@ -238,6 +238,7 @@
       // 提交订单
       _createOrder () {
         let cart = []
+        let goodsId = []
         let params = {
           addressId: JSON.stringify(this.addressId),
           orderPrice: this.totalPrice,
@@ -246,18 +247,25 @@
         
         this.o_cartList.forEach(item => {
           cart.push(item.id)
+          goodsId.push(item.productId)
         })
         params.cCartIds = cart.join(',')
+        goodsId = goodsId.join(',')
         
         createOrder({params:params}).then(res => {
           if (res.code === 0) {
             // 需要拿到地址id
             this.$router.push({
               path: '/order/payment',
+              // query: {
+              //   'addressId': this.addressId,
+              //   'productId': this.productId,
+              //   'num': this.num
+              // }
               query: {
                 'addressId': this.addressId,
-                'productId': this.productId,
-                'num': this.num
+                'productIds': goodsId,
+                'orderId': res.id
               }
             })
           } else {
@@ -351,12 +359,17 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
   .w {
     padding-top: 10px;
+    background: #ededed;
+    padding-bottom: 53px;
     .gray-box {
       margin-left: 10px;
       margin-right: 10px;
     }
     .address-box {
       margin-bottom: 15px;
+    }
+    .cart-box {
+      margin-bottom: 10px;
     }
   }
   // 收货地址

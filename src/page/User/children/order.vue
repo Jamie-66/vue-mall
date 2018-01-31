@@ -7,7 +7,7 @@
             <div class="gray-sub-title cart-title">
               <div class="first">
                 <div>
-                  <span class="order-id">订单号：<a href="javascript:;">{{item.id}}</a></span>
+                  <span class="order-id"><em style="width:40px;">订单号：</em><a href="javascript:;">{{item.id}}</a></span>
                   <!-- <span class="date">{{timestampToTime(item.time)}}</span> -->
                   <span class="order-state">{{orderState(item.state)}}</span>
                 </div>
@@ -52,10 +52,10 @@
               </div> -->
             </div>
             <div>
-              <div class="total">共<span>{{3}}</span>件商品 合计：¥<span class="total-price">{{item.orderPrice}}</span></div>
+              <div class="total">共<span>{{totalNum(i)}}</span>件商品 合计：¥<span class="total-price">{{item.orderPrice}}</span></div>
             </div>
             <div class="operation">
-              <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="_setOrderState(item.id, 1)"></y-button>
+              <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="orderPay(item)"></y-button>
               <y-button v-if="item.state==4" text="取消订单" @btnClick="_setOrderState(item.id, 0)"></y-button>
               <y-button v-if="item.state==2 || item.state==1" classStyle="main-btn" text="确认收货" @btnClick="_setOrderState(item.id, 3)"></y-button>
               <y-button v-if="item.state==0||item.state==3" text="删除订单" classStyle="danger-btn" @btnClick="_delOrder(item.id,i)"></y-button>
@@ -113,20 +113,33 @@
       // 修改订单状态 
       _setOrderState (id, state) {
         setOrderState({params:{id: id,state: state}}).then(res => {
-          console.log(res)
           if (res.code === 0) {
             switch (state) {
               case 0: 
                 this.$message.success('订单取消成功')
-                break
-              case 1: 
-                this.$message.success('支付成功')
                 break
               case 3 :
                 this.$message.success('已确认收货')
                 break
             }
             this._orderList()
+          }
+        })
+      },
+      // 支付订单
+      orderPay (item) {
+        let ids = []
+        item.orderGoodsList && item.orderGoodsList.forEach(list => {
+          ids.push(list.goods_id)
+        });
+        ids = ids.join(',')
+        this.$router.push({
+          path: '/order/payment',
+          query: {
+            'addressId': item.addressId,
+            'orderPrice': item.orderPrice,
+            'orderFrom': 'order',
+            'orderId': item.id
           }
         })
       },
@@ -150,6 +163,15 @@
         let m = date.getMinutes() + ':'
         let s = date.getSeconds()
         return Y + M + D + h + m + s
+      },
+      // 订单商品数量
+      totalNum (i) {
+        let total = 0
+        let orderGoodsList = this.orderList[i].orderGoodsList
+        orderGoodsList && orderGoodsList.forEach(item => {
+          total += item.num
+        })
+        return total
       }
     },
     created () {

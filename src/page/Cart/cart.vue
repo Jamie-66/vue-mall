@@ -260,16 +260,19 @@
   }
 </script>
 <style lang="scss" rel="stylesheet/scss" scoped>
+  .shopping-cart {
+    background: #ededed;
+  }
   .store-content {
     clear: both;
     // width: 1220px;
     // min-height: 600px;
     // padding: 0 0 25px;
-    padding-bottom: 10px;
+    padding: 0 10px 53px;
     margin: 0 auto;
     .gray-box {
       position: relative;
-      margin-bottom: 53px;
+      margin-bottom: 63px;
       overflow: hidden;
       background: #fff;
       border-radius: 8px;
@@ -458,7 +461,7 @@
   }
 
   .page-cart {
-    padding-top: 15px;
+    padding-top: 10px;
     .fix-bottom {
       // height: 90px;
       height: 53px;
@@ -578,8 +581,8 @@
     .big-main-btn {
       float: right;
       // height: 48px;
-      height: 30px;
-      margin-top: -4px;
+      height: 26px;
+      margin-top: -3px;
     }
   }
 
