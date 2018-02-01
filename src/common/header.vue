@@ -70,21 +70,23 @@
                           <li class="clearfix" v-for="(item,i) in cartList" :key="i">
                             <div class="cart-item">
                               <div class="cart-item-inner">
-                                <router-link :to="'goodsDetails?id='+item.productId">
-                                  <div class="item-thumb">
-                                    <img :src="item.productImg">
-                                  </div>
-                                  <div class="item-desc">
-                                    <div class="cart-cell">
-                                      <h4><a href="" v-text="item.productName"></a></h4>
-                                      <p class="attrs"><span v-text="item.productDescript"></span></p> 
-                                      <h6>
-                                        <span class="price-icon">¥</span>
-                                        <span class="price-num">{{item.productPrice}}</span>
-                                        <span class="item-num">x {{item.productNum}}</span>
-                                      </h6>
+                                <router-link class="cart-item-r" :to="'goodsDetails?id='+item.productId">
+                                  <!-- <div> -->
+                                    <div class="item-thumb">
+                                      <img :src="item.productImg">
                                     </div>
-                                  </div>
+                                    <div class="item-desc">
+                                      <div class="cart-cell">
+                                        <h4><a href="" v-text="item.productName"></a></h4>
+                                        <p class="attrs"><span v-text="item.productDescript"></span></p> 
+                                        <h6>
+                                          <span class="price-icon">¥</span>
+                                          <span class="price-num">{{item.productPrice}}</span>
+                                          <span class="item-num">x {{item.productNum}}</span>
+                                        </h6>
+                                      </div>
+                                    </div>
+                                  <!-- </div> -->
                                 </router-link>
                                 <div class="del-btn del" @click="delGoods(item.productId)">删除</div>
                               </div>
@@ -669,7 +671,7 @@
       }
       .nav-user-wrapper {
         right: 8px;
-        width: 328px;
+        width: 280px;
         .nav-user-list {
           &:before {
             right: 25px;
@@ -684,12 +686,12 @@
           overflow: hidden;
         }
         .nav-cart-items {
-          max-height: 363px;
+          max-height: 300px;
           overflow-x: hidden;
           overflow-y: auto;
         }
         .cart-item {
-          height: 120px;
+          // height: 120px;
           width: 100%;
           overflow: hidden;
           border-top: 1px solid #f0f0f0;
@@ -707,14 +709,17 @@
           overflow: hidden;
         }
         .cart-item-inner {
-          padding: 20px;
+          padding: 10px;
           position: relative;
+          .cart-item-r {
+            display: flex;
+          }
         }
         .item-thumb {
           position: relative;
           float: left;
-          width: 80px;
-          height: 80px;
+          width: 60px;
+          height: 60px;
           border-radius: 3px;
           &:before {
             content: "";
@@ -731,25 +736,28 @@
           }
           img {
             display: block;
-            @include wh(80px, 80px);
+            @include wh(100%, auto);
             border-radius: 3px;
             overflow: hidden;
           }
         }
         .item-desc {
-          margin-left: 98px;
-          display: table;
-          @include wh(205px, 80px);
+          margin-left: 8px;
+          // display: table;
+          display: flex;
+          flex: 1;
+          // @include wh(205px, 80px);
+          padding-right: 20px;
           h4, .attrs {
             color: #000;
-            width: 160px;
-            overflow: hidden;
-            word-break: keep-all;
-            white-space: nowrap;
-            text-overflow: ellipsis;
+            // width: 160px;
+            // overflow: hidden;
+            // word-break: break-all;
+            // white-space: nowrap;
+            // text-overflow: ellipsis;
             font-size: 14px;
             line-height: 16px;
-            margin-bottom: 10px;
+            margin-bottom: 4px;
           }
           .attrs span {
             position: relative;
@@ -766,7 +774,7 @@
             color: #cacaca;
             font-size: 12px;
             line-height: 14px;
-            margin-top: 20px;
+            margin-top: 10px;
             span {
               display: inline-block;
               font-weight: 700;
@@ -786,15 +794,18 @@
 
         }
         .cart-cell {
-          display: table-cell;
-          vertical-align: middle;
+          // display: table-cell;
+          // vertical-align: middle;
+          display: flex;
+          flex: 1;
+          flex-direction: column;
         }
         .del {
           // display: none;
           // overflow: hidden;
           display: block;
           position: absolute;
-          right: 20px;
+          right: 10px;
           top: 50%;
           transform: translateY(-50%);
         }

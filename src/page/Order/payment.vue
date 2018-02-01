@@ -123,7 +123,7 @@
         // })
         let idsArr = ids.split(',')
         let cartArr = JSON.parse(getStore('buyCart'))
-
+        console.log(idsArr)
         idsArr && idsArr.forEach(id => {
           cartArr && cartArr.forEach(item => {
             if (item.productId === parseInt(id)) {

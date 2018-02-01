@@ -154,7 +154,7 @@
       return {
         o_cartList: [],
         addList: [],
-        addressId: '1',
+        addressId: '',
         popupOpen: false,
         popupTitle: '管理收货地址',
         num: '', // 立刻购买
@@ -212,14 +212,18 @@
       _addressList () {
         addressList().then(res => {
           let data = res.data
+          let flag = true
           if (data.length) {
             this.addList = data
             data.forEach(item => {
               if (item.isDefault === 1) {
                 this.addressId = item.id
+                flag = false
               }
             })
-            // this.addressId = data[0].id || '1'
+            if (flag) {
+              this.addressId = data[0].id
+            }
           } else {
             this.addList = []
           }
@@ -240,7 +244,7 @@
         let cart = []
         let goodsId = []
         let params = {
-          addressId: JSON.stringify(this.addressId),
+          addressId: this.addressId,
           orderPrice: this.totalPrice,
           cCartIds: ''
         }
@@ -251,27 +255,31 @@
         })
         params.cCartIds = cart.join(',')
         goodsId = goodsId.join(',')
-        
-        createOrder({params:params}).then(res => {
-          if (res.code === 0) {
-            // 需要拿到地址id
-            this.$router.push({
-              path: '/order/payment',
-              // query: {
-              //   'addressId': this.addressId,
-              //   'productId': this.productId,
-              //   'num': this.num
-              // }
-              query: {
-                'addressId': this.addressId,
-                'productIds': goodsId,
-                'orderId': res.id
-              }
-            })
-          } else {
-            this.$message.error('订单添加失败')
-          }
-        })
+        if (this.addressId) {
+          createOrder({params:params}).then(res => {
+            if (res.code === 0) {
+              // 需要拿到地址id
+              this.$router.push({
+                path: '/order/payment',
+                // query: {
+                //   'addressId': this.addressId,
+                //   'productId': this.productId,
+                //   'num': this.num
+                // }
+                query: {
+                  'addressId': this.addressId,
+                  'productIds': goodsId,
+                  'orderId': res.data.orderId
+                }
+              })
+            } else {
+              this.$message.error('订单添加失败')
+            }
+          })
+        } else {
+          this.$message.error('请先填写收件地址')
+        }
+          
       },
       // 选择地址
       defaultAddress (id) {

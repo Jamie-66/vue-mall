@@ -16,22 +16,23 @@
     </div>
 
     <!--商品-->
-    <div v-if="goods.length">
+    <!-- 不能用v-if,否则无限滚动失效 -->
+    <div v-show="goods.length">
       <div class="goods-box w">
         <mall-goods v-for="(item,i) in goods" :key="i" :msg="item"></mall-goods>
       </div>
       <div v-show="!busy" class="w" style="text-align: center;background: #fff" v-infinite-scroll="loadMore"
-          infinite-scroll-disabled="busy" infinite-scroll-immediate-check="true" infinite-scroll-distance="100">
+          infinite-scroll-disabled="busy" infinite-scroll-distance="10">
         正在加载中...
       </div>
     </div>
-    <div v-else class="empty">
+    <div v-if="!goods.length" class="empty">
       <span>没有找到符合条件的商品</span>
     </div>
   </div>
 </template>
 <script>
-  import {getGoods} from '/api/goods.js'
+  import { getGoods } from '/api/goods.js'
   import mallGoods from '/components/mallGoods'
   import YButton from '/components/YButton'
   export default {
@@ -54,12 +55,6 @@
           goodsName: '',  // 商品名搜索
           goodsTypeId: '' // 商品类型id搜索 
         }
-      }
-    },
-    computed: {
-      _getGoodsList () {
-        this._getGoods()
-        return this.goods
       }
     },
     methods: {
