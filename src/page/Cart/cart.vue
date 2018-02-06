@@ -122,7 +122,7 @@
   </div>
 </template>
 <script>
-  import { cartEdit, editCheckAll, cartDel } from '/api/goods'
+  import { cartEdit, cartEditNum, editCheckAll, cartDel } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
   import YButton from '/components/YButton'
   import YHeader from '/common/header'
@@ -203,12 +203,17 @@
           } else if (type === 'operate') {
             let newOperate = operateState === '1' ? '0' : '1'
             this.EDIT_CART({productId: productId,operateState: newOperate})
+            if (operateState === '1') {
+              cartEditNum({params:{goodsId: productId,num: productNum}}).then(res => {
+                console.log(res)
+              })
+            }
           }
         } else {
           console.log('缺少所需参数')
         }
       },
-      // 修改购物车--修改本地、(远端:本项目不用)
+      // 修改购物车--修改本地、(远端:不在此处修改)
       _cartEdit (productId, productNum, checked) {
         // cartEdit({productId, productNum, checked}).then(res => {
         //   if (res.status === '0') {

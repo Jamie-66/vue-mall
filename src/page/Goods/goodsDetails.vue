@@ -12,16 +12,19 @@
             </ul>
           </div> -->
           <div class="thumb">
+            <div class="big">
+              <img v-lazy="big" :alt="product.goodsName">
+            </div>
             <!-- <div class="big">
               <img :src="big" :alt="product.goodsName">
             </div> -->
-            <el-carousel :interval="3000" arrow="never" height="200px" indicator-position="outside">
+            <!-- <el-carousel :interval="3000" arrow="never" height="200px" indicator-position="outside">
               <el-carousel-item v-for="(item,i) in small" :key="i">
                 <div style="height: 100%;width: 100%;">
                   <img :src="item" style="height: 100%;">
                 </div>
               </el-carousel-item>
-            </el-carousel>
+            </el-carousel> -->
           </div>
         </div>
       </div>
@@ -99,23 +102,24 @@
         getGoodsDet({params: {id: _id}}).then(res => {
           let result = res.data
           this.product = result
-          this.productMsg = result.image || ''
+          // this.productMsg = result.image || ''
+          this.productMsg = ''
           this.offShelf = result.state
           // this.small = result.productImageSmall
           // this.big = this.small[0]
-          this.productMsg = {
-            height: 15201,
-            piece_height: 1440,
-            pieces_num: 5,
-            url: ["http://image.smartisanos.cn/resource/956f3860a3b89581926ddfc27336bd6f.jpg"],
-            width: 2440
-          }
-          this.small = [
-            "http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg",
-            "http://image.smartisanos.cn/resource/62e72601141518c9cb0e9e70402a466c.jpg",
-            "http://image.smartisanos.cn/resource/4dc09d157d95e530607bf9180a844402.jpg",
-            "http://image.smartisanos.cn/resource/ad560139756301700f465214027aef5b.jpg"
-          ]
+          // this.productMsg = {
+          //   height: 15201,
+          //   piece_height: 1440,
+          //   pieces_num: 5,
+          //   url: ["http://image.smartisanos.cn/resource/956f3860a3b89581926ddfc27336bd6f.jpg"],
+          //   width: 2440
+          // }
+          // this.small = [
+          //   "http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg",
+          //   "http://image.smartisanos.cn/resource/62e72601141518c9cb0e9e70402a466c.jpg",
+          //   "http://image.smartisanos.cn/resource/4dc09d157d95e530607bf9180a844402.jpg",
+          //   "http://image.smartisanos.cn/resource/ad560139756301700f465214027aef5b.jpg"
+          // ]
           this.big = 'http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg'
         })
       },
@@ -227,11 +231,12 @@
         .thumb {
           .big {
             margin-left: 20px;
+            padding-right: 20px;
           }
           img {
             display: block;
             margin: 0 auto;
-            @include wh(auto,100%)
+            @include wh(100%,100%)
           }
         }
       }

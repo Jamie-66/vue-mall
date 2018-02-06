@@ -27,6 +27,10 @@ export const delCart = (params) => {
 export const cartEdit = (params) => {
   return http.fetchPost('/consumer/cart/delCart', params)
 }
+// 修改购物车商品数量
+export const cartEditNum = (params) => {
+  return http.fetchGet('/consumer/cart/updateCartNum', params)
+}
 // 全选
 export const editCheckAll = (params) => {
   return http.fetchPost('/users/editCheckAll', params)
