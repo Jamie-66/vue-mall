@@ -122,11 +122,10 @@
                 <li>
                   <router-link to="/">首页</router-link>
                 </li>
-                <li>
+                <li v-show="!st">
                   <router-link to="/goods">全部商品</router-link>
                 </li>
               </ul>
-              <div></div>
             </div>
           </div>
         </div>

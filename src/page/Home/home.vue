@@ -41,7 +41,7 @@
 </template>
 <script>
   import { productHome } from '/api/index.js'
-  import { getGoods } from '/api/goods.js'
+  import { getGoods, getActivities } from '/api/goods.js'
   import YShelf from '/components/shelf'
   import product from '/components/product'
   import mallGoods from '/components/mallGoods'
@@ -100,11 +100,21 @@
       getGoods().then(res => {
         if (res.data.length) {
           let data = res.data
-          data.forEach(item => {
-            item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
-          });
           this.hot = data.slice(0,4)
+          this.hot.forEach((item,index) => {
+            if (index==0){
+              item.image = 'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png'
+            } else {
+              item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+            }
+            
+          });
         } 
+      })
+      getActivities().then(res => {
+        if (res.code === 0) {
+          // this.carouselArr = res.data
+        }
       })
       this.carouselArr = [
         {

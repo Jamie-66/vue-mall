@@ -77,7 +77,7 @@
               this.goods = data
             }
             this.goods.forEach(item => {
-              // item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+              item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
             });
           } else {
             clearTimeout(this.timer)
@@ -106,7 +106,6 @@
       },
       // 加载更多
       loadMore () {
-        console.log(23)
         this.busy = true
         this.timer = setTimeout(() => {
           this.params.current++
@@ -190,6 +189,7 @@
 
   .goods-box {
     overflow: hidden;
+    padding: 0 5px;
     > div {
       float: left;
       border: 1px solid #efefef;

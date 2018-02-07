@@ -122,7 +122,7 @@
 <style lang="scss" rel="stylesheet/scss" scoped>
   @import "../assets/style/mixin";
   @import "../assets/style/theme";
-
+  
   .good-item {
     background: #fff;
     // width: 25%;
@@ -156,7 +156,8 @@
         margin: 6px auto 10px;
         // @include wh(calc(100%-15px));
         width: calc(100% - 15px);
-        height: calc(100% - 15px);
+        // height: calc(100% - 15px);
+        height: 100px;
         display: block;
       }
     }

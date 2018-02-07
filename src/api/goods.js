@@ -1,4 +1,8 @@
 import http from './public'
+// 活动轮播
+export const getActivities = (params) => {
+  return http.fetchGet('/consumer/activity/getActivityList', params)
+}
 // 商品列表
 export const getGoods = (params) => {
   return http.fetchGet('/consumer/goods/getGoodsList', params)
