@@ -97,6 +97,7 @@
       //   this.floors = data.home_floors
       //   this.hot = data.home_hot
       // })
+      // 热门商品
       getGoods().then(res => {
         if (res.data.length) {
           let data = res.data
@@ -111,8 +112,10 @@
           });
         } 
       })
+      // 活动轮播
       getActivities().then(res => {
         if (res.code === 0) {
+          console.log(res.data)
           // this.carouselArr = res.data
         }
       })
