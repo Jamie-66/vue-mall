@@ -19,6 +19,7 @@
   <!-- </div> -->
 </template>
 <script>
+  import { mapMutations, mapState } from 'vuex'
   export default {
     data () {
       return {
@@ -33,7 +34,9 @@
       }
     },
     methods: {
+      ...mapMutations(['SHOW_HEADER']),
       tab (e) {
+        this.SHOW_HEADER({showCart: false, showUser: false, showMask: false})
         this.$router.push({path: e.path1+e.path2})
       }
     },

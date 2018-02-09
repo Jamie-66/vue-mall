@@ -97,6 +97,7 @@
       },
       // 价格排序
       sort (v) {
+        console.log(v)
         v ? this.sortType = 2 : this.sortType = 3
         this.params.orderBy = 'price'
         this.params.isAsc = v

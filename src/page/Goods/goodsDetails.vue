@@ -120,7 +120,8 @@
           //   "http://image.smartisanos.cn/resource/4dc09d157d95e530607bf9180a844402.jpg",
           //   "http://image.smartisanos.cn/resource/ad560139756301700f465214027aef5b.jpg"
           // ]
-          this.big = 'http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg'
+          // this.big = 'http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg'
+          this.big = result.image
         })
       },
       _addCart (id, price, name, img) {
@@ -152,12 +153,12 @@
           let elTop = dom.getBoundingClientRect().top + (dom.offsetHeight / 2)
           // 需要触发
           this.ADD_ANIMATION({moveShow: true, elLeft: elLeft, elTop: elTop, img: img})
-          if (!this.showCart) {
-            this.SHOW_CART({showCart: true})
-            setTimeout(_=>{
-              this.SHOW_CART({showCart: false})
-            },2000)
-          }
+          // if (!this.showCart) {
+          //   this.SHOW_CART({showCart: true})
+          //   setTimeout(_=>{
+          //     this.SHOW_CART({showCart: false})
+          //   },2000)
+          // }
         }
       },
       checkout (productId) {

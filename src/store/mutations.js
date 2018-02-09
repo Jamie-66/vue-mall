@@ -5,6 +5,7 @@ import {
   RECORD_USERINFO,
   ADD_ANIMATION,
   SHOW_CART,
+  SHOW_HEADER,
   REDUCE_CART,
   EDIT_CART
 } from './mutation-types'
@@ -74,6 +75,12 @@ export default {
     //     state.showCart = false
     //   }, 5000)
     // }
+  },
+  // 是否显示头部信息
+  [SHOW_HEADER] (state, {showCart,showUser,showMask}) {
+    state.showCart = showCart
+    state.showUser = showUser
+    state.showMask = showMask
   },
   // 移除商品
   [REDUCE_CART] (state, {productId}) {

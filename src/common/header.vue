@@ -45,7 +45,7 @@
                         <p class="name">{{userInfo.info.name}}</p>
                       </li>
                       <li v-for="(item,i) in nav" :key="i">
-                        <router-link :to="item.path" @click.native="showUser=false;showMask=false">{{item.title}}</router-link>
+                        <router-link :to="item.path" @click.native="maskShowState">{{item.title}}</router-link>
                       </li>
                       <li>
                         <a href="javascript:;" @click="_loginOut">退出</a>
@@ -145,13 +145,13 @@
       return {
         user: {},
         st: false,           // 控制顶部
-        showUser: false,     // 头部用户信息显示
+        userShow: false,     // 头部用户信息显示
         cartShow: false,     // 头部购物车显示
         positionL: 0,
         positionT: 0,
         timerCartShow: null, // 定时隐藏购物车
         keyword: '',         // 商品搜索
-        showMask: false,     // 控制遮罩层
+        maskShow: false,     // 控制遮罩层
         nav: [ 
           {path: '/user/information', title: '账号资料'},
           {path: '/user/orderList', title: '我的订单'},
@@ -161,7 +161,7 @@
     },
     computed: {
       ...mapState([
-        'cartList', 'login', 'receiveInCart', 'showCart', 'userInfo'
+        'cartList', 'login', 'receiveInCart', 'showCart', 'userInfo', 'showMask', 'showUser'
       ]),
       // 计算价格
       totalPrice () {
@@ -181,26 +181,38 @@
       }
     },
     methods: {
-      ...mapMutations(['ADD_CART', 'INIT_BUYCART', 'ADD_ANIMATION', 'SHOW_CART', 'REDUCE_CART', 'RECORD_USERINFO', 'EDIT_CART']),
+      ...mapMutations(['ADD_CART', 'INIT_BUYCART', 'ADD_ANIMATION', 'SHOW_HEADER', 'REDUCE_CART', 'RECORD_USERINFO', 'EDIT_CART']),
       // 购物车显示
       cartShowState () {
-        this.cartShow ? this.showMask = false : this.showMask = true
+        this.userShow = false
+        this.cartShow ? this.maskShow = false : this.maskShow = true
         this.cartShow = !this.cartShow
-        this.SHOW_CART({showCart: this.cartShow})
-        this.showUser = false
+        this.SHOW_HEADER({
+          showCart: this.cartShow,
+          showUser: this.userShow,
+          showMask: this.maskShow
+        })
       },
       // 用户信息显示
       userShowState () {
-        this.showUser ? this.showMask = false : this.showMask = true
-        this.showUser = !this.showUser
         this.cartShow = false
-        this.SHOW_CART({showCart: this.cartShow})
+        this.userShow ? this.maskShow = false : this.maskShow = true
+        this.userShow = !this.userShow
+        this.SHOW_HEADER({
+          showCart: this.cartShow,
+          showUser: this.userShow,
+          showMask: this.maskShow
+        })
       },
       // 遮罩层显示
       maskShowState () {
-        this.showUser = false
-        this.SHOW_CART({showCart: false})
-        this.showMask = false
+        this.userShow = false
+        this.cartShow = false
+        this.SHOW_HEADER({
+          showCart: this.cartShow,
+          showUser: this.userShow,
+          showMask: false
+        })
       },
       // 登陆时获取一次购物车商品
       _getCartList () {
@@ -287,8 +299,8 @@
     },
     watch: {
       $route (to) {
-        let path = this.$route.path
-        console.log(path)
+        // let path = this.$route.path
+        // console.log(path)
       }
     },
     components: {
@@ -735,7 +747,7 @@
           }
           img {
             display: block;
-            @include wh(100%, auto);
+            @include wh(100%, 100%);
             border-radius: 3px;
             overflow: hidden;
           }

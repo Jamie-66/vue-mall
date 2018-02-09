@@ -61,34 +61,34 @@
       }
     },
     methods: {
-      bgOver (e) {
-        this.bgOpt.px = e.offsetLeft
-        this.bgOpt.py = e.offsetTop
-        this.bgOpt.w = e.offsetWidth
-        this.bgOpt.h = e.offsetHeight
-      },
-      bgMove (dom, eve) {
-        let bgOpt = this.bgOpt
-        let X, Y
-        let mouseX = eve.pageX - bgOpt.px
-        let mouseY = eve.pageY - bgOpt.py
-        if (mouseX > bgOpt.w / 2) {
-          X = mouseX - (bgOpt.w / 2)
-        } else {
-          X = mouseX - (bgOpt.w / 2)
-        }
-        if (mouseY > bgOpt.h / 2) {
-          Y = bgOpt.h / 2 - mouseY
-        } else {
-          Y = bgOpt.h / 2 - mouseY
-        }
-        dom.style['-webkit-transform'] = `rotateY(${X / 50}deg) rotateX(${Y / 50}deg)`
-        dom.style.transform = `rotateY(${X / 50}deg) rotateX(${Y / 50}deg)`
-      },
-      bgOut (dom) {
-        dom.style.transform = 'rotateY(0deg) rotateX(0deg)'
-        dom.style['-webkit-transform'] = 'rotateY(0deg) rotateX(0deg)'
-      }
+      // bgOver (e) {
+      //   this.bgOpt.px = e.offsetLeft
+      //   this.bgOpt.py = e.offsetTop
+      //   this.bgOpt.w = e.offsetWidth
+      //   this.bgOpt.h = e.offsetHeight
+      // },
+      // bgMove (dom, eve) {
+      //   let bgOpt = this.bgOpt
+      //   let X, Y
+      //   let mouseX = eve.pageX - bgOpt.px
+      //   let mouseY = eve.pageY - bgOpt.py
+      //   if (mouseX > bgOpt.w / 2) {
+      //     X = mouseX - (bgOpt.w / 2)
+      //   } else {
+      //     X = mouseX - (bgOpt.w / 2)
+      //   }
+      //   if (mouseY > bgOpt.h / 2) {
+      //     Y = bgOpt.h / 2 - mouseY
+      //   } else {
+      //     Y = bgOpt.h / 2 - mouseY
+      //   }
+      //   dom.style['-webkit-transform'] = `rotateY(${X / 50}deg) rotateX(${Y / 50}deg)`
+      //   dom.style.transform = `rotateY(${X / 50}deg) rotateX(${Y / 50}deg)`
+      // },
+      // bgOut (dom) {
+      //   dom.style.transform = 'rotateY(0deg) rotateX(0deg)'
+      //   dom.style['-webkit-transform'] = 'rotateY(0deg) rotateX(0deg)'
+      // }
 
     },
     mounted () {
@@ -102,14 +102,14 @@
         if (res.data.length) {
           let data = res.data
           this.hot = data.slice(0,4)
-          this.hot.forEach((item,index) => {
-            if (index==0){
-              item.image = 'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png'
-            } else {
-              item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
-            }
+          // this.hot.forEach((item,index) => {
+          //   if (index==0){
+          //     item.image = 'http://image.smartisanos.cn/resource/eb78aa0fffd9307bd93e9b14c7032a0a.png'
+          //   } else {
+          //     item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+          //   }
             
-          });
+          // });
         } 
       })
       // 活动轮播

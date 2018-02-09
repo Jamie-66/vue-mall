@@ -15,7 +15,9 @@ const state = {
   cartPositionT: 0, // 购物车位置
   cartPositionL: 0,
   receiveInCart: false, // 是否进入购物车
-  showCart: false // 是否显示购物车
+  showCart: false, // 是否显示购物车
+  showMask: false, // 是否显示遮罩层
+  showUser: false  // 是否显示用户信息
 }
 
 export default new Vuex.Store({
