@@ -3,9 +3,9 @@
     <div class="nav">
 
       <div class="w">
-        <a href="javascript:;" @click="reset()" :class="{active:sortType===1}">综合排序</a>
-        <a href="javascript:;" @click="sort(true)" :class="{active:sortType===2}">价格<i class="fa fa-caret-up fa-fw"></i></a>
-        <a href="javascript:;" @click="sort(false)" :class="{active:sortType===3}">价格<i class="fa fa-caret-down fa-fw"></i></a>
+        <a @click="reset()" :class="{active:sortType===1}"><span>综合排序</span></a>
+        <a @click="sort(true)" :class="{active:sortType===2}"><span>价格</span><i class="fa fa-caret-up fa-fw"></i></a>
+        <a @click="sort(false)" :class="{active:sortType===3}"><span>价格</span><i class="fa fa-caret-down fa-fw"></i></a>
         <!-- <div class="price-interval">
           <input type="number" class="input" placeholder="价格" v-model="min">
           <span style="margin: 0 5px"> - </span>
@@ -76,9 +76,9 @@
             } else {
               this.goods = data
             }
-            this.goods.forEach(item => {
-              item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
-            });
+            // this.goods.forEach(item => {
+            //   item.image = 'https://resource.smartisan.com/resource/ae0d4c4882a95c2d7599c2a7c92162f3.jpg'
+            // });
           } else {
             clearTimeout(this.timer)
             this.busy = true

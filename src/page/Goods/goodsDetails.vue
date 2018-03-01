@@ -66,7 +66,7 @@
             <!-- <img v-for="(item,i) in productMsg.pieces_num" :key="i"
                  v-lazy="`${productMsg.url}?x-oss-process=image/resize,w_2440/indexcrop,y_1440,i_${item-1}/quality,Q_100/format,webp`"
                  alt=""> -->
-                 <img v-lazy="productMsg.url[0]" alt="">
+                 <!-- <img v-lazy="productMsg.url[0]" alt=""> -->
           </div>
           <div class="no-info" v-else>
             该产品暂无内容
