@@ -11,6 +11,14 @@ export const getGoods = (params) => {
 export const getGoodsDet = (params) => {
   return http.fetchGet('/consumer/goods/getGoods', params)
 }
+// 商品评价列表
+export const getGoodsEvalList = (params) => {
+  return http.fetchPost('consumer/order/getGoodsEvaluateList', params)
+}
+// 商品评价
+export const setGoodsEval = (params) => {
+  return http.fetchPost('consumer/order/setGoodsEvaluate', params)
+}
 // 获取购物车列表
 export const getCartList = (params) => {
   return http.fetchGet('/consumer/cart/getCartPage', params)

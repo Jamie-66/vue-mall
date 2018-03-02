@@ -39,6 +39,9 @@
                     <div>
                       <p class="price">¥ {{good.price}}</p>
                       <p class="num">x {{good.num}}</p>
+                      <p class="evaluate">
+                        <y-button v-if="item.state==3" text="评价" classStyle="main-btn" @btnClick="_getOrderId(item.id, good.goods_id)"></y-button>
+                      </p>
                     </div>
                     <!-- <div class="type">
                       <a @click="_delOrder(item.id,i)" href="javascript:;" v-if="j<1" class="del-order">删除此订单</a>
@@ -58,7 +61,7 @@
               <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="orderPay(item)"></y-button>
               <y-button v-if="item.state==4" text="取消订单" @btnClick="_setOrderState(item.id, 0)"></y-button>
               <y-button v-if="item.state==2 || item.state==1" classStyle="main-btn" text="确认收货" @btnClick="_setOrderState(item.id, 3)"></y-button>
-              <y-button v-if="item.state==0||item.state==3" text="删除订单" classStyle="danger-btn" @btnClick="_delOrder(item.id,i)"></y-button>
+              <y-button v-if="item.state==0||item.state==3" text="删除订单" classStyle="danger-btn" @btnClick="_delOrder(item.id, i)"></y-button>
             </div>
           </div>
           
@@ -70,24 +73,51 @@
         </div>
       </div>
     </y-shelf>
-
+    <y-popup :open="popupOpen" @close='popupOpen=false' :title="popupTitle">
+      <div slot="content" class="md">
+        <div class="evalstar">
+          <el-rate v-model="evalMsg.evaluateType" show-text :texts="evals" :max="3"></el-rate>
+        </div>
+        <div class="evalcont">
+          <el-input type="textarea" :autosize="{ minRows: 2, maxRows: 4}" placeholder="在此对商品做出评价" v-model="evalMsg.evaluateContent"></el-input>
+        </div>
+        <div class="submit">
+          <y-button text='提交'
+                    class="btn"
+                    :classStyle="evalMsg.evaluateType&&evalMsg.evaluateContent ? 'main-btn':'disabled-btn'"
+                    @btnClick="_evaluate()">
+          </y-button>
+          <y-button text='取消' @btnClick="cancel()"></y-button>
+        </div>
+      </div>
+    </y-popup>
   </div>
 </template>
 <script>
-  import { orderList, delOrder, setOrderState } from '/api/goods'
+  import { orderList, delOrder, setOrderState, setGoodsEval } from '/api/goods'
   import YShelf from '/components/shelf'
+  import YPopup from '/components/popup'
   import YButton from '/components/YButton'
   export default {
     data () {
       return {
         orderList: [],
+        popupOpen: false,
+        popupTitle: '商品评价',
         states: [
           {state: 0, text: '已取消'},
           {state: 1, text: '待发货'},
           {state: 2, text: '已发货'},
           {state: 3, text: '已收货'},
           {state: 4, text: '待付款'}
-        ]
+        ],
+        evals: ['差评', '中评', '好评'],
+        evalMsg: {
+          orderId: '',
+          goodsId: '',
+          evaluateType: null,
+          evaluateContent: '',
+        }
       }
     },
     methods: {
@@ -98,6 +128,37 @@
             this.orderList = res.data
           }
         })
+      },
+      // 获取需评价商品、订单id
+      _getOrderId (orderId, goods_id) {
+        this.popupOpen = true
+        this.evalMsg.orderId = orderId
+        this.evalMsg.goodsId = goods_id
+      },
+      // 商品评价
+      _evaluate () {
+        console.log(this.evalMsg.evaluateType)
+        setGoodsEval({
+          orderId: this.evalMsg.orderId,
+          goodsId: this.evalMsg.goodsId,
+          evaluateType: this.evalMsg.evaluateType,
+          evaluateContent: this.evalMsg.evaluateContent
+        }).then(res => {
+          console.log(res)
+          if (res.code === 0) {
+            this.popupOpen = false
+            this.$message.success('评论成功')
+            this._orderList()
+          } else {
+            this.$message.error(`评价失败, ${res.msg}`)
+          }
+        })
+      },
+      // 取消商品评价
+      cancel () {
+        this.popupOpen = false
+        this.evalMsg.evaluateType = null
+        this.evalMsg.evaluateContent = ''
       },
       // 删除订单
       _delOrder (orderId, i) {
@@ -179,6 +240,7 @@
     },
     components: {
       YShelf,
+      YPopup,
       YButton
     }
   }
@@ -300,6 +362,9 @@
         > div {
           text-align: right;
           // min-width: 50px;
+          .evaluate {
+            margin-top: 6px;
+          }
         }
       }
       .car-l-l {
@@ -359,6 +424,18 @@
     text-align: center;
     font-size: 14px;
     background: #fff;
+  }
+
+  .md {
+    > div {
+      margin-bottom: 6px;
+    }
+    .submit {
+      padding-top: 15px;
+      > input:last-child {
+        margin-left: 4px;
+      }
+    }
   }
 
 </style>

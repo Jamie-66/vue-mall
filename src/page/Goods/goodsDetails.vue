@@ -58,9 +58,9 @@
         </div>
       </div>
     </div>
-    <!--产品信息-->
+    <!--商品信息-->
     <div class="item-info" v-if="offShelf">
-      <y-shelf title="产品信息">
+      <y-shelf title="商品信息">
         <div slot="content">
           <div class="img-item" v-if="productMsg">
             <!-- <img v-for="(item,i) in productMsg.pieces_num" :key="i"
@@ -69,7 +69,30 @@
                  <!-- <img v-lazy="productMsg.url[0]" alt=""> -->
           </div>
           <div class="no-info" v-else>
-            该产品暂无内容
+            该商品暂无内容
+          </div>
+        </div>
+      </y-shelf>
+      <y-shelf title="商品评价">
+        <div slot="content">
+          <div class="evaluate-box" v-if="!productEvaluate">
+            <div class="eval-item">
+              <div class="avatar-box">
+                <span class="avatar fl">
+                  <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt="">
+                </span>
+                <span class="user-name fl">sj***dw</span>
+              </div>
+              <div class="eval-date">
+                <span>2018-3-2 11:16:11</span>
+              </div>
+              <div class="eval-msg">
+                <span>详细评价</span>
+              </div>
+            </div>
+          </div>
+          <div class="no-info" v-else>
+            该商品暂无评价
           </div>
         </div>
       </y-shelf>
@@ -77,7 +100,7 @@
   </div>
 </template>
 <script>
-  import { getGoodsDet, addCart, collectionAdd } from '/api/goods'
+  import { getGoodsDet, addCart, collectionAdd, getGoodsEvalList } from '/api/goods'
   import { mapMutations, mapState } from 'vuex'
   import YShelf from '/components/shelf'
   import BuyNum from '/components/buynum'
@@ -86,6 +109,7 @@
     data () {
       return {
         productMsg: {},
+        productEvaluate: [],
         small: [],
         big: '',
         product: {},
@@ -94,7 +118,7 @@
       }
     },
     computed: {
-      ...mapState(['login', 'showMoveImg', 'showCart'])
+      ...mapState(['login', 'showMoveImg', 'showCart', 'userInfo'])
     },
     methods: {
       ...mapMutations(['ADD_CART', 'ADD_ANIMATION', 'SHOW_CART']),
@@ -104,6 +128,7 @@
           this.product = result
           // this.productMsg = result.image || ''
           this.productMsg = ''
+          this.productEvaluate = ''
           this.offShelf = result.state
           // this.small = result.productImageSmall
           // this.big = this.small[0]
@@ -122,6 +147,11 @@
           // ]
           // this.big = 'http://image.smartisanos.cn/resource/41818412237f59924a19c62b9b888ec2.jpg'
           this.big = result.image
+        })
+      },
+      _getGoodsEvalList (_id) {
+        getGoodsEvalList({goodsId: _id}).then(res => {
+          console.log(res)
         })
       },
       _addCart (id, price, name, img) {
@@ -183,6 +213,7 @@
     created () {
       let _id = this.$route.query.id
       this._getGoodsDet(_id)
+      this._getGoodsEvalList(_id)
     }
   }
 </script>
@@ -312,6 +343,31 @@
         width: 100%;
         height: auto;
         display: block;
+      }
+    }
+    .eval-item {
+      // margin-bottom: 10px;
+      padding: 10px 8px;
+      &:not(:last-child) {
+        border-bottom: 1px solid #ccc;
+      }
+      .avatar-box {
+        overflow: hidden;
+        padding-bottom: 2px;
+        .avatar {
+          img {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+          }
+        }
+        .user-name {
+          padding-left: 5px;
+          line-height: 34px;
+        }
+      }
+      .eval-msg {
+        padding-top: 5px;
       }
     }
   }
