@@ -21,7 +21,7 @@
     </div>
 
     <section class="w mt30 clearfix">
-      <y-shelf title="热门商品">
+      <y-shelf title="最新上架">
         <div slot="content" class="floors">
           <mall-goods :msg="item" v-for="(item,i) in hot" :key="i"></mall-goods>
         </div>
