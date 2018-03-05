@@ -50,7 +50,7 @@
                         </div>
                       </div>
                       <!--操作-->
-                      <div class="operate" v-show="item.operateState === '1'">
+                      <div class="operate" v-if="item.operateState === '1'">
                         <!--总价格-->
                         <!-- <div class="subtotal" style="font-size: 14px">¥ {{item.productPrice * item.productNum}}</div> -->
                         <!--数量编辑-->
@@ -230,6 +230,9 @@
       _cartDel (productId) {
         cartDel({params: {goodsIds: productId}}).then(res => {
           this.EDIT_CART({productId})
+          this.cartList.forEach(item => {
+            this.EDIT_CART({productId: item.productId,operateState: '0'})
+          })
         })
       },
       // 删除选中购物车
@@ -455,7 +458,7 @@
         // height: 140px;
       }
       .attribute, .name p {
-        color: #999;
+        color: #555;
         font-size: 12px;
         padding-top: 4px;
         line-height: 14px;

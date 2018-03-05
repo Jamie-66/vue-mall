@@ -182,7 +182,7 @@
       text-align: center;
       line-height: 1.2;
       font-size: 12px;
-      color: #d0d0d0;
+      color: #555;
       padding: 5px 10px;
     }
 

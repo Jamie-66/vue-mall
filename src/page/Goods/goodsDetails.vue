@@ -286,7 +286,7 @@
       h6 {
         font-size: 14px;
         line-height: 1.5;
-        color: #bdbdbd;
+        color: #555;
         display: flex;
         align-items: center;
         justify-content: space-between;
