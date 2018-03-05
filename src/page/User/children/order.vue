@@ -137,14 +137,12 @@
       },
       // 商品评价
       _evaluate () {
-        console.log(this.evalMsg.evaluateType)
         setGoodsEval({
           orderId: this.evalMsg.orderId,
           goodsId: this.evalMsg.goodsId,
-          evaluateType: this.evalMsg.evaluateType,
+          evaluateType: this.evalMsg.evaluateType - 1,
           evaluateContent: this.evalMsg.evaluateContent
         }).then(res => {
-          console.log(res)
           if (res.code === 0) {
             this.popupOpen = false
             this.$message.success('评论成功')

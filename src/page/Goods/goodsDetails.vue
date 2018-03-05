@@ -44,6 +44,16 @@
             <span class="params-name">数量</span>
             <buy-num @edit-num="editNum" :limit="Number(product.actualStock)"></buy-num>
           </div>
+          <div class="stock">
+            <div class="storage">
+              <span class="params-name">库存</span>
+              <span>{{product.actualStock}}</span>
+            </div>
+            <!-- <div class="free">
+              <span class="params-name">邮费</span>
+              <span>¥ {{product.actualStock}}</span>
+            </div> -->
+          </div>
           <div class="buy">
             <y-button text="加入购物车" classStyle="main-btn" @btnClick="_addCart(product.id,product.price,product.goodsName,product.image)"></y-button>
             <!-- <y-button text="现在购买" @btnClick="checkout(product.id)"></y-button> -->
@@ -302,11 +312,20 @@
         color: #8d8d8d;
         line-height: 36px;
       }
-      .num {
+      .num, .stock {
         padding: 10px 8px;
         border-top: 1px solid #ebebeb;
         display: flex;
         align-items: center;
+      }
+      .stock {
+        padding: 0 8px;
+        > div {
+          flex: 1;
+        }
+        .free {
+          text-align: right;
+        }
       }
       .buy {
         position: relative;

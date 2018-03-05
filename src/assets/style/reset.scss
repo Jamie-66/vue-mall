@@ -58,14 +58,14 @@ input[type="reset"] {
   -webkit-appearance: none;
 }
 ::-webkit-input-placeholder { /* WebKit browsers */
-    color:    #BEBEBE;
+    color: rgba(0,0,0,.4)!important;
 }
 :-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color:    #BEBEBE;
+    color: rgba(0,0,0,.4)!important;
 }
 ::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color:    #BEBEBE;
+    color: rgba(0,0,0,.4)!important;
 }
 :-ms-input-placeholder { /* Internet Explorer 10+ */
-    color:    #BEBEBE;
+    color: rgba(0,0,0,.4)!important;
 }

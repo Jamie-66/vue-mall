@@ -1,7 +1,7 @@
 <template>
   <div>
     <y-shelf title="收货地址">
-      <span slot="right"><y-button text="添加收货地址" style="margin: 0" @btnClick="update()"></y-button></span>
+      <span slot="right"><y-button text="添加地址" style="margin: 0" @btnClick="update()"></y-button></span>
       <div slot="content">
         <div v-if="addList.length">
           <!-- <div class="address-item" v-for="(item,i) in addList" :key="i">
