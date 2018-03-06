@@ -73,7 +73,7 @@
     <!--合计-->
     <div class="order-discount-line" v-if="orderFrom !== 'order'">
       <p> 商品总计：¥<span> {{checkPrice}}</span></p>
-      <p> 运费：<span>+ 0.00</span></p>
+      <p> 运费：<span>+ 8.00</span></p>
     </div>
   </div>
 </template>
@@ -109,8 +109,8 @@
         this.o_cartList && this.o_cartList.forEach(item => {
           totalPrice += (item.productNum * item.productPrice)
         })
-        this.totalPrice = totalPrice
-        return totalPrice
+        this.totalPrice = totalPrice + 8
+        return totalPrice + 8
       }
     },
     methods: {

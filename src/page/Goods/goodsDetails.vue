@@ -278,7 +278,7 @@
           img {
             display: block;
             margin: 0 auto;
-            @include wh(100%,100%)
+            @include wh(100%,150px)
           }
         }
       }

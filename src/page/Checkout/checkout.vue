@@ -94,6 +94,7 @@
                   <div class="shipping-box">
                     <div class="shipping-total shipping-price">
                       <h4 class="highlight">应付总额：<em>￥{{checkPrice}}</em></h4>
+                      <span>(含运费:¥ 8.0)</span>
                     </div>
                   </div>
                   <y-button classStyle="main-btn" text="提交订单" @btnClick="_createOrder"></y-button>
@@ -186,8 +187,8 @@
             totalPrice += (item.productNum * item.productPrice)
           // }
         })
-        this.totalPrice = totalPrice
-        return totalPrice
+        this.totalPrice = totalPrice + 8  //8 是固定运费
+        return totalPrice + 8
       }
     },
     methods: {

@@ -55,7 +55,7 @@
               </div> -->
             </div>
             <div>
-              <div class="total">共<span>{{totalNum(i)}}</span>件商品 合计：¥<span class="total-price">{{item.orderPrice}}</span></div>
+              <div class="total">共<span>{{totalNum(i)}}</span>件商品 合计：¥<span class="total-price">{{item.orderPrice}}</span><p>(含运费：¥ 8)</p></div>
             </div>
             <div class="operation">
               <y-button v-if="item.state==4" text="去支付" classStyle="main-btn" @btnClick="orderPay(item)"></y-button>
@@ -427,6 +427,9 @@
   .md {
     > div {
       margin-bottom: 6px;
+    }
+    .evalstar {
+      text-align: left;
     }
     .submit {
       padding-top: 15px;
