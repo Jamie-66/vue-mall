@@ -12,10 +12,10 @@
       <el-carousel :interval="3000" indicator-position="outside" arrow="never" height="200px">
         <el-carousel-item v-for="(item,i) in carouselArr" :key="i">
           <div class="activeBox">
-            <router-link :to="'goodsDetails?id='+item.id">
+            <!-- <router-link :to="'goodsDetails?id='+item.id"> -->
               <img :src="item.file" class="activeImg">
               <span class="activeName">{{item.activityName}}</span>
-            </router-link>
+            <!-- </router-link> -->
           </div>
         </el-carousel-item>
       </el-carousel>
