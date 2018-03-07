@@ -39,8 +39,8 @@
                     <div>
                       <p class="price">¥ {{good.price}}</p>
                       <p class="num">x {{good.num}}</p>
-                      <p class="evaluate">
-                        <y-button v-if="item.state==3" text="评价" classStyle="main-btn" @btnClick="_getOrderId(item.id, good.goods_id)"></y-button>
+                      <p class="evaluate" v-if="item.state==3 && good.evaluate_type === undefined">
+                        <y-button text="评价" classStyle="main-btn" @btnClick="_getOrderId(item.id, good.goods_id)"></y-button>
                       </p>
                     </div>
                     <!-- <div class="type">
@@ -137,16 +137,18 @@
       },
       // 商品评价
       _evaluate () {
-        setGoodsEval({
+        setGoodsEval({params:{
           orderId: this.evalMsg.orderId,
           goodsId: this.evalMsg.goodsId,
           evaluateType: this.evalMsg.evaluateType - 1,
           evaluateContent: this.evalMsg.evaluateContent
-        }).then(res => {
+        }}).then(res => {
           if (res.code === 0) {
             this.popupOpen = false
             this.$message.success('评论成功')
             this._orderList()
+            this.evalMsg.evaluateType = null
+            this.evalMsg.evaluateContent = ''
           } else {
             this.$message.error(`评价失败, ${res.msg}`)
           }

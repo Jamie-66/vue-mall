@@ -9,11 +9,12 @@
         <span class="text b">以傲慢与偏执<br/>回敬傲慢与偏见</span>
         <span class="copyright c">code by qingjin.me | picture from t.tt</span>
       </div> -->
-      <el-carousel :interval="3000" type="card" arrow="never" height="200px">
+      <el-carousel :interval="3000" indicator-position="outside" arrow="never" height="200px">
         <el-carousel-item v-for="(item,i) in carouselArr" :key="i">
-          <div style="height: 100%;width: 100%;">
+          <div class="activeBox">
             <router-link :to="'goodsDetails?id='+item.id">
-              <img :src="item.file" style="height: 100%;">
+              <img :src="item.file" class="activeImg">
+              <span class="activeName">{{item.activityName}}</span>
             </router-link>
           </div>
         </el-carousel-item>
@@ -163,6 +164,19 @@
   .carousel {
     margin-top: 15px;
     padding: 0 10px;
+    .activeBox {
+      height: 100%;
+      width: 100%;
+      .activeImg {
+        height: calc(100% - 32px);
+      }
+      .activeName {
+        display: block;
+        height: 32px;
+        color: #333;
+        text-align: center;
+      }
+    }
   }
 
   .bg {

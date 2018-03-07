@@ -23,12 +23,17 @@
             <div class="nav-aside" ref="aside" :class="{fixed:st}">
               <!-- 搜索 -->
               <div class="search pr">
-                <el-input placeholder="搜索" size="mini" v-model="keyword">
+                <el-input v-if="searchType===0" placeholder="商品名称" size="mini" v-model="keyword">
                   <i slot="suffix" class="el-input__icon el-icon-search" @click="goodSearch"></i>
                 </el-input>
+                <el-input v-if="searchType===1" placeholder="商品类型" size="mini" v-model="typeName">
+                  <i slot="suffix" class="el-input__icon el-icon-search" @click="goodSearch"></i>
+                </el-input>
+                
                 <!-- <input type="text" placeholder="搜索" v-model="keyword" @keyup.13="goodSearch"> -->
                 <!-- <span @click="goodSearch"><i class="el-icon-search"></i></span> -->
               </div>
+              <span class="changeType" style="color:#fff;" @click="searchType = searchType?0:1"><i :class="searchType?'fa fa-arrow-circle-right':'fa fa-arrow-circle-left'"></i></span>
               <div class="user pr" :class="{active:showUser}">
                 <a v-if="!login" href="#/login"></a>
                 <a v-else href="javascript:;" @click="userShowState"></a>
@@ -150,7 +155,9 @@
         positionL: 0,
         positionT: 0,
         timerCartShow: null, // 定时隐藏购物车
+        searchType: 0,
         keyword: '',         // 商品搜索
+        typeName: '',        // 商品类型搜索
         maskShow: false,     // 控制遮罩层
         nav: [ 
           {path: '/user/information', title: '账号资料'},
@@ -282,6 +289,14 @@
             path: '/goods',
             query: {
               goodsName: this.keyword
+            }
+          })
+        }
+        if (this.typeName) {
+          this.$router.push({
+            path: '/goods',
+            query: {
+              goodsTypeName: this.typeName
             }
           })
         }
@@ -513,6 +528,14 @@
       //   font-size: 18px;
       //   cursor: pointer;
       // }
+    }
+    // 搜索类型转换
+    .changeType {
+      color: #fff;
+      font-size: 18px;
+      display: inline-block;
+      line-height: 28px;
+      margin-left: 5px;
     }
     // 用户
     .user {

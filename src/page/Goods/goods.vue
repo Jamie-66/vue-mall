@@ -53,7 +53,8 @@
           orderBy: '',    // 价格排序
           isAsc: true,    // 默认升序
           goodsName: '',  // 商品名搜索
-          goodsTypeId: '' // 商品类型id搜索 
+          goodsTypeId: '',// 商品类型id搜索 
+          goodsTypeName: ''// 商品类型名称搜索 
         }
       }
     },
@@ -64,7 +65,8 @@
           size: this.params.size,
           orderByField: this.params.orderBy,
           isAsc: this.params.isAsc,
-          goodsName: this.params.goodsName
+          goodsName: this.params.goodsName,
+          goodsTypeName: this.params.goodsTypeName
           // priceGt: this.min,
           // priceLte: this.max
         }
@@ -119,8 +121,11 @@
       let query =  this.$route.query
       if (query.goodsName) {
         this.params.goodsName = query.goodsName
-      } else {
+      } else if (query.goodsTypeName){
         this.params.goodsName = ''
+        this.params.goodsTypeName = query.goodsTypeName
+      } else {
+        this.params.goodsTypeName = ''
       }
       this._getGoods()
     },

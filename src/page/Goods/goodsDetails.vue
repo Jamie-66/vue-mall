@@ -85,19 +85,22 @@
       </y-shelf>
       <y-shelf title="商品评价">
         <div slot="content">
-          <div class="evaluate-box" v-if="!productEvaluate">
-            <div class="eval-item">
+          <div class="evaluate-box" v-if="evalList.length">
+            <div class="eval-item" v-for="(item,i) in evalList" :key="i">
               <div class="avatar-box">
                 <span class="avatar fl">
                   <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt="">
                 </span>
-                <span class="user-name fl">sj***dw</span>
+                <span class="user-name fl">{{item.c_user_id}}</span>
+                <span class="eval-star fl">
+                  <el-rate v-model="item.evaluate_type" disabled show-text :texts="evals" :max="3"></el-rate>
+                </span>
               </div>
               <div class="eval-date">
-                <span>2018-3-2 11:16:11</span>
+                <span>{{timeFormat(item.evaluate_time)}}</span>
               </div>
               <div class="eval-msg">
-                <span>详细评价</span>
+                <span>{{item.evaluate_content}}</span>
               </div>
             </div>
           </div>
@@ -119,12 +122,13 @@
     data () {
       return {
         productMsg: {},
-        productEvaluate: [],
         small: [],
         big: '',
         product: {},
+        evalList: [],
         productNum: 1,
-        offShelf: 1  //判断是否上架：0下架；1上架
+        offShelf: 1,  //判断是否上架：0下架；1上架
+        evals: ['差评', '中评', '好评'],
       }
     },
     computed: {
@@ -138,7 +142,6 @@
           this.product = result
           // this.productMsg = result.image || ''
           this.productMsg = ''
-          this.productEvaluate = ''
           this.offShelf = result.state
           // this.small = result.productImageSmall
           // this.big = this.small[0]
@@ -160,8 +163,13 @@
         })
       },
       _getGoodsEvalList (_id) {
-        getGoodsEvalList({goodsId: _id}).then(res => {
-          console.log(res)
+        getGoodsEvalList({params:{goodsId: _id}}).then(res => {
+          if (res.code === 0) {
+            this.evalList = res.data
+            this.evalList.forEach(item => {
+              item.evaluate_type = item.evaluate_type+1
+            });
+          }
         })
       },
       _addCart (id, price, name, img) {
@@ -215,6 +223,21 @@
       },
       editNum (num) {
         this.productNum = num
+      },
+      add0(m) {
+        return m < 10 ? '0'+m : m 
+      },
+      //时间戳转化成时间格式
+      timeFormat(timestamp){
+        //timestamp是整数，否则要parseInt转换,不会出现少个0的情况
+        let time = new Date(timestamp)
+        let year = time.getFullYear()
+        let month = time.getMonth()+1
+        let date = time.getDate()
+        let hours = time.getHours()
+        let minutes = time.getMinutes()
+        let seconds = time.getSeconds()
+        return year + '-' + this.add0(month) + '-' + this.add0(date) + ' ' + this.add0(hours) + ':' + this.add0(minutes) + ':' + this.add0(seconds)
       }
     },
     components: {
@@ -383,6 +406,10 @@
         .user-name {
           padding-left: 5px;
           line-height: 34px;
+        }
+        .eval-star {
+          margin-top: 8px;
+          padding-left: 12px;
         }
       }
       .eval-msg {
