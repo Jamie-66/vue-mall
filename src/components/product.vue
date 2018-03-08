@@ -1,7 +1,7 @@
 <template>
   <div class="item" id="product.spu.id">
     <div class="img-box">
-      <img :src="product.spu.sku_info[0].ali_image" alt="">
+      <img :src="'/'+product.spu.sku_info[0].ali_image" alt="">
     </div>
     <div class="info">
       <h6 class="ellipsis">{{product.spu.sku_info[0].title}}</h6>

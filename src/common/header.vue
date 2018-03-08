@@ -78,7 +78,7 @@
                                 <router-link class="cart-item-r" :to="'goodsDetails?id='+item.productId">
                                   <!-- <div> -->
                                     <div class="item-thumb">
-                                      <img :src="item.productImg">
+                                      <img :src="'/'+item.productImg">
                                     </div>
                                     <div class="item-desc">
                                       <div class="cart-cell">

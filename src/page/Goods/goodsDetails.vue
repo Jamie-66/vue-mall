@@ -7,21 +7,21 @@
           <!-- <div class="thumbnail">
             <ul>
               <li v-for="(item, i) in small" :key="i" :class="{on:big===item}" @click="big=item">
-                <img v-lazy="item" :alt="product.goodsName">
+                <img v-lazy="'/'+item" :alt="product.goodsName">
               </li>
             </ul>
           </div> -->
           <div class="thumb">
             <div class="big">
-              <img v-lazy="big" :alt="product.goodsName">
+              <img v-lazy="'/'+big" :alt="product.goodsName">
             </div>
             <!-- <div class="big">
-              <img :src="big" :alt="product.goodsName">
+              <img :src="'/'+big" :alt="product.goodsName">
             </div> -->
             <!-- <el-carousel :interval="3000" arrow="never" height="200px" indicator-position="outside">
               <el-carousel-item v-for="(item,i) in small" :key="i">
                 <div style="height: 100%;width: 100%;">
-                  <img :src="item" style="height: 100%;">
+                  <img :src="'/'+item" style="height: 100%;">
                 </div>
               </el-carousel-item>
             </el-carousel> -->
@@ -89,7 +89,7 @@
             <div class="eval-item" v-for="(item,i) in evalList" :key="i">
               <div class="avatar-box">
                 <span class="avatar fl">
-                  <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt="">
+                  <img :src="'/'+userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt="">
                 </span>
                 <span class="user-name fl">{{item.c_user_id}}</span>
                 <span class="eval-star fl">

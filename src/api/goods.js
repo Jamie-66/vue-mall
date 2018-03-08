@@ -13,11 +13,11 @@ export const getGoodsDet = (params) => {
 }
 // 商品评价列表
 export const getGoodsEvalList = (params) => {
-  return http.fetchGet('consumer/order/getGoodsEvaluateList', params)
+  return http.fetchGet('/consumer/order/getGoodsEvaluateList', params)
 }
 // 商品评价
 export const setGoodsEval = (params) => {
-  return http.fetchGet('consumer/order/setGoodsEvaluate', params)
+  return http.fetchGet('/consumer/order/setGoodsEvaluate', params)
 }
 // 获取购物车列表
 export const getCartList = (params) => {
@@ -105,9 +105,9 @@ export const getCollections = (params) => {
 }
 // 添加收藏
 export const collectionAdd = (params) => {
-  return http.fetchGet('consumer/collect/save', params)
+  return http.fetchGet('/consumer/collect/save', params)
 }
 // 删除收藏
 export const collectinDel = (params) => {
-  return http.fetchGet('consumer/collect/delete', params)
+  return http.fetchGet('/consumer/collect/delete', params)
 }

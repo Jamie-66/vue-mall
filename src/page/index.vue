@@ -8,7 +8,7 @@
       <!--整张图片-->
       <div class="move_img" v-if="showMoveImg"
            :style="{left:(cartPositionL-10) + 'px',top:(cartPositionT-10) + 'px'}">
-        <div><img :src="moveImgUrl"></div>
+        <div><img :src="'/'+moveImgUrl"></div>
       </div>
     </transition>
   </div>

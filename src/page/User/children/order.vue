@@ -27,7 +27,7 @@
                 <div class="cart-l" :class="{bt:j>0}">
                   <div class="car-l-l">
                     <div class="img-box">
-                      <img :src="good.image" alt="">
+                      <img :src="'/'+good.image" alt="">
                     </div>
                     <!-- <div class="ellipsis-c">{{good.goods_name}}</div> -->
                     <div class="ellipsis-c">

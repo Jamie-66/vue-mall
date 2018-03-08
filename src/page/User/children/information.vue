@@ -72,7 +72,7 @@
                 <div style="width: 100px;height: 100px;border: 1px solid #ccc;margin-bottom: 20px;overflow: hidden;">
                   <div class="show-preview" :style="{'width': previews.w + 'px','height': previews.h + 'px','overflow': 'hidden','zoom':option.zoom}">
                     <div :style="previews.div">
-                      <img :src="option.img" :style="previews.img">
+                      <img :src="'/'+option.img" :style="previews.img">
                     </div>
                   </div>
                 </div>

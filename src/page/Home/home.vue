@@ -13,7 +13,7 @@
         <el-carousel-item v-for="(item,i) in carouselArr" :key="i">
           <div class="activeBox">
             <!-- <router-link :to="'goodsDetails?id='+item.id"> -->
-              <img :src="item.file" class="activeImg">
+              <img :src="'/'+item.file" class="activeImg">
               <span class="activeName">{{item.activityName}}</span>
             <!-- </router-link> -->
           </div>
@@ -32,7 +32,7 @@
       <y-shelf :title="item.title">
         <div slot="content" class="floors">
           <div class="imgbanner">
-            <img v-lazy="floors[i].image.image" :alt="item.title">
+            <img v-lazy="'/'+floors[i].image.image" :alt="item.title">
           </div>
           <mall-goods :msg="tab" v-for="(tab,i) in item.tabs" :key="i"></mall-goods>
         </div>
