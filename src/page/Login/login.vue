@@ -57,7 +57,7 @@
               </li>
               <li>
                 <div class="input">
-                  <el-input type="password" v-model="registered.userPwd" placeholder="输入密码"></el-input>
+                  <el-input type="password" v-model="registered.userPwd" placeholder="输入6~16位密码"></el-input>
                 </div>
               </li>
               <li>
@@ -235,7 +235,16 @@
         let userPwd2 = this.registered.userPwd2
         let sysCode = this.registered.sysCode
         let smsCode = this.registered.smsCode
+        let reg = /^[1][3,4,5,7,8][0-9]{9}$/
         
+        if (!reg.test(mobile)) {
+          this.registered.errMsg = '不是11位合法手机号'
+          return false
+        }
+        if (userPwd.length<6 || userPwd.length>16) {
+          this.registered.errMsg = '密码长度为6~16位字符'
+          return false
+        }
         if (userPwd2 !== userPwd) {
           this.registered.errMsg = '两次输入的密码不一致'
           return false

@@ -53,7 +53,7 @@
                     <div class="cart-items clearfix">
                       <!--图片-->
                       <div class="items-thumb fl">
-                        <img :alt="'/'+item.productName" :src="item.productImg">
+                        <img :alt="item.productName" :src="'/'+item.productImg">
                         <a href="javascript:;" :title="item.productName" target="_blank"></a>
                       </div>
                       <!--信息-->
@@ -309,6 +309,16 @@
       },
       // 保存
       save (p) {
+        let reg = /^[1][3,4,5,7,8][0-9]{9}$/
+        let reg2 = /^[1-9][0-9]{5}$/
+        if (!reg.test(p.consigneeMobile)) {
+          this.$message.error('不是11位合法手机号')
+          return false
+        }
+        if (!reg2.test(p.postaCode)) {
+          this.$message.error('请输入6位邮政编码')
+          return false
+        }
         if (p.id) {
           this._addressUpdate(p)
         } else {

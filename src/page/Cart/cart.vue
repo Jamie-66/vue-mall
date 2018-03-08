@@ -33,7 +33,7 @@
                       </div>
                       <!--图片-->
                       <div class="items-thumb fl">
-                        <img :alt="'/'+item.productName" :src="item.productImg">
+                        <img :alt="item.productName" :src="'/'+item.productImg">
                         <a href="javascript:;" :title="item.productName" target="_blank"></a>
                       </div>
                       <!--信息-->

@@ -58,6 +58,9 @@ export default {
       state.elLeft = elLeft
       state.elTop = elTop
     }
+    if (img) {
+      img = img.replace(/\\/g,'/')
+    }
     state.moveImgUrl = img
     state.receiveInCart = receiveInCart
     if (cartPositionT) {
