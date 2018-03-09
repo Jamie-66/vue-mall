@@ -47,7 +47,7 @@
           <div class="stock">
             <div class="storage">
               <span class="params-name">库存</span>
-              <span>{{product.actualStock}}</span>
+              <span>{{product.availableStock}}</span>
             </div>
             <!-- <div class="free">
               <span class="params-name">邮费</span>
@@ -70,26 +70,31 @@
     </div>
     <!--商品信息-->
     <div class="item-info" v-if="offShelf">
-      <!-- <y-shelf title="商品信息">
+      <y-shelf title="商品信息">
         <div slot="content">
-          <div class="img-item" v-if="productMsg">
+          <!-- <div class="img-item" v-if="productMsg">
             <img v-for="(item,i) in productMsg.pieces_num" :key="i"
                  v-lazy="`${productMsg.url}?x-oss-process=image/resize,w_2440/indexcrop,y_1440,i_${item-1}/quality,Q_100/format,webp`"
                  alt="">
                  <img v-lazy="productMsg.url[0]" alt="">
+          </div> -->
+          <div class="description-item" v-if="product.description">
+            <div class="description">
+              <span>商品描述：</span><span>{{product.description}}</span>
+            </div>
           </div>
           <div class="no-info" v-else>
             该商品暂无内容
           </div>
         </div>
-      </y-shelf> -->
+      </y-shelf>
       <y-shelf title="商品评价">
         <div slot="content">
           <div class="evaluate-box" v-if="evalList.length">
             <div class="eval-item" v-for="(item,i) in evalList" :key="i">
               <div class="avatar-box">
                 <span class="avatar fl">
-                  <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt="">
+                  <!-- <img :src="userInfo.info.avatar?userInfo.info.avatar:'/static/images/user-avatar.png'" alt=""> -->
                 </span>
                 <span class="user-name fl">{{item.c_user_id}}</span>
                 <span class="eval-star fl">
@@ -301,7 +306,7 @@
           img {
             display: block;
             margin: 0 auto;
-            @include wh(100%,150px)
+            @include wh(auto,150px)
           }
         }
       }
@@ -386,6 +391,9 @@
         height: auto;
         display: block;
       }
+    }
+    .description-item {
+      padding: 10px 8px;
     }
     .eval-item {
       // margin-bottom: 10px;

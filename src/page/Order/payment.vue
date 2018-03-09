@@ -286,7 +286,8 @@
         img {
           display: block;
           // height: 34px;
-          width: 100%;
+          // width: 100%;
+          height: 100%;
           // margin: 8px auto;
         }
       }
