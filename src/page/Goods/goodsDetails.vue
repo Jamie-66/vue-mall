@@ -42,7 +42,7 @@
         <div class="shelves" v-if="offShelf">
           <div class="num">
             <span class="params-name">数量</span>
-            <buy-num @edit-num="editNum" :limit="Number(product.actualStock)"></buy-num>
+            <buy-num @edit-num="editNum" :limit="Number(product.availableStock)"></buy-num>
           </div>
           <div class="stock">
             <div class="storage">
