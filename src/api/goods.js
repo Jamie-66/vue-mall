@@ -7,6 +7,10 @@ export const getActivities = (params) => {
 export const getGoods = (params) => {
   return http.fetchGet('/consumer/goods/getGoodsList', params)
 }
+// 商品类型列表
+export const getGoodsType = (params) => {
+  return http.fetchGet('/consumer/goods/getGoodsTypeList', params)
+}
 // 商品详情
 export const getGoodsDet = (params) => {
   return http.fetchGet('/consumer/goods/getGoods', params)

@@ -33,9 +33,9 @@
                 <!-- <input type="text" placeholder="搜索" v-model="keyword" @keyup.13="goodSearch"> -->
                 <!-- <span @click="goodSearch"><i class="el-icon-search"></i></span> -->
               </div>
-              <span class="changeType" @click="searchType = searchType?0:1">
+              <!-- <span class="changeType" @click="searchType = searchType?0:1">
                 <i :class="searchType?'fa fa-arrow-circle-right':'fa fa-arrow-circle-left'"></i>
-              </span>
+              </span> -->
               <div class="user pr" :class="{active:showUser}">
                 <a v-if="!login" href="#/login"></a>
                 <a v-else href="javascript:;" @click="userShowState"></a>
@@ -132,6 +132,9 @@
                 <li v-show="!st">
                   <router-link to="/goods">全部商品</router-link>
                 </li>
+                <li v-for="(item,i) in goodsType" :key="i">
+                  <router-link :to="'/goods?goodsTypeId='+item.id">{{item.goodsTypeName}}</router-link>
+                </li>
               </ul>
             </div>
           </div>
@@ -144,7 +147,7 @@
 <script>
   import YButton from '/components/YButton'
   import { mapMutations, mapState } from 'vuex'
-  import { getCartList, cartDel } from '/api/goods'
+  import { getCartList, cartDel, getGoodsType } from '/api/goods'
   import { loginOut } from '/api/index'
   import { setStore, removeStore } from '/utils/storage'
   export default{
@@ -160,6 +163,7 @@
         searchType: 0,
         keyword: '',         // 商品搜索
         typeName: '',        // 商品类型搜索
+        goodsType: [],       // 商品类型
         maskShow: false,     // 控制遮罩层
         nav: [ 
           {path: '/user/information', title: '账号资料'},
@@ -289,7 +293,8 @@
         loginOut().then(res => {
           removeStore('buyCart')   // 清除本地购物车
           removeStore('userInfo')  // 清除本地用户信息
-          window.location.href = '/'
+          // window.location.href = '/home'
+          this.$router.push({path: '/home'})
         })
       },
       // 商品搜索
@@ -310,6 +315,12 @@
             }
           })
         }
+      },
+      // 商品类型
+      _getGoodsType() {
+        getGoodsType().then(res => {
+          this.goodsType = res.data
+        })
       }
     },
     mounted () {
@@ -319,6 +330,7 @@
         this.INIT_BUYCART()
       }
       this.navFixed()
+      this._getGoodsType()
       window.addEventListener('scroll', this.navFixed)
       window.addEventListener('resize', this.navFixed)
     },

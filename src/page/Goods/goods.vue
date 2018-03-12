@@ -66,7 +66,9 @@
           orderByField: this.params.orderBy,
           isAsc: this.params.isAsc,
           goodsName: this.params.goodsName,
+          goodsTypeId: this.params.goodsTypeId,
           goodsTypeName: this.params.goodsTypeName
+
           // priceGt: this.min,
           // priceLte: this.max
         }
@@ -119,13 +121,16 @@
     },
     created () {
       let query =  this.$route.query
+      console.log(query)
       if (query.goodsName) {
         this.params.goodsName = query.goodsName
       } else if (query.goodsTypeName){
         this.params.goodsName = ''
         this.params.goodsTypeName = query.goodsTypeName
-      } else {
+      } else if(query.goodsTypeId) {
+        this.params.goodsName = ''
         this.params.goodsTypeName = ''
+        this.params.goodsTypeId = query.goodsTypeId
       }
       this._getGoods()
     },
