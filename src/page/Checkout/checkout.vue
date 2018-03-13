@@ -274,7 +274,7 @@
                 }
               })
             } else {
-              this.$message.error('订单添加失败')
+              this.$message.error(res.msg)
             }
           })
         } else {

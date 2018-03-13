@@ -294,7 +294,9 @@
           removeStore('buyCart')   // 清除本地购物车
           removeStore('userInfo')  // 清除本地用户信息
           // window.location.href = '/home'
-          this.$router.push({path: '/home'})
+          this.$router.go(0)
+          // this.$router.push({path: '/home'})
+          // this.userShowState()
         })
       },
       // 商品搜索
